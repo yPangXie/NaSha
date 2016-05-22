@@ -1,14 +1,24 @@
 "use strict"
 
 const commander = require('commander');
+const parse = require('co-body');
+const weiboCMD = require('../weibo').cmd;
 
-module.exports = function() {
-    commander
-        .version('0.0.1')
-        .option('-t, --test-args [type]', 'Test arguments')
-        .parse(process.argv);
+module.exports = function(router) {
+    router.post('/cmd', function *() {
+        let body = yield parse(this);
 
-    console.log('commander:', commander['testArgs']);
+        let type = body['type'] || '';
+        let action = body['action'] || '';
+
+        switch(type) {
+            case "weibo":
+                if(action === 'sendMessage') {
+                    yield weiboCMD.sendMessage(body);
+                }
+            break;
+        }
+    });
 
     return function *(next) {
         yield next;
