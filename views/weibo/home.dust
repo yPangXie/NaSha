@@ -1,0 +1,12 @@
+{> "weibo/layout" /}
+{<title}Home{/title}
+{<main}
+    {#token}
+        {token|js}
+        <p>
+            Welcome to PI, I'm Mr.NaSha. Click the link if you wanna authorize weibo: <a href="https://api.weibo.com/oauth2/authorize?client_id={appKey}&amp;response_type=code&amp;redirect_uri={redirectURI}">重新授权</a>
+        </p>
+    {:else}
+        Welcome to PI, I'm Mr.NaSha. Click the link if you wanna authorize weibo: <a href="https://api.weibo.com/oauth2/authorize?client_id={appKey}&amp;response_type=code&amp;redirect_uri={redirectURI}">Sina微薄授权</a>
+    {/token}
+{/main}
