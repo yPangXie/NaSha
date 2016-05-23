@@ -10,14 +10,21 @@ module.exports = function(router) {
 
         let type = body['type'] || '';
         let action = body['action'] || '';
+        let result = {};
 
         switch(type) {
             case "weibo":
                 if(action === 'sendMessage') {
-                    yield weiboCMD.sendMessage(body);
+                    result = yield weiboCMD.sendMessage(body);
+                }
+
+                if(action == 'detectToken') {
+                    result = yield weiboCMD.detectToken();
                 }
             break;
         }
+
+        return this.body = result;
     });
 
     return function *(next) {

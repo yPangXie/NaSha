@@ -9,8 +9,12 @@
         <form action="/cmd" method="post">
             <input type="hidden" name="action" value="sendMessage" />
             <input type="hidden" name="type" value="weibo" />
-            <input type="text" name="message" value="" />
-            <input type="submit" value="发送微薄" />
+            <ul>
+                <li>
+                    <input type="text" name="message" value="" />
+                    <input type="submit" value="发送微薄" />
+                </li>
+            </ul>
         </form>
     {:else}
         Welcome to PI, I'm Mr.NaSha. Click the link if you wanna authorize weibo: <a href="https://api.weibo.com/oauth2/authorize?client_id={appKey}&amp;response_type=code&amp;redirect_uri={redirectURI}">Sina微薄授权</a>

@@ -6,28 +6,37 @@ const fs = require('co-fs-extra');
 /* 发送微薄 */
 module.exports.sendMessage = function *(body) {
     let bodyObject = body || {};
-    let token = yield fs.readFile(`${__dirname}/tmp/token`, 'utf-8');
+    let token = {};
     try {
+        yield fs.readFile(`${__dirname}/tmp/token`, 'utf-8');
         token = JSON.parse(new Buffer(token).toString());
     } catch(e) {
         console.log(`[${new Date()}] JSON parse token data from file failed ${e}`);
         return this.body = {"success": false, "message": "Token is invalid"};
     };
 
-    if(!token.access_token) return this.body = {"success": "false", "message": "Token is invalid"};
+    if(!token.access_token || isTokenExpired(token)) return this.body = {"success": "false", "message": "Token is invalid or expired"};
 
-    let userids = yield getUserInfo(['1835626681'], token.access_token);
+    let userids = yield getUserInfo(['1783727097'], token.access_token);
+
     let sendMessage = yield urllib.request('https://api.weibo.com/2/statuses/update.json', {
         "method": "POST",
         "data": {
             "access_token": token.access_token,
-            "status": bodyObject.message || `${userids.map(item => `@${item} `)} 分歧者3, 五星不推荐..? -From NaSha`
+            "status": `${bodyObject.message || '这是一条来自NaSha的信息'} ${userids.map(item => `@${item} `)}`
         }
     });
 
-    console.log(new Buffer(sendMessage.data).toString());
-
     return this.body = {"success": true};
+}
+
+/* 检测token是否过期 */
+function isTokenExpired(token) {
+    let expiresIn = token.expires_in;
+    let authTime = token.auth_time;
+    let now = Date.now();
+
+    return (!expiresIn || !authTime || now - expiresIn >= authTime) ? true : false;
 }
 
 /* 根据用户id获取昵称 */
