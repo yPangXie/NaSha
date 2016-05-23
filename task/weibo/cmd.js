@@ -8,8 +8,8 @@ module.exports.sendMessage = function *(body) {
     let bodyObject = body || {};
     let token = {};
     try {
-        yield fs.readFile(`${__dirname}/tmp/token`, 'utf-8');
-        token = JSON.parse(new Buffer(token).toString());
+        let tokenBuf = yield fs.readFile(`${__dirname}/tmp/token`, 'utf-8');
+        token = JSON.parse(new Buffer(tokenBuf).toString());
     } catch(e) {
         console.log(`[${new Date()}] JSON parse token data from file failed ${e}`);
         return this.body = {"success": false, "message": "Token is invalid"};
@@ -17,7 +17,7 @@ module.exports.sendMessage = function *(body) {
 
     if(!token.access_token || isTokenExpired(token)) return this.body = {"success": "false", "message": "Token is invalid or expired"};
 
-    let userids = yield getUserInfo(['1783727097'], token.access_token);
+    let userids = yield getUserInfo([/*'1783727097', */'1835626681'], token.access_token);
 
     let sendMessage = yield urllib.request('https://api.weibo.com/2/statuses/update.json', {
         "method": "POST",
