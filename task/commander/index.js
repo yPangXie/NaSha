@@ -4,8 +4,8 @@ const commander = require('commander');
 const parse = require('co-body');
 const weiboCMD = require('../weibo').cmd;
 
-module.exports = function(router) {
-    router.post('/cmd', function *() {
+module.exports = function(router, routerPrefix) {
+    router.post(`${routerPrefix}/cmd`, function *() {
         let body = yield parse(this);
 
         let type = body['type'] || '';

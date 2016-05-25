@@ -1,0 +1,10 @@
+<!doctype html>
+<html>
+    <head>
+        {> "common/header" /}
+        <title>{+title/}</title>
+    </head>
+    <body>
+        {+main/}
+    </body>
+</html>

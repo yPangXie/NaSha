@@ -1,0 +1,5 @@
+{> "home/layout" /}
+{<title}NaSha Home{/title}
+{<main}
+    <h1>Hi, I'm NaSha</h1>
+{/main}

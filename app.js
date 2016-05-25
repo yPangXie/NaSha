@@ -36,7 +36,8 @@ app.use(views(viewRoot, {
 app.use(router.routes());
 
 /* 初始化各种task */
-app.use(task.weibo(router));
-app.use(task.commander(router));
+app.use(task.home(router, config.routerPrefix));
+app.use(task.weibo(router, config.routerPrefix));
+app.use(task.commander(router, config.routerPrefix));
 
 app.listen(config.port);

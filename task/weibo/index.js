@@ -4,9 +4,9 @@
 const authorize = require('./authorize');
 const home = require('./home');
 
-module.exports = function(router) {
-    router.get('/weibo/authorize', authorize);
-    router.get('/weibo', home);
+module.exports = function(router, routerPrefix) {
+    router.get(`${routerPrefix}/weibo/authorize`, authorize);
+    router.get(`${routerPrefix}/weibo`, home);
 
     return function *() {
         this.session.weibo = {};
