@@ -17,5 +17,5 @@ module.exports = function *() {
         console.log(this.session.weibo.token);
     } catch(e) {}
 
-    return this.redirect('/weibo');
+    return this.redirect(`${this.state.config.routerPrefix}/weibo`);
 }
