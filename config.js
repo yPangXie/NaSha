@@ -4,6 +4,6 @@ module.exports = {
     "weibo": {
         "app_key": '',
         "app_secret": '',
-        "redirect_uri": 'http://127.0.0.1:8000/weibo/authorize'
+        "redirect_uri": 'http://bigyoo.me/ns/weibo/authorize'
     }
 }
