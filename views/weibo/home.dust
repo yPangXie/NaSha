@@ -6,7 +6,7 @@
         <p>
             Welcome to PI, I'm Mr.NaSha. Click the link if you wanna authorize weibo: <a href="https://api.weibo.com/oauth2/authorize?client_id={appKey}&amp;response_type=code&amp;redirect_uri={redirectURI}">重新授权</a>
         </p>
-        <form action="/cmd" method="post">
+        <form action="{config.routerPrefix}/cmd" method="post">
             <input type="hidden" name="action" value="sendMessage" />
             <input type="hidden" name="type" value="weibo" />
             <ul>

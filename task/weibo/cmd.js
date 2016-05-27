@@ -15,7 +15,10 @@ module.exports.sendMessage = function *(body) {
         return this.body = {"success": false, "message": "Token is invalid"};
     };
 
-    if(!token.access_token || isTokenExpired(token)) return this.body = {"success": "false", "message": "Token is invalid or expired"};
+    if(!token.access_token || isTokenExpired(token)) {
+        console.log('Token is invalid or expired');
+        return this.body = {"success": "false", "message": "Token is invalid or expired"};
+    }
 
     let userids = yield getUserInfo([/*'1783727097', */'1835626681'], token.access_token);
 
