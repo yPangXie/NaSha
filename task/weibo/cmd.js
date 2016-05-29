@@ -2,6 +2,7 @@
 
 const urllib = require('urllib');
 const fs = require('co-fs-extra');
+const util = require('../../util');
 
 /* 发送微薄 */
 module.exports.sendMessage = function *(body) {
@@ -11,12 +12,12 @@ module.exports.sendMessage = function *(body) {
         let tokenBuf = yield fs.readFile(`${__dirname}/tmp/token`, 'utf-8');
         token = JSON.parse(new Buffer(tokenBuf).toString());
     } catch(e) {
-        console.log(`[${new Date()}] JSON parse token data from file failed ${e}`);
+        util.log(`[${new Date()}] JSON parse token data from file failed ${e}`);
         return this.body = {"success": false, "message": "Token is invalid"};
     };
 
     if(!token.access_token || isTokenExpired(token)) {
-        console.log('Token is invalid or expired');
+        util.log('Token is invalid or expired');
         return this.body = {"success": "false", "message": "Token is invalid or expired"};
     }
 

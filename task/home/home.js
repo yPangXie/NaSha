@@ -1,5 +1,7 @@
 "use strict"
 
+const util = require('../../util');
+
 module.exports = function *() {
     return yield this.render('/home/home', {
         token: this.session.weibo.token || "",
