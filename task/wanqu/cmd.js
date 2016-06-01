@@ -26,7 +26,7 @@ module.exports.getLatest = function *() {
             "link": urlConfig.prefix + item.attr('href'),
             "oriLink": originWrap.attr('href'),
             "title": item.text(),
-            "summay": urlConfig.prefix + item.attr('href')
+            "summary": urlConfig.prefix + item.attr('href')
         });
     });
 
@@ -59,7 +59,7 @@ module.exports.getSpec = function *(body) {
                 "link": urlConfig.prefix + item.attr('href'),
                 "oriLink": originWrap.find('a').attr('href'),
                 "title": item.text(),
-                "summay": $(this).find('.summary-text').text().trim()
+                "summary": $(this).find('.summary-text').text().trim()
             });
         }
     });
