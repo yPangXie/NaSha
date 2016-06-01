@@ -17,10 +17,7 @@ module.exports.getLatest = function *() {
 
     let $ = cheerio.load(latestPageData.body, {normalizeWhitespace: true});
 
-    let titleNode = $('.more-link').first();
-    let title = titleNode.find('a').text();
-    let issueLink = urlConfig.prefix + titleNode.find('a').attr('href');
-
+    let title = $('.more-link').first().find('a').text();
     let list = [];
     $('.list-group').first().find('.list-group-item').each(function() {
         let item = $(this).find('.list-title a');
@@ -28,11 +25,18 @@ module.exports.getLatest = function *() {
         list.push({
             "link": urlConfig.prefix + item.attr('href'),
             "oriLink": originWrap.attr('href'),
-            "title": item.text()
+            "title": item.text(),
+            "summay": urlConfig.prefix + item.attr('href')
         });
     });
 
-    return this.body = {"success": true, "list": list};
+    return this.body = {
+        "success": true,
+        "data": {
+            "title": title,
+            "list": list
+        }
+    };
 }
 
 /* 获取指定某一期 */
@@ -43,6 +47,8 @@ module.exports.getSpec = function *(body) {
     if(!specPageData || !specPageData.body) return {'success': false};
 
     let $ = cheerio.load(specPageData.body, {normalizeWhitespace: true});
+    $('.list-header a').remove();
+    let title = $('.list-header').text();
     let list = [];
     $('.list-group').first().find('.list-group-item').each(function() {
         let item = $(this).find('.list-title a');
@@ -53,10 +59,16 @@ module.exports.getSpec = function *(body) {
                 "link": urlConfig.prefix + item.attr('href'),
                 "oriLink": originWrap.find('a').attr('href'),
                 "title": item.text(),
-                "sunmmay": $(this).find('.summary-text').text().trim()
+                "summay": $(this).find('.summary-text').text().trim()
             });
         }
     });
-    
-    return this.body = {"success": true, "list": list};
+
+    return this.body = {
+        "success": true,
+        "data": {
+            "title": title.replace(' · ', ''),
+            "list": list
+        }
+    };
 }
