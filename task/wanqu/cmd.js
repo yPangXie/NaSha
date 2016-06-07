@@ -95,10 +95,10 @@ module.exports.getSpec = function *(body) {
         yield util.leancloud.addArticle({
             "create_date": createDate,
             "season": season[0],
-            "ori_link": item.oriLink,
-            "title": item.title || '',
-            "summary": item.summary || '',
-            "link": item.link || ''
+            "ori_link": decodeData(item.oriLink),
+            "title": decodeData(item.title || ''),
+            "summary": decodeData(item.summary || ''),
+            "link": decodeData(item.link || '')
         });
     }
 
