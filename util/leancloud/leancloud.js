@@ -18,8 +18,22 @@ module.exports.addArticle = function *(options) {
     });
 }
 
+/* 获取最新一期的数据 */
+module.exports.getLatestArticle = function *() {
+    let articleQuery = new AV.Query("Wanqu");
+    articleQuery.descending('createdAt');
+
+    let latestSeasonData = yield articleQuery.first();
+    let season = latestSeasonData.get('season');
+
+    let latestArticleQuery = new AV.Query('Wanqu');
+    latestArticleQuery.equalTo("season", season);
+
+    return latestArticleQuery.find();
+}
+
 /* 根据期数, 搜索指定的数据 */
-module.exports.getArticle = function *(id) {
+module.exports.getSpecArticle = function *(id) {
     let articleQuery = new AV.Query("Wanqu");
     articleQuery.equalTo("season", id);
 

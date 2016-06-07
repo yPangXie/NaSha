@@ -31,6 +31,10 @@ module.exports = function(router, routerPrefix) {
                 if(action == 'getSpec') {
                     result = yield wanquCMD.getSpec(body);
                 }
+
+                if(action == 'spider') {
+                    result = yield wanquCMD.spider(body);
+                }
             break;
         }
 
