@@ -37,7 +37,7 @@ function generateResponse (data) {
 
     if(resultData.length) {
         responseData.success = true;
-        responseData.data.title = `[${resultData[0].get('create_date')} 第${resultData[0].get('season')}期]`;
+        responseData.data.title = `${resultData[0].get('create_date')} 第${resultData[0].get('season')}期`;
         resultData.forEach(item => {
             responseData.data.list.push({
                 "link": item.get('link') || '',
