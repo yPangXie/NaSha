@@ -23,10 +23,10 @@ module.exports.getLatest = function *() {
         let item = $(this).find('.list-title a');
         let originWrap = $(this).find('.aux-info-text a');
         list.push({
-            "link": urlConfig.prefix + item.attr('href'),
-            "oriLink": originWrap.attr('href'),
-            "title": item.text(),
-            "summary": urlConfig.prefix + item.attr('href')
+            "link": decodeData(urlConfig.prefix + item.attr('href')),
+            "oriLink": decodeData(originWrap.attr('href')),
+            "title": decodeData(item.text()),
+            "summary": decodeData(urlConfig.prefix + item.attr('href'))
         });
     });
 
@@ -79,10 +79,10 @@ module.exports.getSpec = function *(body) {
 
         if(item.length) {
             list.push({
-                "link": urlConfig.prefix + item.attr('href'),
-                "oriLink": originWrap.find('a').attr('href'),
-                "title": item.text(),
-                "summary": $(this).find('.summary-text').text().trim()
+                "link": decodeData(urlConfig.prefix + item.attr('href')),
+                "oriLink": decodeData(originWrap.find('a').attr('href')),
+                "title": decodeData(item.text()),
+                "summary": decodeData($(this).find('.summary-text').text().trim())
             });
         }
     });
@@ -110,4 +110,13 @@ module.exports.getSpec = function *(body) {
             "list": list
         }
     };
+}
+
+/* 解码数据, 避免数据渲染异常 */
+function decodeData(data) {
+    try {
+        return decodeURIComponent(data);
+    } catch(e) {
+        return data;
+    }
 }
