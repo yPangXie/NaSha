@@ -2,7 +2,7 @@
 
 const AV = require('avoscloud-sdk');
 const leanCloudSecret = require('./.secret');
-AV.initialize(leanCloudSecret.appId, leanCloudSecret.appKey);
+AV.initialize(leanCloudSecret.wanqu.appId, leanCloudSecret.wanqu.appKey);
 
 /* 添加湾区指定某期的数据 */
 module.exports.addArticle = function *(options) {

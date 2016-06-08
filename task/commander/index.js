@@ -4,6 +4,7 @@ const commander = require('commander');
 const parse = require('co-body');
 const weiboCMD = require('../weibo').cmd;
 const wanquCMD = require('../wanqu').cmd;
+const workflowCMD = require('../workflow').cmd;
 
 module.exports = function(router, routerPrefix) {
     router.post(`${routerPrefix}/cmd`, function *() {
@@ -15,26 +16,16 @@ module.exports = function(router, routerPrefix) {
 
         switch(type) {
             case "weibo":
-                if(action === 'sendMessage') {
-                    result = yield weiboCMD.sendMessage(body);
-                }
-
-                if(action == 'detectToken') {
-                    result = yield weiboCMD.detectToken();
-                }
+                if(action === 'sendMessage') result = yield weiboCMD.sendMessage(body);
+                if(action == 'detectToken') result = yield weiboCMD.detectToken();
             break;
             case "wanqu":
-                if(action == 'getLatest') {
-                    result = yield wanquCMD.getLatest();
-                }
-
-                if(action == 'getSpec') {
-                    result = yield wanquCMD.getSpec(body);
-                }
-
-                if(action == 'spider') {
-                    result = yield wanquCMD.spider(body);
-                }
+                if(action == 'getLatest') result = yield wanquCMD.getLatest();
+                if(action == 'getSpec') result = yield wanquCMD.getSpec(body);
+                if(action == 'spider') result = yield wanquCMD.spider(body);
+            break;
+            case "workflow":
+                if(action == 'spider') result = yield workflowCMD.spider(body);
             break;
         }
 
