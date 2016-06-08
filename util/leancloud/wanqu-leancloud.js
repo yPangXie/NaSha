@@ -4,18 +4,16 @@ const AV = require('avoscloud-sdk');
 const leanCloudSecret = require('./.secret');
 AV.initialize(leanCloudSecret.wanqu.appId, leanCloudSecret.wanqu.appKey);
 
+const article = AV.Object.extend('Wanqu');
 /* 添加湾区指定某期的数据 */
 module.exports.addArticle = function *(options) {
-    let article = AV.Object.extend('Wanqu');
     let articleObject = new article();
 
     for(let key in options) {
         articleObject.set(key, options[key]);
     }
 
-    articleObject.save().then(function () {}, function(err) {
-        console.log(err);
-    });
+    articleObject.save();
 }
 
 /* 获取最新一期的数据 */
