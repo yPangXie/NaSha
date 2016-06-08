@@ -37,7 +37,7 @@ module.exports.spider = function *(body){
         "avatar": $('.user-picture img').attr('src') || ""
     };
 
-    yield util.workflowLeanCloud.addWorkflow(workflowData);
+    yield util.leanCloud.addWorkflow(workflowData);
 
     return {"success": true, "message": `也许成功抓取了${body.url}页面的数据...`};
 }

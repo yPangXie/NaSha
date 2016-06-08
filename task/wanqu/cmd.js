@@ -12,7 +12,7 @@ const urlConfig = {
 /* 获取最新一期的内容 */
 module.exports.getLatest = function *() {
     /* 先判断DB中是否有缓存 */
-    let dbData = yield util.wanquLeanCloud.getLatestArticle();
+    let dbData = yield util.leanCloud.getLatestArticle();
     return generateResponse(dbData);
 }
 
@@ -20,7 +20,7 @@ module.exports.getLatest = function *() {
 module.exports.getSpec = function *(body) {
     if(!body || !body.issue) return {"success": false};
     /* 先判断DB中是否有缓存 */
-    let dbData = yield util.wanquLeanCloud.getSpecArticle(body.issue);
+    let dbData = yield util.leanCloud.getSpecArticle(body.issue);
     return generateResponse(dbData);
 }
 
@@ -82,7 +82,7 @@ module.exports.spider = function *(body) {
     let season = title.split(' ')[1].match(/\d+/g);
     for(let i = 0, len = list.length; i < len; i++) {
         let item = list[i];
-        yield util.wanquLeanCloud.addArticle({
+        yield util.leanCloud.addArticle({
             "create_date": createDate,
             "season": season[0],
             "ori_link": decodeData(item.oriLink),
