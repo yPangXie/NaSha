@@ -1,6 +1,5 @@
 "use strict"
 
-const commander = require('commander');
 const parse = require('co-body');
 const weiboCMD = require('../weibo').cmd;
 const wanquCMD = require('../wanqu').cmd;
