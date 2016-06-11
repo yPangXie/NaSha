@@ -16,16 +16,16 @@ module.exports = function(router, routerPrefix) {
 
         switch(type) {
             case "weibo":
-                if(action === 'sendMessage') result = yield weiboCMD.sendMessage(body);
-                if(action == 'detectToken') result = yield weiboCMD.detectToken();
+                if(action === 'sendMessage') result = yield weiboCMD.sendMessage(body, this);
+                if(action == 'detectToken') result = yield weiboCMD.detectToken(this);
             break;
             case "wanqu":
-                if(action == 'getLatest') result = yield wanquCMD.getLatest();
-                if(action == 'getSpec') result = yield wanquCMD.getSpec(body);
-                if(action == 'spider') result = yield wanquCMD.spider(body);
+                if(action == 'getLatest') result = yield wanquCMD.getLatest(this);
+                if(action == 'getSpec') result = yield wanquCMD.getSpec(body, this);
+                if(action == 'spider') result = yield wanquCMD.spider(body, this);
             break;
             case "workflow":
-                if(action == 'spider') result = yield workflowCMD.spider(body);
+                if(action == 'spider') result = yield workflowCMD.spider(body, this);
             break;
         }
 
