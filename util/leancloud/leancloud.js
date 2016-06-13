@@ -58,3 +58,9 @@ module.exports.wanquLog = function *(ip) {
     WanquLogObject.set('ip', ip);
     WanquLogObject.save();
 }
+
+/* 上传文件 */
+module.exports.uploadWorkflow = function *(fileName, fileData) {
+    let file = new AV.File(fileName, fileData);
+    file.save();
+}

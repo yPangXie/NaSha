@@ -25,6 +25,7 @@ module.exports = function(router, routerPrefix) {
             break;
             case "workflow":
                 if(action == 'spider') result = yield workflowCMD.spider(body, this);
+                if(action == 'upload') result = yield workflowCMD.grabAndUploadWorkflow(body, this);
             break;
         }
 
