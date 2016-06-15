@@ -22,13 +22,14 @@ module.exports = function(router, routerPrefix) {
                 if(action == 'getLatest') result = yield wanquCMD.getLatest(this);
                 if(action == 'getSpec') result = yield wanquCMD.getSpec(body, this);
                 if(action == 'spider') result = yield wanquCMD.spider(body, this);
+                if(action == 'detectLatest') result = yield wanquCMD.detectLatest(this);
             break;
             case "workflow":
                 if(action == 'spider') result = yield workflowCMD.spider(body, this);
                 if(action == 'upload') result = yield workflowCMD.grabAndUploadWorkflow(body, this);
             break;
             case "timing":
-                
+
             break;
         }
 
