@@ -22,8 +22,13 @@ module.exports = function *(ctx) {
     /* 当前最新版高于DB中存储的最新版, 或者DB中特么压根没存数据的时候. 抓最新版的数据 */
     if((!latestVersion && issue) || (latestVersion && issue && +issue < +latestVersion)) {
         yield util.leanCloud.storeLatestIssueVersion(issue);
-        return true;
+        return {
+            "success": true,
+            "issue": issue
+        };
     }
 
-    return false;
+    return {
+        "success": false
+    };
 }
