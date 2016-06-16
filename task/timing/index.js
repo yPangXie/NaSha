@@ -12,7 +12,7 @@ const workflow = require('../workflow');
  */
 module.exports = function () {
     /* 每10分钟检测一次Wanqu日报是否有新的一期发布 */
-    new CronJob('* */10 * * * *', function() {
+    new CronJob('00 */10 * * * *', function() {
         co(function *() {
             let hasLatest = yield wanqu.timing.detectLatest();
             let currentDate = new Date();
@@ -28,7 +28,7 @@ module.exports = function () {
     }, null, true, 'Asia/Shanghai');
 
     /* 每10分钟检测一次Packal上workflow的总数是否有变化 */
-    new CronJob('* */10 * * * *', function() {
+    new CronJob('00 */10 * * * *', function() {
         co(function *() {
             let hasLatest = yield workflow.timing.detectLatest();
             let currentDate = new Date();
