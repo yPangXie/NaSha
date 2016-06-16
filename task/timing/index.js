@@ -11,8 +11,8 @@ const workflow = require('../workflow');
  3. 最后一位: 0和7都表示周日
  */
 module.exports = function () {
-    /* 每个整点检测一次Wanqu日报是否有新的一期发布 */
-    new CronJob('00 00 * * * *', function() {
+    /* 每10分钟检测一次Wanqu日报是否有新的一期发布 */
+    new CronJob('* */10 * * * *', function() {
         co(function *() {
             let hasLatest = yield wanqu.timing.detectLatest();
             let currentDate = new Date();
@@ -27,8 +27,8 @@ module.exports = function () {
         });
     }, null, true, 'Asia/Shanghai');
 
-    /* 每个整点检测一次Packal上workflow的总数是否有变化 */
-    new CronJob('15 * * * * *', function() {
+    /* 每10分钟检测一次Packal上workflow的总数是否有变化 */
+    new CronJob('* */10 * * * *', function() {
         co(function *() {
             let hasLatest = yield workflow.timing.detectLatest();
             let currentDate = new Date();
