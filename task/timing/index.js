@@ -3,6 +3,7 @@
 const CronJob = require('cron').CronJob;
 const co = require('co');
 const wanqu = require('../wanqu');
+const workflow = require('../workflow');
 
 /* cron模块的时间定义
  1. second minite hour day-of-month month day-of-week
@@ -14,9 +15,27 @@ module.exports = function () {
     new CronJob('00 00 * * * *', function() {
         co(function *() {
             let hasLatest = yield wanqu.timing.detectLatest();
+            let currentDate = new Date();
             if(hasLatest.success) {
                 let spiderResult = yield wanqu.cmd.spider({"issue": hasLatest.issue});
-                console.log(`Cron job [Detect latest issue] finished, result: ${spiderResult.message}`);
+                console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Wanqu - ${spiderResult.message}`);
+            } else {
+                console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Wanqu - No newer issue.`);
+            }
+
+            /* TBD: 短信提醒 */
+        });
+    }, null, true, 'Asia/Shanghai');
+
+    /* 每个整点检测一次Packal上workflow的总数是否有变化 */
+    new CronJob('15 * * * * *', function() {
+        co(function *() {
+            let hasLatest = yield workflow.timing.detectLatest();
+            let currentDate = new Date();
+            if(hasLatest.success) {
+                console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Workflow - Latest total number has been stored into DB.`);
+            } else {
+                console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Workflow - No newer workflows.`);
             }
 
             /* TBD: 短信提醒 */

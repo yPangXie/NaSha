@@ -4,42 +4,43 @@ const AV = require('avoscloud-sdk');
 const leanCloudSecret = require('./.secret');
 AV.initialize(leanCloudSecret.appId, leanCloudSecret.appKey);
 
-const Article = AV.Object.extend('Wanqu');
+const Wanqu = AV.Object.extend('Wanqu');
 const Workflows = AV.Object.extend('Workflows');
 const WanquLog = AV.Object.extend('WanquLog');
 const WanquTiming = AV.Object.extend('WanquTiming');
+const WorkflowTiming = AV.Object.extend('WorkflowTiming');
 
 /* 添加湾区指定某期的数据 */
-module.exports.addArticle = function *(options) {
-    let articleObject = new Article();
+module.exports.addWanqu = function *(options) {
+    let wanquObject = new Wanqu();
 
     for(let key in options) {
-        articleObject.set(key, options[key]);
+        wanquObject.set(key, options[key]);
     }
 
-    articleObject.save();
+    wanquObject.save();
 }
 
 /* 获取最新一期的数据 */
-module.exports.getLatestArticle = function *() {
-    let articleQuery = new AV.Query("Wanqu");
-    articleQuery.descending('createdAt');
+module.exports.getLatestWanqu = function *() {
+    let wanquQuery = new AV.Query("Wanqu");
+    wanquQuery.descending('createdAt');
 
-    let latestSeasonData = yield articleQuery.first();
+    let latestSeasonData = yield wanquQuery.first();
     let season = latestSeasonData.get('season');
 
-    let latestArticleQuery = new AV.Query('Wanqu');
-    latestArticleQuery.equalTo("season", season);
+    let latestWanquQuery = new AV.Query('Wanqu');
+    latestWanquQuery.equalTo("season", season);
 
-    return latestArticleQuery.find();
+    return latestWanquQuery.find();
 }
 
 /* 根据期数, 搜索指定的数据 */
-module.exports.getSpecArticle = function *(id) {
-    let articleQuery = new AV.Query("Wanqu");
-    articleQuery.equalTo("season", id);
+module.exports.getSpecWanqu = function *(id) {
+    let wanquQuery = new AV.Query("Wanqu");
+    wanquQuery.equalTo("season", id);
 
-    return articleQuery.find();
+    return wanquQuery.find();
 }
 
 /* 添加workflow */
@@ -79,4 +80,19 @@ module.exports.storeLatestIssueVersion = function *(latestIssue) {
     let wanquTimingObject = new WanquTiming();
     wanquTimingObject.set('latestIssue', latestIssue);
     wanquTimingObject.save();
+}
+
+/* 获取当前数据库中, workflow的总数 */
+module.exports.getLatestTotalWorkflows = function *() {
+    let workflowTimingQuery = new AV.Query("WorkflowTiming");
+    workflowTimingQuery.descending('createdAt');
+
+    return workflowTimingQuery.first();
+}
+
+/* 存储当前最新的workflow总数 */
+module.exports.storeLatestTotalWorkflows = function *(latestTotal) {
+    let workflowTimingObject = new WorkflowTiming();
+    workflowTimingObject.set('latestTotal', latestTotal);
+    workflowTimingObject.save();
 }

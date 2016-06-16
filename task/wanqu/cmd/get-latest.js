@@ -6,6 +6,6 @@ const wanquUtil = require('../wanqu-util');
 module.exports = function *(ctx) {
     yield util.leanCloud.wanquLog(util.getIP(ctx));
     /* 先判断DB中是否有缓存 */
-    let dbData = yield util.leanCloud.getLatestArticle();
+    let dbData = yield util.leanCloud.getLatestWanqu();
     return wanquUtil.generateResponse(dbData);
 }

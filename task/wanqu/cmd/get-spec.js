@@ -8,6 +8,6 @@ module.exports = function *(body, ctx) {
 
     yield util.leanCloud.wanquLog(util.getIP(ctx));
     /* 先判断DB中是否有缓存 */
-    let dbData = yield util.leanCloud.getSpecArticle(body.issue);
+    let dbData = yield util.leanCloud.getSpecWanqu(body.issue);
     return wanquUtil.generateResponse(dbData);
 }
