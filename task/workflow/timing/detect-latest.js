@@ -13,18 +13,18 @@ module.exports = function *(ctx) {
 
     let $ = cheerio.load(specPageData.body, {normalizeWhitespace: true});
     let title = $('#w-and-t-stats').text().trim();
-    let totalWorkflows = title.match(/(\d+)/g) && title.match(/(\d+)/g)[0];
+    let latestTotalWorkflows = title.match(/(\d+)/g) && title.match(/(\d+)/g)[0];
 
     /* 获取当前workflow的总数 */
-    let latestTotalWorkflowsData = yield util.leanCloud.getLatestTotalWorkflows();
-    let latestTotal = latestTotalWorkflowsData && latestTotalWorkflowsData.get('latestTotal');
+    let currentTotalWorkflows = yield util.leanCloud.getCurrentLatestTotalWorkflows();
+    let currentTotal = currentTotalWorkflows && currentTotalWorkflows.get('latestTotal');
 
     /* 当前最新版高于DB中存储的最新版, 或者DB中特么压根没存数据的时候. 抓最新版的数据 */
-    if((!latestTotal && totalWorkflows) || (latestTotal && totalWorkflows && +totalWorkflows < +latestTotal)) {
-        yield util.leanCloud.storeLatestTotalWorkflows(totalWorkflows);
+    if((!currentTotal && latestTotalWorkflows) || (currentTotal && latestTotalWorkflows && +latestTotalWorkflows > +currentTotal)) {
+        yield util.leanCloud.storeLatestTotalWorkflows(latestTotalWorkflows);
         return {
             "success": true,
-            "total": totalWorkflows
+            "total": latestTotalWorkflows
         };
     }
 

@@ -13,18 +13,18 @@ module.exports = function *(ctx) {
 
     let $ = cheerio.load(specPageData.body, {normalizeWhitespace: true});
     let title = $('.list-header').first().text().trim().split(' ')[1];
-    let issue = title.match(/\d+/g)[0];
+    let latestIssue = title.match(/\d+/g)[0];
 
     /* 获取当前Wanqu日报最新版的版本号 */
-    let latestVersionData = yield util.leanCloud.getLatestIssueVersion();
-    let latestVersion = latestVersionData && latestVersionData.get('latestIssue');
+    let currentLatestIssue = yield util.leanCloud.getCurrentLatestIssue();
+    let currentIssue = currentLatestIssue && currentLatestIssue.get('latestIssue');
 
     /* 当前最新版高于DB中存储的最新版, 或者DB中特么压根没存数据的时候. 抓最新版的数据 */
-    if((!latestVersion && issue) || (latestVersion && issue && +issue < +latestVersion)) {
-        yield util.leanCloud.storeLatestIssueVersion(issue);
+    if((!currentIssue && latestIssue) || (currentIssue && latestIssue && +latestIssue > +currentIssue)) {
+        yield util.leanCloud.storeLatestIssueVersion(latestIssue);
         return {
             "success": true,
-            "issue": issue
+            "issue": latestIssue
         };
     }
 

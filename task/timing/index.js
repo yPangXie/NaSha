@@ -17,7 +17,7 @@ module.exports = function () {
             let hasLatest = yield wanqu.timing.detectLatest();
             let currentDate = new Date();
             if(hasLatest.success) {
-                let spiderResult = yield wanqu.cmd.spider({"issue": hasLatest.issue});
+                // let spiderResult = yield wanqu.cmd.spider({"issue": hasLatest.issue});
                 console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Wanqu - ${spiderResult.message}`);
             } else {
                 console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Wanqu - No newer issue.`);

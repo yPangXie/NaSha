@@ -68,7 +68,7 @@ module.exports.uploadWorkflow = function *(fileName, fileData) {
 }
 
 /* 获取当前最新的Wanqu日报版本 */
-module.exports.getLatestIssueVersion = function *() {
+module.exports.getCurrentLatestIssue = function *() {
     let wanquTimingQuery = new AV.Query("WanquTiming");
     wanquTimingQuery.descending('createdAt');
 
@@ -83,7 +83,7 @@ module.exports.storeLatestIssueVersion = function *(latestIssue) {
 }
 
 /* 获取当前数据库中, workflow的总数 */
-module.exports.getLatestTotalWorkflows = function *() {
+module.exports.getCurrentLatestTotalWorkflows = function *() {
     let workflowTimingQuery = new AV.Query("WorkflowTiming");
     workflowTimingQuery.descending('createdAt');
 
