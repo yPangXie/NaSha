@@ -33,7 +33,8 @@ module.exports = function () {
             let hasLatest = yield workflow.timing.detectLatest();
             let currentDate = new Date();
             if(hasLatest.success) {
-                console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Workflow - Latest total number has been stored into DB.`);
+                let spiderResult = yield workflow.cmd.spider({"urls": hasLatest.urls}, this);
+                console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Workflow - ${spiderResult.message}.`);
             } else {
                 console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Workflow - No newer workflows.`);
             }
