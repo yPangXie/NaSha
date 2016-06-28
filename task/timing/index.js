@@ -25,7 +25,10 @@ module.exports = function () {
 
             /* TBD: 短信提醒 */
         });
-    }, null, true, 'Asia/Shanghai');
+    }, function(e) {
+        console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Wanqu - Cron job stopped:`, e);
+        /* TBD: 短信通知 */
+    }, true, 'Asia/Shanghai');
 
     /* 每10分钟检测一次Packal上workflow的总数是否有变化 */
     new CronJob('00 */10 * * * *', function() {
@@ -41,7 +44,10 @@ module.exports = function () {
 
             /* TBD: 短信提醒 */
         });
-    }, null, true, 'Asia/Shanghai');
+    }, function(e) {
+        console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Workflow - Cron job stopped:`, e);
+        /* TBD: 短信通知 */
+    }, true, 'Asia/Shanghai');
 
     return function *(next) {yield next;}
 }
