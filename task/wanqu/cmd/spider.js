@@ -38,6 +38,7 @@ module.exports = function *(body, ctx) {
                 });
             }
         });
+        if(!list.length || !title) return {"success": false, "message": "Wanqu日报数据抓取失败.. 可能是页面结构变了, 或者.. 还真是没数据."};
 
         /* 将爬取的数据存到数据库(不关心成功与否) */
         let createDate = title.split(' ')[0];
