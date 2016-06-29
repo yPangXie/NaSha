@@ -19,14 +19,14 @@ module.exports = function () {
             let currentDate = new Date();
             if(hasLatest.success) {
                 let spiderResult = yield wanqu.cmd.spider({"issue": hasLatest.issue});
-                console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Wanqu - ${spiderResult.message}`);
+                yield util.leanCloud.log(`Wanqu - ${spiderResult.message}`);
             } else {
-                console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Wanqu - No newer issue.`);
+                yield util.leanCloud.log(`Wanqu - No newer issue`);
             }
         });
     }, function(e) {
-        console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Wanqu - Cron job stopped:`, e);
         co(function *() {
+            yield util.leanCloud.log(`Wanqu - Cron job stopped`, e);
             yield util.leanCloud.sms('Wanqu爬虫定时任务');
         });
     }, true, 'Asia/Shanghai');
@@ -38,16 +38,14 @@ module.exports = function () {
             let currentDate = new Date();
             if(hasLatest.success) {
                 let spiderResult = yield workflow.cmd.spider({"urls": hasLatest.urls}, this);
-                console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Workflow - ${spiderResult.message}.`);
+                yield util.leanCloud.log(`Workflow - ${spiderResult.message}`);
             } else {
-                console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Workflow - No newer workflows.`);
+                yield util.leanCloud.log(`Workflow - No newer workflows.`);
             }
-
-            /* TBD: 短信提醒 */
         });
     }, function(e) {
-        console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Workflow - Cron job stopped:`, e);
         co(function *() {
+            yield util.leanCloud.log(`Workflow - Cron job stopped.`, e);
             yield util.leanCloud.sms('Workflow爬虫定时任务');
         });
     }, true, 'Asia/Shanghai');

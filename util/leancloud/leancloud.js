@@ -9,6 +9,7 @@ const Workflows = AV.Object.extend('Workflows');
 const WanquLog = AV.Object.extend('WanquLog');
 const WanquTiming = AV.Object.extend('WanquTiming');
 const WorkflowTiming = AV.Object.extend('WorkflowTiming');
+const AppLog = AV.Object.extend('AppLog');
 
 /* 添加湾区指定某期的数据 */
 module.exports.addWanqu = function *(options) {
@@ -107,9 +108,24 @@ module.exports.sms = function *(cronName) {
         cron_job_name: cronName
     }).then(function(){
         //发送成功
-        console.log(`${cronName}: 短信发送成功`);
+        co(function *() {
+            yield module.exports.log(`${cronName}: 短信发送成功`);
+        });
     }, function(err){
         //发送失败
-        console.log(`${cronName}: 短信发送失败, `, err);
+        co(function *() {
+            yield module.exports.log(`${cronName}: 短信发送失败, `, err);
+        });
     });
+}
+
+/* 存储日志信息 */
+module.exports.log = function *(message, error) {
+    if(!message) return false;
+    let currentDate = new Date();
+    let AppLogObject = new AppLog();
+    AppLogObject.set("message", message || '');
+    AppLogObject.save();
+
+    console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - ${message}.`, error || '');
 }
