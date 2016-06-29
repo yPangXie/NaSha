@@ -96,3 +96,20 @@ module.exports.storeLatestTotalWorkflows = function *(latestTotal) {
     workflowTimingObject.set('latestTotal', latestTotal);
     workflowTimingObject.save();
 }
+
+/* 发送短信通知 */
+module.exports.sms = function *(cronName) {
+    if(!leanCloudSecret.phoneNumber || !cronName) return false;
+
+    AV.Cloud.requestSmsCode({
+        mobilePhoneNumber: leanCloudSecret.phoneNumber,
+        template: 'Cron_Job_Status',
+        cron_job_name: cronName
+    }).then(function(){
+        //发送成功
+        console.log(`${cronName}: 短信发送成功`);
+    }, function(err){
+        //发送失败
+        console.log(`${cronName}: 短信发送失败, `, err);
+    });
+}

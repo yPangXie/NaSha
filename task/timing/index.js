@@ -2,6 +2,7 @@
 
 const CronJob = require('cron').CronJob;
 const co = require('co');
+const util = require('../../util');
 const wanqu = require('../wanqu');
 const workflow = require('../workflow');
 
@@ -22,12 +23,12 @@ module.exports = function () {
             } else {
                 console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Wanqu - No newer issue.`);
             }
-
-            /* TBD: 短信提醒 */
         });
     }, function(e) {
         console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Wanqu - Cron job stopped:`, e);
-        /* TBD: 短信通知 */
+        co(function *() {
+            yield util.leanCloud.sms('Wanqu爬虫定时任务');
+        });
     }, true, 'Asia/Shanghai');
 
     /* 每10分钟检测一次Packal上workflow的总数是否有变化 */
@@ -46,7 +47,9 @@ module.exports = function () {
         });
     }, function(e) {
         console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - Workflow - Cron job stopped:`, e);
-        /* TBD: 短信通知 */
+        co(function *() {
+            yield util.leanCloud.sms('Workflow爬虫定时任务');
+        });
     }, true, 'Asia/Shanghai');
 
     return function *(next) {yield next;}
