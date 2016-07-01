@@ -9,6 +9,8 @@ module.exports.decodeData = (data) => {
         return data;
     }
 }
+
+/* 获取IP地址 */
 module.exports.getIP = (ctx) => {
     try {
         return ctx.req.headers['x-forwarded-for'] ||
@@ -18,4 +20,12 @@ module.exports.getIP = (ctx) => {
     } catch(e) {
         return '';
     }
+}
+
+/* 获取昨天的日期 */
+module.exports.getYesterday = (date) => {
+    let today = date ? new Date(date) : new Date();
+    let todayTimestamp = today.valueOf();
+    let yesterdayTimestamp = todayTimestamp - 24 * 60 * 60 * 1000;
+    return  new Date(yesterdayTimestamp);
 }

@@ -5,6 +5,7 @@ const co = require('co');
 const util = require('../../util');
 const wanqu = require('../wanqu');
 const workflow = require('../workflow');
+const report = require('../report');
 
 /* cron模块的时间定义
  1. second minite hour day-of-month month day-of-week
@@ -27,7 +28,10 @@ module.exports = function () {
     }, function(e) {
         co(function *() {
             yield util.leanCloud.log(`Wanqu - Cron job stopped`, e);
-            yield util.leanCloud.sms('Wanqu爬虫定时任务');
+            yield util.leanCloud.sms({
+                "template": 'Cron_Job_Status',
+                "cron_job_name": "Wanqu爬虫定时任务"
+            });
         });
     }, true, 'Asia/Shanghai');
 
@@ -46,7 +50,34 @@ module.exports = function () {
     }, function(e) {
         co(function *() {
             yield util.leanCloud.log(`Workflow - Cron job stopped.`, e);
-            yield util.leanCloud.sms('Workflow爬虫定时任务');
+            yield util.leanCloud.sms({
+                "template": 'Cron_Job_Status',
+                "cron_job_name": "Workflow爬虫定时任务"
+            });
+        });
+    }, true, 'Asia/Shanghai');
+
+    /* 每天晚上10点(北京时间), 发送最近一天的报表信息 */
+    new CronJob('00 00 22 * * *', function() {
+        co(function *() {
+            let dailyReport = yield report.timing.daily();
+            let smsObject = {
+                "template": 'Daily_Report'
+            };
+
+            for(let key in dailyReport) {
+                smsObject[key] = dailyReport[key];
+            }
+
+            yield util.leanCloud.sms(smsObject);
+        });
+    }, function(e) {
+        co(function *() {
+            yield util.leanCloud.log(`Daily report - stopped.`, e);
+            yield util.leanCloud.sms({
+                "template": 'Cron_Job_Status',
+                "cron_job_name": "Daily Report定时任务"
+            });
         });
     }, true, 'Asia/Shanghai');
 

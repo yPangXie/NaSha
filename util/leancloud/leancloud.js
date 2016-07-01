@@ -1,5 +1,6 @@
 "use strict";
 
+const co = require('co');
 const AV = require('avoscloud-sdk');
 const leanCloudSecret = require('./.secret');
 AV.initialize(leanCloudSecret.appId, leanCloudSecret.appKey);
@@ -99,22 +100,25 @@ module.exports.storeLatestTotalWorkflows = function *(latestTotal) {
 }
 
 /* 发送短信通知 */
-module.exports.sms = function *(cronName) {
-    if(!leanCloudSecret.phoneNumber || !cronName) return false;
+module.exports.sms = function *(options) {
+    if(!leanCloudSecret.phoneNumber || !options) return false;
 
-    AV.Cloud.requestSmsCode({
-        mobilePhoneNumber: leanCloudSecret.phoneNumber,
-        template: 'Cron_Job_Status',
-        cron_job_name: cronName
-    }).then(function(){
+    let optionObject = {
+        "mobilePhoneNumber": leanCloudSecret.phoneNumber
+    };
+    for(let key in options) {
+        optionObject[key] = options[key];
+    }
+
+    AV.Cloud.requestSmsCode(optionObject).then(function(){
         //发送成功
         co(function *() {
-            yield module.exports.log(`${cronName}: 短信发送成功`);
+            yield module.exports.log(`短信发送成功, ${JSON.stringify(optionObject)}`);
         });
     }, function(err){
         //发送失败
         co(function *() {
-            yield module.exports.log(`${cronName}: 短信发送失败, `, err);
+            yield module.exports.log(`短信发送失败, ${JSON.stringify(optionObject)}, `, err);
         });
     });
 }
@@ -128,4 +132,37 @@ module.exports.log = function *(message, error) {
     AppLogObject.save();
 
     console.log(`[${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}] - ${message}.`, error || '');
+}
+
+/* wanqu日报总数据量 */
+module.exports.wanquTotal = function *() {
+    let wanquQuery = new AV.Query('Wanqu');
+    return wanquQuery.count();
+}
+
+/* workflow总数据量 */
+module.exports.workflowTotal = function *() {
+    let workflowsQuery = new AV.Query('Workflows');
+    return workflowsQuery.count();
+}
+
+/* 指定时间点之后的wanqu日志数据总数 */
+module.exports.wanquLogDaily = function *(date) {
+    let wanquLogQuery = new AV.Query('WanquLog');
+    wanquLogQuery.greaterThan('createdAt', new Date(date));
+    return wanquLogQuery.find();
+}
+
+/* 指定时间点之后的爬取的wanqu日报数据总数 */
+module.exports.wanquSpiderDaily = function *(date) {
+    let wanquQuery = new AV.Query('Wanqu');
+    wanquQuery.greaterThan('createdAt', new Date(date));
+    return wanquQuery.find();
+}
+
+/* 指定时间点之后的爬取的workflow数据总数 */
+module.exports.workflowSpiderDaily = function *(date) {
+    let workflowQuery = new AV.Query('Workflows');
+    workflowQuery.greaterThan('createdAt', new Date(date));
+    return workflowQuery.find();
 }
