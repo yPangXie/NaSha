@@ -1,4 +1,7 @@
 #!/bin/sh
+BASE="/root"
+ROOT="$BASE/NaSha"
+LOG="$BASE/logs/NaSha.log"
 
 # Detect pid of the running application
 get_pid() {
@@ -13,12 +16,14 @@ get_pid() {
 
 # Get latest data from github
 pull() {
+    cd $ROOT
     git pull
 }
 
 # Start application
 start() {
-    nohup node --harmony ./NaSha/app.js 2&>./logs/NaSha.log & echo $! > pid
+    cd $BASE
+    nohup node --harmony $ROOT/app.js 2&>${LOG} & echo $! > pid
 
     sleep 2s
     PID=`get_pid`
@@ -31,6 +36,7 @@ start() {
 
 # Stop application
 stop() {
+    cd $BASE
     PID=`get_pid`
 
     if ps -p $PID > /dev/null
