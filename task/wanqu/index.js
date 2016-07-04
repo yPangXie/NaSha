@@ -7,7 +7,9 @@ module.exports.cmd = {
     /* 获取指定某一期 */
     "getSpec": require('./cmd/get-spec'),
     /* 根据id, 爬去对应页面的数据 */
-    "spider": require('./cmd/spider')
+    "spider": require('./cmd/spider'),
+    /* 获取随机的5篇文章 */
+    "getRandom": require('./cmd/get-random')
 }
 
 /* 暴露的定时方法 */
