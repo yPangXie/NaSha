@@ -15,6 +15,7 @@ module.exports.generateResponse = (data) => {
         responseData.data.title = `${resultData[0].get('create_date')} 第${resultData[0].get('season')}期`;
         resultData.forEach(item => {
             responseData.data.list.push({
+                "date": `${item.get('create_date')} 第${item.get('season')}期`,
                 "link": item.get('link') || '',
                 "oriLink": item.get('ori_link') || '',
                 "title": item.get('title') || '',
