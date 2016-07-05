@@ -51,8 +51,16 @@ stop() {
 
 # Router for different operation
 case $1 in
-start)
+redeploy)
+    stop
     pull
+    start
+    ;;
+deploy)
+    pull
+    start
+    ;;
+start)
     start
     ;;
 restart)
