@@ -21,8 +21,6 @@ module.exports = function () {
             if(hasLatest.success) {
                 let spiderResult = yield wanqu.cmd.spider({"issue": hasLatest.issue});
                 yield util.leanCloud.log(`Wanqu - ${spiderResult.message}`);
-            } else {
-                yield util.leanCloud.log(`Wanqu - No newer issue`);
             }
         });
     }, function(e) {
@@ -43,8 +41,6 @@ module.exports = function () {
             if(hasLatest.success) {
                 let spiderResult = yield workflow.cmd.spider({"urls": hasLatest.urls}, this);
                 yield util.leanCloud.log(`Workflow - ${spiderResult.message}`);
-            } else {
-                yield util.leanCloud.log(`Workflow - No newer workflows.`);
             }
         });
     }, function(e) {
