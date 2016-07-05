@@ -6,6 +6,7 @@ const util = require('../../util');
 const wanqu = require('../wanqu');
 const workflow = require('../workflow');
 const report = require('../report');
+const countDown = require('../count-down');
 
 /* cron模块的时间定义
  1. second minite hour day-of-month month day-of-week
@@ -73,6 +74,28 @@ module.exports = function () {
             yield util.leanCloud.sms({
                 "template": 'Cron_Job_Status',
                 "cron_job_name": "Daily Report定时任务"
+            });
+        });
+    }, true, 'Asia/Shanghai');
+
+    /* 每天晚上10点(北京时间), 发送倒计时信息 */
+    new CronJob('20 42 14 * * *', function() {
+        co(function *() {
+            let countDownResult = yield countDown.timing.countDown("2016-10-01 00:00:00");
+            let today = new Date();
+            yield util.leanCloud.sms({
+                "template": 'Count_Down',
+                "now": `${today.getFullYear()}年${(today.getMonth() + 1)}月${today.getDate()}日`,
+                "target_date": "2016年10月1日",
+                "time": `大约${countDownResult.days}天`
+            });
+        });
+    }, function(e) {
+        co(function *() {
+            yield util.leanCloud.log(`Count down - stopped.`, e);
+            yield util.leanCloud.sms({
+                "template": 'Count_Down',
+                "cron_job_name": "倒计时定时任务"
             });
         });
     }, true, 'Asia/Shanghai');
