@@ -79,7 +79,7 @@ module.exports = function () {
     }, true, 'Asia/Shanghai');
 
     /* 每天晚上10点(北京时间), 发送倒计时信息 */
-    new CronJob('20 42 14 * * *', function() {
+    new CronJob('00 00 22 * * *', function() {
         co(function *() {
             let countDownResult = yield countDown.timing.countDown("2016-10-01 00:00:00");
             let today = new Date();
