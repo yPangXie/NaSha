@@ -40,7 +40,7 @@ module.exports = function *(ctx) {
         return {
             "success": true,
             "total": latestTotalWorkflows,
-            "urls": urls
+            "urls": urls.join(',')
         };
     }
 

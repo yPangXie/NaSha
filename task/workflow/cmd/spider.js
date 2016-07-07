@@ -8,7 +8,7 @@ const util = require('../../../util');
 /* workflow爬虫 */
 module.exports = function *(body, ctx) {
     if(!body || !body.urls || body.urls.length == 0) return {"success": "false", "message": "参数错误, 你得给我url地址啊"};
-    let urls = body.urls || [];
+    let urls = (body.urls || '').split(',');
 
     for(let i = 0, len = urls.length; i < len; i++) {
         let url = urls[i];
@@ -40,5 +40,5 @@ module.exports = function *(body, ctx) {
         yield util.leanCloud.workflows.store(workflowData);
     }
 
-    return {"success": true, "message": `也许成功抓取了${(body.urls || []).join(',')}页面的数据...`};
+    return {"success": true, "message": `也许成功抓取了${(body.urls || '')}页面的数据...`};
 }
