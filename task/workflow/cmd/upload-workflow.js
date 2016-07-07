@@ -9,7 +9,7 @@ module.exports = function *(body, ctx) {
 
     let url = body.url;
     let fileData = yield urllib.requestThunk(url, {"timeout": 1000000});
-    yield util.leanCloud.uploadWorkflow('xxx', fileData.data);
+    yield util.leanCloud.workflows.upload('xxx', fileData.data);
 
     return {"success": true, "message": "似乎上传成功了."};
 }

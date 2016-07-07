@@ -16,12 +16,12 @@ module.exports = function *(ctx) {
     let latestIssue = title.match(/\d+/g)[0];
 
     /* 获取当前Wanqu日报最新版的版本号 */
-    let currentLatestIssue = yield util.leanCloud.getCurrentLatestIssue();
+    let currentLatestIssue = yield util.leanCloud.wanqu.getCurrentLatestIssue();
     let currentIssue = currentLatestIssue && currentLatestIssue.get('latestIssue');
 
     /* 当前最新版高于DB中存储的最新版, 或者DB中特么压根没存数据的时候. 抓最新版的数据 */
     if((!currentIssue && latestIssue) || (currentIssue && latestIssue && +latestIssue > +currentIssue)) {
-        yield util.leanCloud.storeLatestIssueVersion(latestIssue);
+        yield util.leanCloud.wanqu.storeLatestIssueVersion(latestIssue);
         return {
             "success": true,
             "issue": latestIssue

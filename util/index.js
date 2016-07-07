@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports.log = require('./log');
-module.exports.leanCloud = require('./leancloud/leancloud');
+module.exports.leanCloud = require('./leancloud');
 module.exports.decodeData = (data) => {
     try {
         return decodeURIComponent(data);

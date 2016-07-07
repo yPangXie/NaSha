@@ -21,12 +21,12 @@ module.exports = function () {
             let currentDate = new Date();
             if(hasLatest.success) {
                 let spiderResult = yield wanqu.cmd.spider({"issue": hasLatest.issue});
-                yield util.leanCloud.log(`Wanqu - ${spiderResult.message}`);
+                yield util.leanCloud.util.log(`Wanqu - ${spiderResult.message}`);
             }
         });
     }, function(e) {
         co(function *() {
-            yield util.leanCloud.log(`Wanqu - Cron job stopped`, e);
+            yield util.leanCloud.util.log(`Wanqu - Cron job stopped`, e);
             yield util.leanCloud.sms({
                 "template": 'Cron_Job_Status',
                 "cron_job_name": "Wanqu爬虫定时任务"
@@ -41,12 +41,12 @@ module.exports = function () {
             let currentDate = new Date();
             if(hasLatest.success) {
                 let spiderResult = yield workflow.cmd.spider({"urls": hasLatest.urls}, this);
-                yield util.leanCloud.log(`Workflow - ${spiderResult.message}`);
+                yield util.leanCloud.util.log(`Workflow - ${spiderResult.message}`);
             }
         });
     }, function(e) {
         co(function *() {
-            yield util.leanCloud.log(`Workflow - Cron job stopped.`, e);
+            yield util.leanCloud.util.log(`Workflow - Cron job stopped.`, e);
             yield util.leanCloud.sms({
                 "template": 'Cron_Job_Status',
                 "cron_job_name": "Workflow爬虫定时任务"
@@ -70,7 +70,7 @@ module.exports = function () {
         });
     }, function(e) {
         co(function *() {
-            yield util.leanCloud.log(`Daily report - stopped.`, e);
+            yield util.leanCloud.util.log(`Daily report - stopped.`, e);
             yield util.leanCloud.sms({
                 "template": 'Cron_Job_Status',
                 "cron_job_name": "Daily Report定时任务"
@@ -92,7 +92,7 @@ module.exports = function () {
         });
     }, function(e) {
         co(function *() {
-            yield util.leanCloud.log(`Count down - stopped.`, e);
+            yield util.leanCloud.util.log(`Count down - stopped.`, e);
             yield util.leanCloud.sms({
                 "template": 'Count_Down',
                 "cron_job_name": "倒计时定时任务"

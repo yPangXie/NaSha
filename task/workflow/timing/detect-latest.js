@@ -17,7 +17,7 @@ module.exports = function *(ctx) {
     let latestTotalWorkflows = title.match(/(\d+)/g) && title.match(/(\d+)/g)[0];
 
     /* 获取当前workflow的总数 */
-    let currentTotalWorkflows = yield util.leanCloud.getCurrentLatestTotalWorkflows();
+    let currentTotalWorkflows = yield util.leanCloud.workflows.getCurrentLatestTotal();
     let currentTotal = currentTotalWorkflows && currentTotalWorkflows.get('latestTotal');
 
     /* 当前最新版高于DB中存储的最新版, 或者DB中特么压根没存数据的时候. 抓最新版的数据 */
@@ -35,7 +35,7 @@ module.exports = function *(ctx) {
                 }
             });
         }
-        yield util.leanCloud.storeLatestTotalWorkflows(latestTotalWorkflows);
+        yield util.leanCloud.workflows.storeLatestTotal(latestTotalWorkflows);
 
         return {
             "success": true,

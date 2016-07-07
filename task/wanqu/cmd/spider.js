@@ -45,7 +45,7 @@ module.exports = function *(body, ctx) {
         let season = title.split(' ')[1].match(/\d+/g);
         for(let i = 0, len = list.length; i < len; i++) {
             let item = list[i];
-            yield util.leanCloud.addWanqu({
+            yield util.leanCloud.wanqu.store({
                 "create_date": createDate,
                 "season": season[0],
                 "ori_link": util.decodeData(item.oriLink),

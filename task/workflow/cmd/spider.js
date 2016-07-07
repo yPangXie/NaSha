@@ -37,7 +37,7 @@ module.exports = function *(body, ctx) {
             "avatar": $('.user-picture img').attr('src') || ""
         };
 
-        yield util.leanCloud.addWorkflow(workflowData);
+        yield util.leanCloud.workflows.store(workflowData);
     }
 
     return {"success": true, "message": `也许成功抓取了${(body.urls || []).join(',')}页面的数据...`};
