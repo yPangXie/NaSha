@@ -7,7 +7,7 @@ const views = require('koa-views');
 const session = require('koa-session');
 
 const app = koa();
-const config = require('./config');
+const config = require('./.config');
 const task = require('./task');
 const viewRoot = path.resolve(`${__dirname}/views`);
 
