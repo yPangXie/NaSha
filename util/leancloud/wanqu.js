@@ -47,9 +47,10 @@ module.exports.storeLatestIssueVersion = function *(latestIssue) {
 }
 
 /* 添加Wanqu日报搜索内容的日志 */
-module.exports.log = function *(ip) {
+module.exports.log = function *(ip, message) {
     let WanquLogObject = new LeanCloud.WanquLog();
     WanquLogObject.set('ip', ip);
+    if(message) WanquLogObject.set('message', message);
     WanquLogObject.save();
 }
 
