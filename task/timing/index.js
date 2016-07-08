@@ -27,7 +27,7 @@ module.exports = function () {
     }, function(e) {
         co(function *() {
             yield util.leanCloud.helper.log(`Wanqu - Cron job stopped`, e);
-            yield util.leanCloud.sms({
+            yield util.leanCloud.helper.sms({
                 "template": 'Cron_Job_Status',
                 "cron_job_name": "Wanqu爬虫定时任务"
             });
@@ -47,7 +47,7 @@ module.exports = function () {
     }, function(e) {
         co(function *() {
             yield util.leanCloud.helper.log(`Workflow - Cron job stopped.`, e);
-            yield util.leanCloud.sms({
+            yield util.leanCloud.helper.sms({
                 "template": 'Cron_Job_Status',
                 "cron_job_name": "Workflow爬虫定时任务"
             });
@@ -66,12 +66,12 @@ module.exports = function () {
                 smsObject[key] = dailyReport[key];
             }
 
-            yield util.leanCloud.sms(smsObject);
+            yield util.leanCloud.helper.sms(smsObject);
         });
     }, function(e) {
         co(function *() {
             yield util.leanCloud.helper.log(`Daily report - stopped.`, e);
-            yield util.leanCloud.sms({
+            yield util.leanCloud.helper.sms({
                 "template": 'Cron_Job_Status',
                 "cron_job_name": "Daily Report定时任务"
             });
@@ -83,7 +83,7 @@ module.exports = function () {
         co(function *() {
             let countDownResult = yield countDown.timing.countDown("2016-10-01 00:00:00");
             let today = new Date();
-            yield util.leanCloud.sms({
+            yield util.leanCloud.helper.sms({
                 "template": 'Count_Down',
                 "now": `${today.getFullYear()}年${(today.getMonth() + 1)}月${today.getDate()}日`,
                 "target_date": "2016年10月1日",
@@ -93,7 +93,7 @@ module.exports = function () {
     }, function(e) {
         co(function *() {
             yield util.leanCloud.helper.log(`Count down - stopped.`, e);
-            yield util.leanCloud.sms({
+            yield util.leanCloud.helper.sms({
                 "template": 'Count_Down',
                 "cron_job_name": "倒计时定时任务"
             });
