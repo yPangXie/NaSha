@@ -49,7 +49,6 @@ module.exports.storeLatestIssueVersion = function *(latestIssue) {
 /* 添加Wanqu日报搜索内容的日志 */
 module.exports.log = function *(ipObject, message) {
     let WanquLogObject = new LeanCloud.WanquLog();
-    console.log(ipObject);
     let ipData = '';
     if(ipObject) ipData = `${ipObject.ip} ${ipObject.country || ''}/${ipObject.province || ''}/${ipObject.city || ''}/${ipObject.district || ''} (${ipObject.carrier || ''})`
 
