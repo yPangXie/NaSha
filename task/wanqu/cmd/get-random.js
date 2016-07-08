@@ -4,7 +4,7 @@ const wanquUtil = require('../wanqu-util');
 
 /* 获取随机的几篇文章 */
 module.exports = function *(ctx) {
-    yield util.leanCloud.wanqu.log(util.getIP(ctx), `获取5篇随机文章`);
+    yield util.leanCloud.wanqu.log(util.getIP(ctx), `随机: 最多返回5篇文章`);
     /* 逻辑如下:
         1. wanqu定时任务表抓最新一期的期数
         2. 随机筛选5期
