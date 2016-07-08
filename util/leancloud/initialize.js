@@ -1,7 +1,7 @@
 "use strict";
 
 const AV = require('avoscloud-sdk');
-const leanCloudSecret = require('./.secret');
+const leanCloudSecret = require('../../.config').leanCloud;
 AV.initialize(leanCloudSecret.appId, leanCloudSecret.appKey);
 
 module.exports.AV = AV;
