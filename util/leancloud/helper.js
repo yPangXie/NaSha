@@ -17,20 +17,19 @@ module.exports.sms = function *(options) {
     LeanCloud.AV.Cloud.requestSmsCode(optionObject).then(function(){
         //发送成功
         co(function *() {
-            yield module.exports.log(`短信发送成功, ${JSON.stringify(optionObject)}`);
+            yield module.exports.applog(`短信发送成功, ${JSON.stringify(optionObject)}`);
         });
     }, function(err){
         //发送失败
         co(function *() {
-            yield module.exports.log(`短信发送失败, ${JSON.stringify(optionObject)}, `, err);
+            yield module.exports.applog(`短信发送失败, ${JSON.stringify(optionObject)}, `, err);
         });
     });
 }
 
-/* 添加Wanqu日报搜索内容的日志 */
-// module.exports.wanquLog = function *(ip) {
-module.exports.log = function *(ip) {
-    let WanquLogObject = new LeanCloud.WanquLog();
-    WanquLogObject.set('ip', ip);
-    WanquLogObject.save();
+/* 添加应用操作日志 */
+module.exports.applog = function *(message) {
+    let AppLogObject = new LeanCloud.AppLog();
+    AppLogObject.set('message', message);
+    AppLogObject.save();
 }
