@@ -53,7 +53,7 @@ module.exports = function(router, routerPrefix) {
                 result = yield mweb.getCategories();
             break;
         }
-        
+
         return this.body = result;
     });
 
