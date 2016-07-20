@@ -14,6 +14,12 @@ get_pid() {
     fi
 }
 
+# Update npm package
+update_package() {
+    cd $ROOT
+    npm update
+}
+
 # Get latest data from github
 pull() {
     cd $ROOT
@@ -54,10 +60,12 @@ case $1 in
 redeploy)
     stop
     pull
+    update_package
     start
     ;;
 deploy)
     pull
+    update_package
     start
     ;;
 start)
