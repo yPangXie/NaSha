@@ -1,6 +1,6 @@
 "use strict";
 
-const mwebUtil = require('../mweb-util');
+const mwebUtil = require('../util');
 
 /* 发布一篇文章 */
 module.exports = function *(ctx) {
