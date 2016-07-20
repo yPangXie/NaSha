@@ -1,6 +1,6 @@
 "use strict";
 const util = require('../../../util');
-const wanquUtil = require('../wanqu-util');
+const wanquUtil = require('../util');
 
 /* 获取指定某一期 */
 module.exports = function *(body, ctx) {
