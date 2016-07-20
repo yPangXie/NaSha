@@ -4,7 +4,7 @@ const parse = require('co-body');
 const weiboCMD = require('../weibo').cmd;
 const wanquCMD = require('../wanqu').cmd;
 const workflowCMD = require('../workflow').cmd;
-const mweb = require('../mweb-app').cmd;
+const mweb = require('../mweb').cmd;
 
 module.exports = function(router, routerPrefix) {
     /* 内部暴露的自定义接口. 调用方需要满足这些接口的调用规则 */
