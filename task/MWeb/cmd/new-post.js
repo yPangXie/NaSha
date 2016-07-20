@@ -18,7 +18,7 @@ module.exports = function *(ctx) {
                 let key = memberItem.name[0] || '';
 
                 if(key == 'dateCreated') jsonFormatPost[key] = memberItem.value[0]['dateTime.iso8601'][0];
-                else if(key == 'categories') jsonFormatPost[key] = memberItem.value[0].array[0].data;
+                else if(key == 'categories') jsonFormatPost[key] = memberItem.value[0].array[0].data.join(',');
                 else jsonFormatPost[key] = memberItem.value[0].string[0];
             });
         });
