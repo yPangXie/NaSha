@@ -5,6 +5,7 @@ const koa = require('koa');
 const router = require('koa-router')();
 const views = require('koa-views');
 const session = require('koa-session');
+const xmlParser = require('koa-xml-body').default;
 
 const app = koa();
 const config = require('./.config');
@@ -32,6 +33,9 @@ app.use(views(viewRoot, {
     extension: 'dust'
 }));
 
+/* 解析xml类型的请求 */
+app.use(xmlParser());
+
 /* 路由 */
 app.use(router.routes());
 
@@ -41,4 +45,6 @@ app.use(task.weibo(router, config.routerPrefix));
 app.use(task.commander(router, config.routerPrefix));
 app.use(task.timing());
 
-app.listen(config.port);
+app.listen(config.port, function() {
+    console.log(`Server start with port ${config.port}`);
+});
