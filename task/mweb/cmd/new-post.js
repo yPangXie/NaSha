@@ -25,6 +25,7 @@ module.exports = function *(ctx) {
         });
     } catch(e) {}
 
+    let id = null;
     if(Object.keys(jsonFormatPost).length) {
         /* 暂时不校验是否提交成功. 就当一切操作都如丝般顺滑. */
         let mwebStoreResult = yield util.leanCloud.mweb.store({
@@ -35,6 +36,7 @@ module.exports = function *(ctx) {
             "slug": jsonFormatPost.wp_slug,
             "title": jsonFormatPost.title
         });
+        id = mwebStoreResult.id;
     }
 
     return `<?xml version="1.0" encoding="ISO-8859-1"?>
@@ -42,7 +44,7 @@ module.exports = function *(ctx) {
             <params>
                 <param>
                     <value>
-                        <string>0703</string>
+                        <string>${id}</string>
                     </value>
                 </param>
             </params>
