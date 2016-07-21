@@ -7,7 +7,9 @@ module.exports.cmd = {
     /* 获取类目信息 */
     "getCategories": require('./cmd/get-categories'),
     /* 发布一篇文章 */
-    "newPost": require('./cmd/new-post')
+    "newPost": require('./cmd/new-post'),
+    /* 修改一篇文章 */
+    "editPost": require('./cmd/edit-post')
 }
 
 /* 暴露的定时方法 */

@@ -46,11 +46,14 @@ module.exports = function(router, routerPrefix) {
             case "blogger.getUsersBlogs":
                 result = yield mweb.getUsersBlogs(this);
             break;
+            case "metaWeblog.getCategories":
+                result = yield mweb.getCategories();
+            break;
             case "metaWeblog.newPost":
                 result = yield mweb.newPost(this);
             break;
-            case "metaWeblog.getCategories":
-                result = yield mweb.getCategories();
+            case "metaWeblog.editPost":
+                result = yield mweb.editPost(this);
             break;
         }
 
