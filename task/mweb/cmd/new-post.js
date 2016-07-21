@@ -1,6 +1,7 @@
 "use strict";
 
 const mwebUtil = require('../util');
+const util = require('../../../util');
 
 /* 发布一篇文章 */
 module.exports = function *(ctx) {
@@ -24,7 +25,18 @@ module.exports = function *(ctx) {
         });
     } catch(e) {}
 
-    /* TDB: 数据入库, jsonFormatPost */
+    if(Object.keys(jsonFormatPost).length) {
+        /* 暂时不校验是否提交成功. 就当一切操作都如丝般顺滑. */
+        let mwebStoreResult = yield util.leanCloud.mweb.store({
+            "content": jsonFormatPost.description,
+            "categories": jsonFormatPost.categories,
+            "date_created": jsonFormatPost.dateCreated,
+            "keywords": jsonFormatPost.mt_keywords,
+            "slug": jsonFormatPost.wp_slug,
+            "title": jsonFormatPost.title
+        });
+    }
+
     return `<?xml version="1.0" encoding="ISO-8859-1"?>
         <methodResponse>
             <params>

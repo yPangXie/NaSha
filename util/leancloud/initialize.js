@@ -11,4 +11,5 @@ module.exports.WanquLog = AV.Object.extend('WanquLog');
 module.exports.WanquTiming = AV.Object.extend('WanquTiming');
 module.exports.WorkflowTiming = AV.Object.extend('WorkflowTiming');
 module.exports.AppLog = AV.Object.extend('AppLog');
+module.exports.MWeb = AV.Object.extend('MWeb');
 module.exports.secret = leanCloudSecret;
