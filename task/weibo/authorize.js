@@ -11,11 +11,11 @@ module.exports = function *() {
         let dataObject = JSON.parse(new Buffer(response.data).toString());
         dataObject.auth_time = Date.now();
         fs.writeFile(`${__dirname}/tmp/token`, JSON.stringify(dataObject), function(err) {
-            if (err) util.log(`[${new Date()}] write token failed. ${err}`);
+            if (err) util.log.default(`[${new Date()}] write token failed. ${err}`);
         });
         this.session.weibo.token = dataObject;
 
-        util.log(this.session.weibo.token);
+        util.log.default(this.session.weibo.token);
     } catch(e) {}
 
     return this.redirect(`${this.state.config.routerPrefix}/weibo`);
