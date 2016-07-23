@@ -3,8 +3,25 @@
 const urllib = require('urllib');
 const baiduApi = require('../.config').baiduip;
 
-module.exports.log = require('./log');
 module.exports.leanCloud = require('./leancloud');
+
+/* 默认日志. 最简单那种 */
+module.exports.default = (message, type) => {
+    let logType = type || 'warn';
+    let timestampData = timestamp();
+    console.log(`[${timestampData}] ${logType} - ${message}`);
+}
+
+/* 记录操作执行时间(目前只支持generator) */
+module.exports.debugExecDuration = function *(message, callback) {
+    let startTime = new Date();
+    let callbackResult = yield callback();
+    console.log(`${message}: ${new Date() - startTime}ms`);
+
+    return callbackResult;
+}
+
+/* decode字符串 */
 module.exports.decodeData = (data) => {
     try {
         return decodeURIComponent(data);
@@ -44,4 +61,17 @@ module.exports.getYesterday = (date) => {
     let todayTimestamp = today.valueOf();
     let yesterdayTimestamp = todayTimestamp - 24 * 60 * 60 * 1000;
     return  new Date(yesterdayTimestamp);
+}
+
+/* 生成时间戳 */
+function timestamp() {
+    let time = new Date();
+    let year = time.getFullYear();
+    let month = ('0' + (time.getMonth() + 1)).slice(-2);
+    let day = ('0' + time.getDate()).slice(-2);
+    let hour = ('0' + time.getHours()).slice(-2);
+    let minute = ('0' + time.getMinutes()).slice(-2);
+    let second = ('0' + time.getSeconds()).slice(-2);
+
+    return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }

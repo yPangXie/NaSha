@@ -12,12 +12,12 @@ module.exports.sendMessage = function *(body) {
         let tokenBuf = yield fs.readFile(`${__dirname}/tmp/token`, 'utf-8');
         token = JSON.parse(new Buffer(tokenBuf).toString());
     } catch(e) {
-        util.log(`[${new Date()}] JSON parse token data from file failed ${e}`);
+        util.log.default(`[${new Date()}] JSON parse token data from file failed ${e}`);
         return this.body = {"success": false, "message": "Token is invalid"};
     };
 
     if(!token.access_token || isTokenExpired(token)) {
-        util.log('Token is invalid or expired');
+        util.log.default('Token is invalid or expired');
         return this.body = {"success": "false", "message": "Token is invalid or expired"};
     }
 
