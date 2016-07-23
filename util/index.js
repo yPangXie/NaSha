@@ -5,20 +5,21 @@ const baiduApi = require('../.config').baiduip;
 
 module.exports.leanCloud = require('./leancloud');
 
-/* 默认日志. 最简单那种 */
-module.exports.default = (message, type) => {
-    let logType = type || 'warn';
-    let timestampData = timestamp();
-    console.log(`[${timestampData}] ${logType} - ${message}`);
-}
+module.exports.log = {
+    /* 默认日志. 最简单那种 */
+    "default": (message, type) => {
+        let logType = type || 'warn';
+        let timestampData = timestamp();
+        console.log(`[${timestampData}] ${logType} - ${message}`);
+    },
+    /* 记录操作执行时间(目前只支持generator) */
+    "debugExecDuration": function *(message, callback) {
+        let startTime = new Date();
+        let callbackResult = yield callback();
+        console.log(`[${timestamp()}]${message}: ${new Date() - startTime}ms`);
 
-/* 记录操作执行时间(目前只支持generator) */
-module.exports.debugExecDuration = function *(message, callback) {
-    let startTime = new Date();
-    let callbackResult = yield callback();
-    console.log(`${message}: ${new Date() - startTime}ms`);
-
-    return callbackResult;
+        return callbackResult;
+    }
 }
 
 /* decode字符串 */
