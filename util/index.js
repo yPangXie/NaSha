@@ -61,7 +61,7 @@ module.exports.getYesterday = (date) => {
     let today = date ? new Date(date) : new Date();
     let todayTimestamp = today.valueOf();
     let yesterdayTimestamp = todayTimestamp - 24 * 60 * 60 * 1000;
-    return  new Date(yesterdayTimestamp);
+    return new Date(yesterdayTimestamp);
 }
 
 /* 生成时间戳 */
