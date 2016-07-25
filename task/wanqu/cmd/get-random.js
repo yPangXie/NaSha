@@ -4,13 +4,8 @@ const wanquUtil = require('../util');
 const debugSymbol = '[Wanqu:get-random]';
 /* 获取随机的几篇文章 */
 module.exports = function *(ctx) {
-    let ipObject = yield util.log.debugExecDuration(`${debugSymbol}Get ip spend`, function *() {
-        return yield util.getIP(ctx);
-    });
-
-    yield util.log.debugExecDuration(`${debugSymbol}Store log to leancloud`, function *() {
-        yield util.leanCloud.wanqu.log(ipObject, `随机: 最多返回5篇文章`);
-    });
+    let ipObject = yield util.getIP(ctx);
+    yield util.leanCloud.wanqu.log(ipObject, `随机: 最多返回5篇文章`);
 
     /* 逻辑如下:
         1. wanqu定时任务表抓最新一期的期数
@@ -20,9 +15,7 @@ module.exports = function *(ctx) {
         5. 构建返回值, 返回给调用方
     */
 
-    let latestIssue = yield util.log.debugExecDuration(`${debugSymbol}Get latest issue spend`, function *() {
-        return yield util.leanCloud.wanqu.getCurrentLatestIssue();
-    });
+    let latestIssue = yield util.leanCloud.wanqu.getCurrentLatestIssue();
     let randomIssueNumbers = [];
     /* 随机筛选5期 */
     for(let i = 0; i < 5; i++) {
@@ -33,9 +26,7 @@ module.exports = function *(ctx) {
     /* 获取每期的数据 */
     let randomArticles = [];
     for(let j = 0, l = randomIssueNumbers.length; j < l; j++) {
-        let _currentIssues = yield util.log.debugExecDuration(`${debugSymbol}Get specific ${randomIssueNumbers[j]} issue`, function *() {
-            return yield util.leanCloud.wanqu.getSpec(randomIssueNumbers[j] + '');
-        });
+        let _currentIssues = yield util.leanCloud.wanqu.getSpec(randomIssueNumbers[j] + '');
         let _randomIssueIndex = Math.floor(Math.random() * _currentIssues.length);
         randomArticles.push(_currentIssues[_randomIssueIndex]);
     }
