@@ -17,9 +17,9 @@ module.exports = function *(body, ctx) {
 
     let latestIssue = yield util.leanCloud.wanqu.getCurrentLatestIssue();
     let randomIssueNumbers = [];
-    /* 随机筛选N期(默认5期) */
+    /* 随机筛选N期(默认5期, 最大5期) */
     let count = body.count || 5;
-    for(let i = 0; i < count; i++) {
+    for(let i = 0; i < (count > 5 ? 5 : count); i++) {
         let randomNumber = Math.floor(Math.random() * (+latestIssue.get('latestIssue') + 1));
         randomIssueNumbers.push(randomNumber);
     }
