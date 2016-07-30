@@ -3,7 +3,7 @@ const util = require('../../../util');
 const wanquUtil = require('../util');
 const debugSymbol = '[Wanqu:get-random]';
 /* 获取随机的几篇文章 */
-module.exports = function *(ctx) {
+module.exports = function *(body, ctx) {
     let ipObject = yield util.getIP(ctx);
     yield util.leanCloud.wanqu.log(ipObject, `随机: 最多返回5篇文章`);
 
@@ -17,8 +17,9 @@ module.exports = function *(ctx) {
 
     let latestIssue = yield util.leanCloud.wanqu.getCurrentLatestIssue();
     let randomIssueNumbers = [];
-    /* 随机筛选5期 */
-    for(let i = 0; i < 5; i++) {
+    /* 随机筛选N期(默认5期) */
+    let count = body.count || 5;
+    for(let i = 0; i < count; i++) {
         let randomNumber = Math.floor(Math.random() * (+latestIssue.get('latestIssue') + 1));
         randomIssueNumbers.push(randomNumber);
     }
