@@ -41,6 +41,7 @@ module.exports.getIP = function *(ctx){
 
         console.log('ip raw string:', ipRaw);
         let ip = ipRaw.match(/[\d\.].*/)[0] || '';
+        console.log('ip matched:', ip);
         if(!ip) return '';
 
         /* 获取ip的地址信息, 用了baidu的API. 大阿里的qps限制10... */
@@ -51,6 +52,7 @@ module.exports.getIP = function *(ctx){
         });
 
         let ipInformation = JSON.parse(new Buffer(ipInformationBuffer.data).toString());
+        console.log('ipInformation:', JSON.stringify(ipInformation, null, 2))
         return ipInformation && ipInformation.errNum == 0 ? ipInformation.retData : {};
     } catch(e) {
         return '';
