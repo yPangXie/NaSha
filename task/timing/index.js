@@ -13,26 +13,6 @@ const countDown = require('../count-down');
  3. 最后一位: 0和7都表示周日
  */
 module.exports = function () {
-    /* 每10分钟检测一次Packal上workflow的总数是否有变化 */
-    new CronJob('00 */10 * * * *', function() {
-        co(function *() {
-            let hasLatest = yield workflow.timing.detectLatest();
-            let currentDate = new Date();
-            if(hasLatest.success) {
-                let spiderResult = yield workflow.cmd.spider({"urls": hasLatest.urls}, this);
-                yield util.leanCloud.helper.log(`Workflow - ${spiderResult.message}`);
-            }
-        });
-    }, function(e) {
-        co(function *() {
-            yield util.leanCloud.helper.log(`Workflow - Cron job stopped.`, e);
-            yield util.leanCloud.helper.sms({
-                "template": 'Cron_Job_Status',
-                "cron_job_name": "Workflow爬虫定时任务"
-            });
-        });
-    }, true, 'Asia/Shanghai');
-
     /* 每天晚上10点(北京时间), 发送最近一天的报表信息 */
     new CronJob('00 00 22 * * *', function() {
         co(function *() {

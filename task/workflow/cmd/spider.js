@@ -4,14 +4,23 @@ const cheerio = require('cheerio');
 const urllib = require('urllib');
 const toMarkdown = require('to-markdown');
 const util = require('../../../util');
+const url = "http://www.packal.org";
+const listUrl = "http://www.packal.org/workflow-list?sort_by=created&sort_order=DESC&items_per_page=50";
 
 /* workflow爬虫 */
 module.exports = function *(body, ctx) {
-    if(!body || !body.urls || body.urls.length == 0) return {"success": "false", "message": "参数错误, 你得给我url地址啊"};
-    let urls = (body.urls || '').split(',');
+    let urls = "";
+    if(body && body.urls) {
+        urls = body.urls;
+    } else {
+        let hasLatest = yield module.exports.detectLatest();
+        if(!hasLatest.success) return "Failed: no need to get workflows.";
+        urls = hasLatest.urls;
+    }
 
-    for(let i = 0, len = urls.length; i < len; i++) {
-        let url = urls[i];
+    let urlList = urls.split(',');
+    for(let i = 0, len = urlList.length; i < len; i++) {
+        let url = urlList[i];
         let result = yield urllib.requestThunk(url, {"timeout": 1000000});
         let $ = cheerio.load(new Buffer(result.data).toString());
 
@@ -40,5 +49,50 @@ module.exports = function *(body, ctx) {
         yield util.leanCloud.workflows.store(workflowData);
     }
 
-    return {"success": true, "message": `也许成功抓取了${(body.urls || '')}页面的数据...`};
+    yield util.leanCloud.helper.applog(`Workflow - 也许成功抓取了${(urls || '')}页面的数据...`);
+    return `True: ${urls}`;
+}
+
+/* 检测Packal中workflow的总数 */
+module.exports.detectLatest = function *(ctx) {
+    /* 未获取到缓存数据, 爬取页面 */
+    let specPageData = yield urllib.requestThunk(url, {"method": "GET", "timeout": 100000});
+    if(!specPageData || !specPageData.data) return {'success': false, "message": "Get home page data failed"};
+
+    let $ = cheerio.load(new Buffer(specPageData.data).toString(), {normalizeWhitespace: true});
+    let title = $('#w-and-t-stats').text().trim();
+    let latestTotalWorkflows = title.match(/(\d+)/g) && title.match(/(\d+)/g)[0];
+
+    /* 获取当前workflow的总数 */
+    let currentTotalWorkflows = yield util.leanCloud.workflows.getCurrentLatestTotal();
+    let currentTotal = currentTotalWorkflows && currentTotalWorkflows.get('latestTotal');
+
+    /* 当前最新版高于DB中存储的最新版, 或者DB中特么压根没存数据的时候. 抓最新版的数据 */
+    if((!currentTotal && latestTotalWorkflows) || (currentTotal && latestTotalWorkflows && +latestTotalWorkflows > +currentTotal)) {
+        let urls = [];
+        if(currentTotal && latestTotalWorkflows) {
+            let newsTotal = +latestTotalWorkflows - (+currentTotal);
+            let listPageData = yield urllib.requestThunk(listUrl, {"method": "GET", "timeout": 100000});
+            if(!listPageData || !listPageData.data) return {"success": false, "message": "Get page data of list failed."};
+
+            let $listPage = cheerio.load(new Buffer(listPageData.data).toString(), {normalizeWhitespace: true});
+            $listPage('h4').each(function(index) {
+                if(index + 1 <= newsTotal) {
+                    urls.push(url + ($(this).find('a').attr('href') || ''));
+                }
+            });
+        }
+        yield util.leanCloud.workflows.storeLatestTotal(latestTotalWorkflows);
+
+        return {
+            "success": true,
+            "total": latestTotalWorkflows,
+            "urls": urls.join(',')
+        };
+    }
+
+    return {
+        "success": false,
+        "message": "Failed for detecting latest finally."
+    };
 }
