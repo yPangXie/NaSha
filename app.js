@@ -43,7 +43,6 @@ app.use(router.routes());
 app.use(task.home(router, config.routerPrefix));
 app.use(task.weibo(router, config.routerPrefix));
 app.use(task.commander(router, config.routerPrefix));
-app.use(task.timing());
 
 app.listen(config.port, function() {
     console.log(`Server start with port ${config.port}`);
