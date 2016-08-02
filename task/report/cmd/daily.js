@@ -11,11 +11,21 @@ module.exports = function *(ctx, date) {
     let wanquSpiderYesterday = yield util.leanCloud.wanqu.spiderDaily(yesterday.toLocaleDateString() + ' 22:00:00');
     let workflowSpiderYesterday = yield util.leanCloud.workflows.spiderDaily(yesterday.toLocaleDateString() + ' 22:00:00');
 
-    return {
+    let dailyReport = {
         "access_count": wanquLogYesterday.length,
         "wanqu_spider_count": wanquSpiderYesterday.length,
         "wanqu_total": wanquTotal,
         "workflow_spider_count": workflowSpiderYesterday.length,
         "workflow_total": workflowTotal
     };
+
+    let smsObject = {
+        "template": 'Daily_Report'
+    };
+
+    for(let key in dailyReport) {
+        smsObject[key] = dailyReport[key];
+    }
+
+    yield util.leanCloud.helper.sms(smsObject);
 }

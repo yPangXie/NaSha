@@ -4,6 +4,7 @@ const parse = require('co-body');
 const weiboCMD = require('../weibo').cmd;
 const wanquCMD = require('../wanqu').cmd;
 const workflowCMD = require('../workflow').cmd;
+const reportCMD = require('../report').cmd;
 const mweb = require('../mweb').cmd;
 
 module.exports = function(router, routerPrefix) {
@@ -28,6 +29,10 @@ module.exports = function(router, routerPrefix) {
             case "workflow":
                 if(action == 'spider') result = yield workflowCMD.spider(body, this);
                 if(action == 'upload') result = yield workflowCMD.grabAndUpload(body, this);
+            break;
+            case "report":
+                if(action == "daily") result = yield reportCMD.daily(this);
+                if(action == "countDown") result = yield reportCMD.countDown(this);
             break;
         }
 
