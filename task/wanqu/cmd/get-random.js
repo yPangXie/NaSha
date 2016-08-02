@@ -1,7 +1,7 @@
 "use strict";
 const util = require('../../../util');
 const wanquUtil = require('../util');
-const debugSymbol = '[Wanqu:get-random]';
+
 /* 获取随机的几篇文章 */
 module.exports = function *(body, ctx) {
     let ipObject = yield util.getIP(ctx);

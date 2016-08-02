@@ -1,7 +1,6 @@
 "use strict";
 const util = require('../../../util');
 const wanquUtil = require('../util');
-const debugSymbol = '[Wanqu:get-spec]';
 
 /* 获取指定某一期 */
 module.exports = function *(body, ctx) {

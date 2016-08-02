@@ -1,7 +1,6 @@
 "use strict";
 const util = require('../../../util');
 const wanquUtil = require('../util');
-const debugSymbol = '[Wanqu:get-latest]';
 
 /* 获取最新一期的内容 */
 module.exports = function *(ctx) {
