@@ -60,7 +60,7 @@ agentxRestart() {
     cd $ROOT
     export ENABLE_NODE_LOG=YES
     export NODE_LOG_DIR=/root/alinode-logs
-    nohup agentx /root/agentx-config.json 2&>${AGENTX_LOG}
+    nohup agentx /root/agentx-config.json 2&>${AGENTX_LOG} &
 
     echo "Restart agentx finished."
 }
