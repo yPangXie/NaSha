@@ -39,6 +39,7 @@ module.exports.getIP = function *(ctx){
                ctx.req.socket.remoteAddress ||
                ctx.req.connection.socket.remoteAddress;
 
+        console.log('ip raw string:', ipRaw);
         let ip = ipRaw.match(/[\d\.].*/)[0] || '';
         if(!ip) return '';
 
