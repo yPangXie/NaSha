@@ -2,6 +2,7 @@
 BASE="/root"
 ROOT="$BASE/NaSha"
 LOG="$BASE/logs/NaSha.log"
+AGENTX_LOG="$BASE/agentx_log"
 
 # Detect pid of the running application
 get_pid() {
@@ -55,6 +56,15 @@ stop() {
 
 }
 
+agentxRestart() {
+    cd $ROOT
+    export ENABLE_NODE_LOG=YES
+    export NODE_LOG_DIR=/root/alinode-logs
+    nohup agentx /root/agentx-config.json 2&>${AGENTX_LOG}
+
+    echo "Restart agentx finished."
+}
+
 # Router for different operation
 case $1 in
 redeploy)
@@ -62,18 +72,22 @@ redeploy)
     pull
     update_package
     start
+    agentxRestart
     ;;
 deploy)
     pull
     update_package
     start
+    agentxRestart
     ;;
 start)
     start
+    agentxRestart
     ;;
 restart)
     stop
     start
+    agentxRestart
     ;;
 stop)
     stop
