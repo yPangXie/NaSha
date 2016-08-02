@@ -67,6 +67,7 @@ module.exports.total = function *() {
 module.exports.logDailyCount = function *(date) {
     let wanquLogQuery = new LeanCloud.AV.Query('WanquLog');
     wanquLogQuery.greaterThan('createdAt', new Date(date));
+    wanquLogQuery.limit(1000);
     return wanquLogQuery.find();
 }
 
