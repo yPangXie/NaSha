@@ -3,7 +3,6 @@
 const CronJob = require('cron').CronJob;
 const co = require('co');
 const util = require('../../util');
-const wanqu = require('../wanqu');
 const workflow = require('../workflow');
 const report = require('../report');
 const countDown = require('../count-down');
@@ -14,26 +13,6 @@ const countDown = require('../count-down');
  3. 最后一位: 0和7都表示周日
  */
 module.exports = function () {
-    /* 每10分钟检测一次Wanqu日报是否有新的一期发布 */
-    new CronJob('00 */10 * * * *', function() {
-        co(function *() {
-            let hasLatest = yield wanqu.timing.detectLatest();
-            let currentDate = new Date();
-            if(hasLatest.success) {
-                let spiderResult = yield wanqu.cmd.spider({"issue": hasLatest.issue});
-                yield util.leanCloud.helper.log(`Wanqu - ${spiderResult.message}`);
-            }
-        });
-    }, function(e) {
-        co(function *() {
-            yield util.leanCloud.helper.log(`Wanqu - Cron job stopped`, e);
-            yield util.leanCloud.helper.sms({
-                "template": 'Cron_Job_Status',
-                "cron_job_name": "Wanqu爬虫定时任务"
-            });
-        });
-    }, true, 'Asia/Shanghai');
-
     /* 每10分钟检测一次Packal上workflow的总数是否有变化 */
     new CronJob('00 */10 * * * *', function() {
         co(function *() {

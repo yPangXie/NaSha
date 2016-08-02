@@ -11,8 +11,3 @@ module.exports.cmd = {
     /* 获取随机的5篇文章 */
     "getRandom": require('./cmd/get-random')
 }
-
-/* 暴露的定时方法 */
-module.exports.timing = {
-    "detectLatest": require('./timing/detect-latest')
-}
