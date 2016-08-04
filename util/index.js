@@ -1,6 +1,5 @@
 "use strict";
 
-const ua = require('user-agent-parser');
 const urllib = require('urllib');
 const baiduApi = require('../.config').baiduip;
 
@@ -37,9 +36,9 @@ module.exports.getIP = function *(ctx){
     try {
         let ua = ctx.req.headers['user-agent'] || '';
         let ipRaw = ctx.req.headers['x-forwarded-for'] ||
-               ctx.req.connection.remoteAddress ||
-               ctx.req.socket.remoteAddress ||
-               ctx.req.connection.socket.remoteAddress;
+                    ctx.req.connection.remoteAddress ||
+                    ctx.req.socket.remoteAddress ||
+                    ctx.req.connection.socket.remoteAddress;
 
         let ip = ipRaw.match(/[\d\.].*/)[0] || '';
         if(!ip) return '';
