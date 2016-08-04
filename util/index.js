@@ -45,22 +45,20 @@ module.exports.getIP = function *(ctx){
         if(!ip) return '';
 
         /* 获取ip的地址信息, 用了baidu的API. 大阿里的qps限制10... */
-        let ipInformationBuffer = yield urllib.requestThunk(`http://apis.baidu.com/apistore/iplookupservice/iplookup?ip=${ip}`, {
-            "headers": {
-                "apikey": baiduApi.apikey
-            }
-        });
+        // let ipInformationBuffer = yield urllib.requestThunk(`http://apis.baidu.com/apistore/iplookupservice/iplookup?ip=${ip}`, {
+        //     "headers": {
+        //         "apikey": baiduApi.apikey
+        //     }
+        // });
 
-        let ipInformation = JSON.parse(new Buffer(ipInformationBuffer.data).toString());
-        ipInformation.retData.ua = ua;
-
-        if(ipInformation && ipInformation.errNum == 0) {
-            ipInformation.retData.ua = ua;
-            return ipInformation.retData;
-        } else {
-            return {"ip": ip, "ua": ua};
-        }
+        /* 每天限制1000个请求. 先看效果 */
+        let ipDataBuffer = yield urllib.requestThunk(`http://freeapi.ipip.net/${ip}`);
+        let ipDataRetString = new Buffer(ipDataBuffer.data).toString();
+        let ipDataRetObject = JSON.parse(ipDataRetString.replace(/(,""|,\s""|,''|,\s'')/g, ''));
+        
+        return  ipDataRetObject ? {"ip": ip, "info": ipDataRetObject.join('/'), "ua": ua} :  {"ip": ip, "ua": ua};
     } catch(e) {
+        console.log(`Get ip error:`, e);
         return '';
     }
 }
