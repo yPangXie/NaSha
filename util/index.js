@@ -43,23 +43,27 @@ module.exports.getIP = function *(ctx){
 
         let ip = ipRaw.match(/[\d\.].*/)[0] || '';
         if(!ip) return '';
+        if(ip == '127.0.0.1') return {"ip": ip, "info": "本机地址", "ua": ua};
 
+        /* 返回值 */
+        let retObject = {};
+        /* 轮流调用两个接口 */
         if(ipServiceFlag == 'baidu') {
             ipServiceFlag = 'ipip';
             /* 获取ip的地址信息, 用了baidu的API. 大阿里的qps限制10... */
             let ipInformationBuffer = yield urllib.requestThunk(`http://apis.baidu.com/apistore/iplookupservice/iplookup?ip=${ip}`, {
                 "headers": {"apikey": baiduApi.apikey}
             });
-            let ipDataRetStringBaidu = JSON.parse(new Buffer(ipInformationBuffer.data).toString());
-            
-            if(ipDataRetStringBaidu && ipDataRetStringBaidu.errNum == 0) {
-                return {
+            let ipDataRetObjectBaidu = JSON.parse(new Buffer(ipInformationBuffer.data).toString());
+            if(ipDataRetObjectBaidu && ipDataRetObjectBaidu.errNum == 0) {
+                let ret = ipDataRetObjectBaidu.retData || {};
+                retObject = {
                     "ip": ip,
-                    "info": `${ipObject.country || ''}/${ipObject.province || ''}/${ipObject.city || ''}/${ipObject.district || ''}/${ipObject.carrier || ''}`,
+                    "info": `${ret.country || ''}/${ret.province || ''}/${ret.city || ''}/${ret.district || ''}/${ret.carrier || ''}`,
                     "ua": ua
                 }
             } else {
-                return {"ip": ip, "ua": ua};
+                retObject = {"ip": ip, "ua": ua};
             }
 
         } else {
@@ -68,9 +72,10 @@ module.exports.getIP = function *(ctx){
             let ipDataBufferIPIP = yield urllib.requestThunk(`http://freeapi.ipip.net/${ip}`);
             let ipDataRetStringIPIP = new Buffer(ipDataBufferIPIP.data).toString();
             let ipDataRetObject = JSON.parse(ipDataRetStringIPIP.replace(/(,""|,\s""|,''|,\s'')/g, ''));
-            return ipDataRetObject ? {"ip": ip, "info": ipDataRetObject.join('/'), "ua": ua} :  {"ip": ip, "ua": ua};
+            retObject = ipDataRetObject ? {"ip": ip, "info": ipDataRetObject.join('/'), "ua": ua} :  {"ip": ip, "ua": ua};
         }
-        
+
+        return retObject;
     } catch(e) {
         console.log(`Get ip error:`, e);
         return '';
