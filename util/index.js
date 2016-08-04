@@ -1,5 +1,6 @@
 "use strict";
 
+const ua = require('user-agent-parser');
 const urllib = require('urllib');
 const baiduApi = require('../.config').baiduip;
 
@@ -34,6 +35,7 @@ module.exports.decodeData = (data) => {
 /* 获取IP地址 */
 module.exports.getIP = function *(ctx){
     try {
+        let ua = ctx.req.headers['user-agent'] || '';
         let ipRaw = ctx.req.headers['x-forwarded-for'] ||
                ctx.req.connection.remoteAddress ||
                ctx.req.socket.remoteAddress ||
@@ -50,7 +52,14 @@ module.exports.getIP = function *(ctx){
         });
 
         let ipInformation = JSON.parse(new Buffer(ipInformationBuffer.data).toString());
-        return ipInformation && ipInformation.errNum == 0 ? ipInformation.retData :  {"ip": ip};
+        ipInformation.retData.ua = ua;
+
+        if(ipInformation && ipInformation.errNum == 0) {
+            ipInformation.retData.ua = ua;
+            return ipInformation.retData;
+        } else {
+            return {"ip": ip, "ua": ua};
+        }
     } catch(e) {
         return '';
     }

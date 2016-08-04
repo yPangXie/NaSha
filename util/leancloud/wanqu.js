@@ -47,12 +47,12 @@ module.exports.storeLatestIssueVersion = function *(latestIssue) {
 }
 
 /* 添加Wanqu日报搜索内容的日志 */
-module.exports.log = function *(ipObject, message) {
+module.exports.log = function *(ip, message) {
     let WanquLogObject = new LeanCloud.WanquLog();
-    let ipData = '';
-    if(ipObject) ipData = `${ipObject.ip} ${ipObject.country || ''}/${ipObject.province || ''}/${ipObject.city || ''}/${ipObject.district || ''} (${ipObject.carrier || ''})`
+    let ipObject = ip || {};
 
-    WanquLogObject.set('ip', ipData);
+    WanquLogObject.set('ip', `${ipObject.ip} ${ipObject.country || ''}/${ipObject.province || ''}/${ipObject.city || ''}/${ipObject.district || ''} (${ipObject.carrier || ''})`);
+    WanquLogObject.set('ua', ipObject.ua);
     WanquLogObject.set('message', message || '');
     WanquLogObject.save();
 }
