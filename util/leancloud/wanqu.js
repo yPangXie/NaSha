@@ -51,7 +51,6 @@ module.exports.log = function *(ip, message) {
     let WanquLogObject = new LeanCloud.WanquLog();
     let ipObject = ip || {};
 
-    // WanquLogObject.set('ip', `${ipObject.ip} ${ipObject.country || ''}/${ipObject.province || ''}/${ipObject.city || ''}/${ipObject.district || ''} (${ipObject.carrier || ''})`);
     WanquLogObject.set('ip', `${ipObject.ip} ${ipObject.info || ''}`);
     WanquLogObject.set('ua', ipObject.ua);
     WanquLogObject.set('message', message || '');

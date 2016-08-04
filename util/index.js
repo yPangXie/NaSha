@@ -2,7 +2,8 @@
 
 const urllib = require('urllib');
 const baiduApi = require('../.config').baiduip;
-
+/* 目前使用一个奇葩的做法. 判断`ip`来源的请求, 交替着从`baidu`和`ipip.net`获取. 主要是受限于接口的QPS */
+let ipServiceFlag = 'baidu';
 module.exports.leanCloud = require('./leancloud');
 
 module.exports.log = {
@@ -43,19 +44,33 @@ module.exports.getIP = function *(ctx){
         let ip = ipRaw.match(/[\d\.].*/)[0] || '';
         if(!ip) return '';
 
-        /* 获取ip的地址信息, 用了baidu的API. 大阿里的qps限制10... */
-        // let ipInformationBuffer = yield urllib.requestThunk(`http://apis.baidu.com/apistore/iplookupservice/iplookup?ip=${ip}`, {
-        //     "headers": {
-        //         "apikey": baiduApi.apikey
-        //     }
-        // });
+        if(ipServiceFlag == 'baidu') {
+            ipServiceFlag = 'ipip';
+            /* 获取ip的地址信息, 用了baidu的API. 大阿里的qps限制10... */
+            let ipInformationBuffer = yield urllib.requestThunk(`http://apis.baidu.com/apistore/iplookupservice/iplookup?ip=${ip}`, {
+                "headers": {"apikey": baiduApi.apikey}
+            });
+            let ipDataRetStringBaidu = JSON.parse(new Buffer(ipInformationBuffer.data).toString());
+            
+            if(ipDataRetStringBaidu && ipDataRetStringBaidu.errNum == 0) {
+                return {
+                    "ip": ip,
+                    "info": `${ipObject.country || ''}/${ipObject.province || ''}/${ipObject.city || ''}/${ipObject.district || ''}/${ipObject.carrier || ''}`,
+                    "ua": ua
+                }
+            } else {
+                return {"ip": ip, "ua": ua};
+            }
 
-        /* 每天限制1000个请求. 先看效果 */
-        let ipDataBuffer = yield urllib.requestThunk(`http://freeapi.ipip.net/${ip}`);
-        let ipDataRetString = new Buffer(ipDataBuffer.data).toString();
-        let ipDataRetObject = JSON.parse(ipDataRetString.replace(/(,""|,\s""|,''|,\s'')/g, ''));
+        } else {
+            ipServiceFlag = 'baidu';
+            /* 每天限制1000个请求. 先看效果 */
+            let ipDataBufferIPIP = yield urllib.requestThunk(`http://freeapi.ipip.net/${ip}`);
+            let ipDataRetStringIPIP = new Buffer(ipDataBufferIPIP.data).toString();
+            let ipDataRetObject = JSON.parse(ipDataRetStringIPIP.replace(/(,""|,\s""|,''|,\s'')/g, ''));
+            return ipDataRetObject ? {"ip": ip, "info": ipDataRetObject.join('/'), "ua": ua} :  {"ip": ip, "ua": ua};
+        }
         
-        return  ipDataRetObject ? {"ip": ip, "info": ipDataRetObject.join('/'), "ua": ua} :  {"ip": ip, "ua": ua};
     } catch(e) {
         console.log(`Get ip error:`, e);
         return '';
