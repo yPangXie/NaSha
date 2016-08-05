@@ -55,7 +55,6 @@ module.exports.getIP = function *(ctx){
                 "headers": {"apikey": baiduApi.apikey}
             });
             let ipDataRetObjectBaidu = JSON.parse(new Buffer(ipInformationBuffer.data).toString());
-            console.log(`baidu:`, ip, ipDataRetObjectBaidu);
             if(ipDataRetObjectBaidu && ipDataRetObjectBaidu.errNum == 0) {
                 let ret = ipDataRetObjectBaidu.retData || {};
                 retObject = {
@@ -73,7 +72,6 @@ module.exports.getIP = function *(ctx){
             let ipDataBufferIPIP = yield urllib.requestThunk(`http://freeapi.ipip.net/${ip}`);
             let ipDataRetStringIPIP = new Buffer(ipDataBufferIPIP.data).toString();
             let ipDataRetObjectIPIP = JSON.parse(ipDataRetStringIPIP.replace(/(,""|,\s""|,''|,\s'')/g, ''));
-            console.log(`ipip:`, ip, ipDataRetObjectIPIP);
             retObject = ipDataRetObjectIPIP ? {"ip": ip, "info": ipDataRetObjectIPIP.join('/'), "ua": ua} :  {"ip": ip, "ua": ua};
         }
 
