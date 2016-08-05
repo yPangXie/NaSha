@@ -10,13 +10,15 @@ module.exports = function *(ctx, date) {
     let wanquLogYesterday = yield util.leanCloud.wanqu.logDailyCount(yesterday.toLocaleDateString() + ' 22:00:00');
     let wanquSpiderYesterday = yield util.leanCloud.wanqu.spiderDaily(yesterday.toLocaleDateString() + ' 22:00:00');
     let workflowSpiderYesterday = yield util.leanCloud.workflows.spiderDaily(yesterday.toLocaleDateString() + ' 22:00:00');
+    let readYesterday = yield util.leanCloud.read.daily(yesterday.toLocaleDateString() + ' 22:00:00');
 
     let dailyReport = {
         "access_count": wanquLogYesterday.length,
         "wanqu_spider_count": wanquSpiderYesterday.length,
         "wanqu_total": wanquTotal,
         "workflow_spider_count": workflowSpiderYesterday.length,
-        "workflow_total": workflowTotal
+        "workflow_total": workflowTotal,
+        "read_count": readYesterday.length
     };
 
     let smsObject = {

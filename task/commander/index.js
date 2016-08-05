@@ -5,6 +5,7 @@ const weiboCMD = require('../weibo').cmd;
 const wanquCMD = require('../wanqu').cmd;
 const workflowCMD = require('../workflow').cmd;
 const reportCMD = require('../report').cmd;
+const readCMD = require('../read').cmd;
 const mweb = require('../mweb').cmd;
 
 module.exports = function(router, routerPrefix) {
@@ -33,6 +34,9 @@ module.exports = function(router, routerPrefix) {
             case "report":
                 if(action == "daily") result = yield reportCMD.daily(this);
                 if(action == "countDown") result = yield reportCMD.countDown(this);
+            break;
+            case "read":
+                if(action == "newPost") result = yield readCMD.store(body, this);
             break;
         }
 
