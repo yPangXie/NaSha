@@ -11,8 +11,8 @@ module.exports = function *(body, ctx) {
     let responseToUserName = '';
     try {
         content = body.xml.Content[0];
-        responseFromUserName = body.xml.FromUserName[0];
-        responseToUserName = body.xml.ToUserName[0];
+        responseFromUserName = body.xml.ToUserName[0];
+        responseToUserName = body.xml.FromUserName[0];
     } catch(e) {}
 
     let responseXMLParams = {
