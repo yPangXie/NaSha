@@ -44,9 +44,17 @@ module.exports = function(router, routerPrefix) {
         return this.body = result;
     });
 
-    /*Weixin公众号接口 */
+    /*Weixin公众号接入校验 */
     router.get(`${routerPrefix}/weixin`, function *() {
         return this.body = weixin.comefromWeixin(this);
+    });
+
+    /* 微信公众号数据交互接口 */
+    router.post(`${routerPrefix}/weixin`, function *() {
+        let body = yield parse(this);
+        /* 收到消息 */
+        let recieveMessage = yield weixin.recieveMessage(body, this);
+        return this.body = "success";
     });
 
     /* MWeb的Metaweblog API接口. 非内部通用接口, 因要适配一定的接口规范 */
