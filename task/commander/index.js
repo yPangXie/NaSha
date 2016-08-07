@@ -53,7 +53,7 @@ module.exports = function(router, routerPrefix) {
     router.post(`${routerPrefix}/weixin`, function *() {
         /* 收到消息 */
         let recieveMessage = yield weixin.recieveMessage(this.request.body, this);
-        return this.body = "success";
+        return this.body = recieveMessage || 'success';
     });
 
     /* MWeb的Metaweblog API接口. 非内部通用接口, 因要适配一定的接口规范 */
