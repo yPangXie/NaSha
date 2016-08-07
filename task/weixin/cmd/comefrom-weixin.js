@@ -4,8 +4,8 @@ const crypto = require('crypto');
 const config = require('../../../.config').weixin;
 
 /* 校验来自微信服务器 */
-module.exports = function *(ctx) {
-    let query = this.query || {};
+module.exports = ctx => {
+    let query = ctx.query || {};
 
     let signature = query.signature || '';
     let echostr = query.echostr || '';
