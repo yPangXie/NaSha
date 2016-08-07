@@ -46,8 +46,7 @@ module.exports = function(router, routerPrefix) {
 
     /*Weixin公众号接口 */
     router.get(`${routerPrefix}/weixin`, function *() {
-        let validateRet = weixin.comefromWeixin(this);
-        return true;
+        return weixin.comefromWeixin(this);
     });
 
     /* MWeb的Metaweblog API接口. 非内部通用接口, 因要适配一定的接口规范 */

@@ -17,7 +17,7 @@ module.exports = ctx => {
     let sha1 = crypto.createHash('sha1');
     sha1.update([config.token, nonce, timestamp].sort().join(''));
     let manuallySign = sha1.digest('hex');
-    console.log(`manually: ${manuallySign}, querySign: ${signature}`);
 
-    return echostr;
+    if(manuallySign == signature) return echostr;
+    return false;
 }
