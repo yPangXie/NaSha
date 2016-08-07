@@ -8,7 +8,6 @@ module.exports = function *(ctx) {
     /* 在接收到的值(body)中, 使用`FromUserName`字段的值赋值给当前变量. */
     let responseToUserName = '';
     try {
-        console.log('ctx.request.body:', ctx.request.body);
         content = ctx.request.body.xml.Content[0];
         responseFromUserName = ctx.request.body.xml.ToUserName[0];
         responseToUserName = ctx.request.body.xml.FromUserName[0];
@@ -16,15 +15,11 @@ module.exports = function *(ctx) {
         console.log('recieve message error:', e);
     }
 
-    let responseXMLParams = {
+    return generateResponseXML({
         "responseToUserName": responseToUserName,
         "responseFromUserName": responseFromUserName,
-        "content": "搞定了."
-    }
-    console.log(`responseXMLParams:`, responseXMLParams);
-    if(!content) responseXMLParams.content = "发生了一些不可描述的问题? 发来的数据里少了点儿什么..";
-
-    return generateResponseXML(responseXMLParams);
+        "content": content ? `搞定了, 发来的是${content}` : "发生了一些不可描述的问题? 发来的数据里少了点儿什么.."
+    });
 }
 
 /* 生成返回值的`xml`结构 */
