@@ -52,6 +52,7 @@ module.exports = function(router, routerPrefix) {
     /* 微信公众号数据交互接口 */
     router.post(`${routerPrefix}/weixin`, function *() {
         let body = yield parse(this);
+        console.log('parse:', body);
         /* 收到消息 */
         let recieveMessage = yield weixin.recieveMessage(body, this);
         return this.body = "success";

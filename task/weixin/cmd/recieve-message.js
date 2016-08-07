@@ -4,7 +4,7 @@
 
 /* 校验来自微信服务器 */
 module.exports = function *(body, ctx) {
-    console.log(body);
+    console.log('cmd body func:', body);
 
     return 'success';
 }
