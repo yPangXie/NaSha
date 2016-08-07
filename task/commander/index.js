@@ -7,6 +7,7 @@ const workflowCMD = require('../workflow').cmd;
 const reportCMD = require('../report').cmd;
 const readCMD = require('../read').cmd;
 const mweb = require('../mweb').cmd;
+const weixin = require('../weixin').cmd;
 
 module.exports = function(router, routerPrefix) {
     /* 内部暴露的自定义接口. 调用方需要满足这些接口的调用规则 */
@@ -45,7 +46,7 @@ module.exports = function(router, routerPrefix) {
 
     /*Weixin公众号接口 */
     router.get(`${routerPrefix}/weixin`, function *() {
-        console.log(this);
+        let validateRet = weixin.comefromWeixin(this);
         return true;
     });
 
