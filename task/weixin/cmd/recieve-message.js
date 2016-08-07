@@ -9,6 +9,7 @@ module.exports = function *(body, ctx) {
     let responseFromUserName = '';
     /* 在接收到的值(body)中, 使用`FromUserName`字段的值赋值给当前变量. */
     let responseToUserName = '';
+    console.log('body:', body);
     try {
         content = body.xml.Content[0];
         responseFromUserName = body.xml.ToUserName[0];
