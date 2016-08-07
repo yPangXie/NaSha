@@ -46,19 +46,22 @@ module.exports = function(router, routerPrefix) {
 
     /*Weixin公众号接入校验 */
     router.get(`${routerPrefix}/weixin`, function *() {
+        console.log('weixin get request')
         return this.body = weixin.comefromWeixin(this);
     });
 
     /* 微信公众号数据交互接口 */
     router.post(`${routerPrefix}/weixin`, function *() {
+        console.log('weixin post request');
         /* 收到消息 */
         let recieveMessage = yield weixin.recieveMessage(this);
+        console.log('before response:', recieveMessage);
         this.set('Content-Type', 'text/xml; charset=utf-8');
         return this.body = recieveMessage || 'success';
     });
 
     /* MWeb的Metaweblog API接口. 非内部通用接口, 因要适配一定的接口规范 */
-    router.post(`${routerPrefix}/mweb`, function *() {
+    router.post(`${routerPrefix}/mweb`,function *() {
         let methodName = '';
         let result = null;
         try {
