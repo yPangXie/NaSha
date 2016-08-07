@@ -43,6 +43,12 @@ module.exports = function(router, routerPrefix) {
         return this.body = result;
     });
 
+    /*Weixin公众号接口 */
+    router.get(`${routerPrefix}/weixin`, function *() {
+        console.log(this);
+        return true;
+    });
+
     /* MWeb的Metaweblog API接口. 非内部通用接口, 因要适配一定的接口规范 */
     router.post(`${routerPrefix}/mweb`, function *() {
         let methodName = '';
