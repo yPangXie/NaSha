@@ -52,7 +52,7 @@ module.exports = function(router, routerPrefix) {
     /* 微信公众号数据交互接口 */
     router.post(`${routerPrefix}/weixin`, function *() {
         /* 收到消息 */
-        let recieveMessage = yield weixin.recieveMessage(this.request.body, this);
+        let recieveMessage = yield weixin.recieveMessage(this);
         this.set('Content-Type', 'text/xml; charset=utf-8');
         return this.body = recieveMessage || 'success';
     });

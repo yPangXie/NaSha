@@ -3,7 +3,7 @@
 
 
 /* 校验来自微信服务器 */
-module.exports = function *(body, ctx) {
+module.exports = function *(ctx) {
     let content = '';
     /* 在接收到的值(body)中, 使用`toUserName`字段的值赋值给当前变量. */
     let responseFromUserName = '';
@@ -11,10 +11,12 @@ module.exports = function *(body, ctx) {
     let responseToUserName = '';
     console.log('body:', body);
     try {
-        content = body.xml.Content[0];
-        responseFromUserName = body.xml.ToUserName[0];
-        responseToUserName = body.xml.FromUserName[0];
-    } catch(e) {}
+        content = ctx.request.body.xml.Content[0];
+        responseFromUserName = ctx.request.body.xml.ToUserName[0];
+        responseToUserName = ctx.request.body.xml.FromUserName[0];
+    } catch(e) {
+        console.log('recieve message error:', e);
+    }
 
     let responseXMLParams = {
         "responseToUserName": responseToUserName,
