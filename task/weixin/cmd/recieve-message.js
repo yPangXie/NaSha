@@ -20,7 +20,7 @@ module.exports = function *(body, ctx) {
         "responseFromUserName": responseFromUserName,
         "content": "搞定了."
     }
-
+    console.log(`responseXMLParams:`, responseXMLParams);
     if(!content) responseXMLParams.content = "发生了一些不可描述的问题? 发来的数据里少了点儿什么..";
 
     return generateResponseXML(responseXMLParams);
