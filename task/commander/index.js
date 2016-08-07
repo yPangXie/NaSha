@@ -53,6 +53,7 @@ module.exports = function(router, routerPrefix) {
     router.post(`${routerPrefix}/weixin`, function *() {
         /* 收到消息 */
         let recieveMessage = yield weixin.recieveMessage(this.request.body, this);
+        this.set('Content-Type', 'text/xml; charset=utf-8');
         return this.body = recieveMessage || 'success';
     });
 
