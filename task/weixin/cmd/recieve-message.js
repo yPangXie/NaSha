@@ -15,10 +15,15 @@ module.exports = function *(ctx) {
         console.log('recieve message error:', e);
     }
 
+    /* TBD: 发来的是链接的时候, 做一些页面数据抓取和DB存储的操作 */
+
     return generateResponseXML({
         "responseToUserName": responseToUserName,
         "responseFromUserName": responseFromUserName,
-        "content": content ? `搞定了, 发来的是${content}` : "发生了一些不可描述的问题? 发来的数据里少了点儿什么.."
+        "content": content
+            ? `搞定了, 发来的内容是:
+${content}`
+            : "发生了一些不可描述的问题? 发来的数据里少了点儿什么.."
     });
 }
 
