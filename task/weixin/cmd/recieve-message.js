@@ -35,7 +35,7 @@ ${content}`
 
 /* 收到的指令是抓页面的时候, 执行该方法 */
 function *grabPageInfo (url) {
-    let pageData = urllib.requestThunk(url, {"timeout": 1000000});
+    let pageData = yield urllib.requestThunk(url, {"timeout": 1000000, "followRedirect": true});
     let $ = cheerio.load(new Buffer(pageData.data).toString());
 
     /* 先去获取`favicon`的相对路径(也许是绝对路径, 不重要) */
@@ -43,7 +43,7 @@ function *grabPageInfo (url) {
     let favicon = '';
     if(faviconRelative) {
         /* 转换为绝对路径 */
-        let anchor = document.createElement('a');
+        let anchor = cheerio.load('<a href=""></a>');
         anchor.href = faviconRelative;
         favicon = anchor.href || '';
     }
