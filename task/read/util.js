@@ -10,7 +10,11 @@ module.exports.grabPageInfo = function *(urlString) {
     let $ = cheerio.load(new Buffer(pageData.data).toString());
 
     /* 先去获取`favicon`的相对路径(也许是绝对路径, 不重要) */
-    let faviconURLOri = $('link[rel="shortcut icon"], link[rel="short icon"]').attr('href') || '';
+    let faviconURLOri = $('link[rel="shortcut icon"]').attr('href')
+                        || $('link[rel="short icon"]').attr('href')
+                        || $('link[rel="apple-touch-icon"]').attr('href')
+                        || $('meta[itemprop="image"]').attr('content')
+                        || '';
     let favicon = '';
     if(!/^(https|http|\/\/)/g.test(faviconURLOri)) {
         /* 转换为绝对路径 */
