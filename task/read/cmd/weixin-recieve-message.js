@@ -4,7 +4,7 @@ const readUtil = require('../util');
 const util = require('../../../util');
 
 /* 校验来自微信服务器 */
-module.exports = function *(from, ctx) {
+module.exports = function *(ctx) {
     let content = '';
     /* 在接收到的值(body)中, 使用`toUserName`字段的值赋值给当前变量. */
     let responseFromUserName = '';
