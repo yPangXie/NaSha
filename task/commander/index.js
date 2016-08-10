@@ -7,10 +7,9 @@ const workflowCMD = require('../workflow').cmd;
 const reportCMD = require('../report').cmd;
 const readCMD = require('../read').cmd;
 const mweb = require('../mweb').cmd;
-const weixin = require('../weixin').cmd;
 
 module.exports = function(router, routerPrefix) {
-    /* 内部暴露的自定义接口. 调用方需要满足这些接口的调用规则 */
+    /* POST: 内部暴露的自定义接口. 调用方需要满足这些接口的调用规则 */
     router.post(`${routerPrefix}/cmd`, function *() {
         let body = yield parse(this);
         let action = body['action'] || '';
@@ -36,8 +35,21 @@ module.exports = function(router, routerPrefix) {
                 if(action == "daily") result = yield reportCMD.daily(this);
                 if(action == "countDown") result = yield reportCMD.countDown(this);
             break;
+        }
+
+        return this.body = result;
+    });
+
+    /* GET: 内部暴露的自定义接口. 调用方需要满足这些接口的调用规则 */
+    router.get(`${routerPrefix}/cmd`, function *() {
+        let query = this.query || {};
+        let type = query.type || "";
+        let action = query.action || "";
+        let result = {};
+
+        switch(type) {
             case "read":
-                if(action == "newPost") result = yield readCMD.store(body, this);
+                if(action == "store") result = yield readCMD.store(query, this);
             break;
         }
 
@@ -46,13 +58,13 @@ module.exports = function(router, routerPrefix) {
 
     /*Weixin公众号接入校验 */
     router.get(`${routerPrefix}/weixin`, function *() {
-        return this.body = weixin.comefromWeixin(this);
+        return this.body = readCMD.comefromWeixin(this);
     });
 
     /* 微信公众号数据交互接口 */
     router.post(`${routerPrefix}/weixin`, function *() {
         /* 收到消息 */
-        let recieveMessage = yield weixin.recieveMessage(this);
+        let recieveMessage = yield readCMD.recieveWeixinMessage(this);
         this.set('Content-Type', 'text/xml; charset=utf-8');
         return this.body = recieveMessage || 'success';
     });
