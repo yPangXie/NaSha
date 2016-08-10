@@ -11,5 +11,6 @@ module.exports = function *(query, ctx) {
     let pageInformation = yield readUtil.grabPageInfo(url);
     yield util.leanCloud.read.store(pageInformation);
 
+    if(query.callback) return `${query.callback}({"success": true, "message": "应该是保存成功了.."})`
     return {"success": true, "message": "应该是保存成功了.."};
 }
