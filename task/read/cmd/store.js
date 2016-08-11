@@ -10,6 +10,7 @@ module.exports = function *(body, ctx) {
     let searchRet = yield util.leanCloud.read.searchByUrl(body.page.url);
     if(searchRet && searchRet.length > 0) return {"success": false, "message": `"${searchRet[0].createdAt.toLocaleString()}" 已经保存过了<br />DB objectId: ${searchRet[0].id}`}
 
+    body.page.favicon = readUtil.generateFaviconAbsoPath(body.page.url, body.page.favicon);
     yield util.leanCloud.read.store(body.page);
     return {"success": true, "message": "应该是保存成功了.."};
 }
