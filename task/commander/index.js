@@ -35,21 +35,8 @@ module.exports = function(router, routerPrefix) {
                 if(action == "daily") result = yield reportCMD.daily(this);
                 if(action == "countDown") result = yield reportCMD.countDown(this);
             break;
-        }
-
-        return this.body = result;
-    });
-
-    /* GET: 内部暴露的自定义接口. 调用方需要满足这些接口的调用规则 */
-    router.get(`${routerPrefix}/cmd`, function *() {
-        let query = this.query || {};
-        let type = query.type || "";
-        let action = query.action || "";
-        let result = {};
-
-        switch(type) {
             case "read":
-                if(action == "store") result = yield readCMD.store(query, this);
+                if(action == "store") result = yield readCMD.store(body, this);
             break;
         }
 
