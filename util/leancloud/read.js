@@ -9,6 +9,13 @@ module.exports.store = function *(options) {
     readObject.save();
 }
 
+/* 基于url地址查询是否已经存在数据 */
+module.exports.searchByUrl = function *(url) {
+    let readQuery = new LeanCloud.AV.Query('Read');
+    readQuery.equalTo('url', url);
+    return readQuery.find();
+}
+
 /* 指定时间点之后的数据总数 */
 module.exports.daily = function *(date) {
     let readQuery = new LeanCloud.AV.Query('Read');
