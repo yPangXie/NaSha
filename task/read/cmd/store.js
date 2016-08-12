@@ -7,7 +7,14 @@ const util = require('../../../util');
 module.exports = function *(body, ctx) {
     if(!body || !body.page) return {"success": false, "message": "抓的数据乱七八糟.."};
 
-    let pageObject = JSON.parse(body.page);
+    let pageObject = {};
+    try {
+        pageObject = JSON.parse(decodeURIComponent(body.page));
+    } catch(e) {
+        console.log(body.page);
+        return {"success": false, "message": "数据格式异常, 跪了."}
+    }
+
     let searchRet = yield util.leanCloud.read.searchByUrl(pageObject.url);
     if(searchRet && searchRet.length > 0) return {"success": false, "message": `"${searchRet[0].createdAt.toLocaleString()}" 已经保存过了<br />DB objectId: ${searchRet[0].id}`}
 
