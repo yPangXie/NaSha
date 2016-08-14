@@ -37,6 +37,7 @@ module.exports = function(router, routerPrefix) {
             break;
             case "read":
                 if(action == "store") result = yield readCMD.store(body, this);
+                if(action == "list") result = yield readCMD.list(body, this);
             break;
         }
 

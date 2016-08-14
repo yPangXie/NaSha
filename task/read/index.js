@@ -4,6 +4,8 @@
 module.exports.cmd = {
     /* 存储新文章 */
     "store": require('./cmd/store'),
+    /* 获取某一天的list */
+    "list": require('./cmd/list'),
     /* 校验来自微信 */
     "comefromWeixin": require('./cmd/weixin-comefrom-check'),
     /* 收到微信消息 */
