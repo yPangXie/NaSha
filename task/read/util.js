@@ -12,7 +12,7 @@ module.exports.generateFaviconAbsoPath = function(urlString, favicon) {
         let urlObject = url.parse(urlString);
         favicon = `${urlObject.protocol}//${urlObject.host}${prefix}${favicon}`;
     }
-    
+
     return favicon;
 }
 
@@ -30,7 +30,7 @@ module.exports.grabPageInfo = function *(urlString) {
 
     return {
         url: urlString,
-        favicon: module.exports.generateFaviconAbsoPath(faviconOri),
+        favicon: module.exports.generateFaviconAbsoPath(favicon),
         title: $('title').text() || '',
         description: $('meta[name="description"]').attr('content') || '',
         keywords: $('meta[name="keywords"]').attr('content') || ''
