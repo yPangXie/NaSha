@@ -3,6 +3,7 @@ BASE="/root"
 ROOT="$BASE/NaSha"
 LOG="$BASE/logs/NaSha.log"
 AGENTX_LOG="$BASE/agentx_log"
+NODE_PATH=`cat $BASE/.nodepath`
 
 # Detect pid of the running application
 get_pid() {
@@ -30,7 +31,7 @@ pull() {
 # Start application
 start() {
     cd $BASE
-    nohup node --harmony $ROOT/app.js 2&>${LOG} & echo $! > pid
+    nohup $NODE_PATH/node --harmony $ROOT/app.js 2&>${LOG} & echo $! > pid
 
     sleep 2s
     PID=`get_pid`
