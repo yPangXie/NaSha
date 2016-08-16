@@ -17,6 +17,15 @@ module.exports.list = function *(options) {
     return readQuery.find();
 }
 
+/* 获取指定日期之后的所有数据 */
+module.exports.listAfterDate = function *(date) {
+    let readQuery = new LeanCloud.AV.Query('Read');
+    readQuery.greaterThan('createdAt', new Date(date));
+    readQuery.limit(1000);
+
+    return readQuery.find();
+}
+
 /* 基于url地址查询是否已经存在数据 */
 module.exports.searchByUrl = function *(url) {
     let readQuery = new LeanCloud.AV.Query('Read');

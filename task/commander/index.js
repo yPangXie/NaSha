@@ -38,6 +38,7 @@ module.exports = function(router, routerPrefix) {
             case "read":
                 if(action == "store") result = yield readCMD.store(body, this);
                 if(action == "list") result = yield readCMD.list(body, this);
+                if(action == "daily") result = yield readCMD.daily(this);
             break;
         }
 
