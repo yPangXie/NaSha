@@ -24,7 +24,6 @@ module.exports = function(router, routerPrefix) {
                 if(action == 'getLatest') result = yield wanquCMD.getLatest(this);
                 if(action == 'getSpec') result = yield wanquCMD.getSpec(body, this);
                 if(action == 'spider') result = yield wanquCMD.spider(body, this);
-                if(action == 'detectLatest') result = yield wanquCMD.detectLatest(this);
                 if(action == 'getRandom') result = yield wanquCMD.getRandom(body, this);
             break;
             case "workflow":
