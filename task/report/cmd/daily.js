@@ -30,4 +30,5 @@ module.exports = function *(ctx, date) {
     }
 
     yield util.leanCloud.helper.sms(smsObject);
+    return {"success": true, "message": "应该是顺利的发出去了.."};
 }
