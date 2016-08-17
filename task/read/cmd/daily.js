@@ -11,7 +11,7 @@ const util = require('../../../util');
 
 /* 获取当天新增的数据, 邮件发送 */
 module.exports = function *(ctx) {
-    let dateStart = util.getYesterday(`${new Date().toLocaleDateString()} 00:00:00`);
+    let dateStart = util.getYesterday(`${new Date().toLocaleDateString()} 09:00:00`);
     let dataList = yield util.leanCloud.read.listAfterDate(dateStart);
 
     let mailContentHtml = '';
