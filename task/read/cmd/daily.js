@@ -14,6 +14,7 @@ module.exports = function *(ctx) {
     let dateStart = util.getYesterday(`${new Date().toLocaleDateString()} 09:00:00`);
     let dataList = yield util.leanCloud.read.listAfterDate(dateStart);
 
+    if(dataList.length == 0) return {"success": false, "message": "今儿啥都没读.."};
     let mailContentHtml = '';
     dataList.forEach(item => {
         mailContentHtml += `<li><a href="${item.get('url')}">${item.get('title')}</a><p>${item.get('description')}</p></li>`;
