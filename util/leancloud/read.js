@@ -14,6 +14,7 @@ module.exports.list = function *(options) {
     let readQuery = new LeanCloud.AV.Query('Read');
     readQuery.limit(options.limit);
     readQuery.skip(options.offset);
+    readQuery.descending('createdAt');
     return readQuery.find();
 }
 
