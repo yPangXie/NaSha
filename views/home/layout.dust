@@ -2,6 +2,7 @@
 <html>
     <head>
         {> "common/header" /}
+        {+customStyle/}
         <title>{+title/}</title>
     </head>
     <body>
