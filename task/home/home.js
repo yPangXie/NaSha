@@ -8,13 +8,22 @@ module.exports = function *() {
         "offset": 0
     });
     
+    let todayDateString = new Date().toLocaleDateString();
+    let todayList = [];
+    let oldList = [];
     readList.forEach(item => {
         let createdAt = new Date(item.createdAt);
-        item.createdAt = `${createdAt.toLocaleDateString()} ${createdAt.toLocaleTimeString()}`;
+        let createdDateString = createdAt.toLocaleDateString();
+        item.createdAt = `${createdDateString} ${createdAt.toLocaleTimeString()}`;
+
+        if(createdDateString == todayDateString) todayList.push(item);
+        else oldList.push(item);
     });
 
     return yield this.render('/home/home', {
-        "list": readList
+        "today": todayList,
+        "old": oldList,
+        "todayCount": todayList.length > 0 ? true : false
     });
     // return yield this.render('/home/home', {
     //     token: this.session.weibo.token || "",
