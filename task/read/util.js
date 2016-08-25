@@ -33,7 +33,7 @@ module.exports.grabPageInfo = function *(urlString) {
         url: urlString,
         favicon: module.exports.generateFaviconAbsoPath(favicon),
         title: $('title').text() || '',
-        description: $('meta[name="description"]').attr('content') || $('meta[name="twitter:description"]') || '',
+        description: $('meta[name="description"]').attr('content') || $('meta[name="twitter:description"]').attr('content') || '',
         keywords: $('meta[name="keywords"]').attr('content') || ''
     }
 }
