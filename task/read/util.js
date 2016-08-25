@@ -25,6 +25,7 @@ module.exports.grabPageInfo = function *(urlString) {
     let favicon = $('link[rel="shortcut icon"]').attr('href')
                 || $('link[rel="short icon"]').attr('href')
                 || $('link[rel="apple-touch-icon"]').attr('href')
+                || $('link[rel="apple-touch-icon image_src"]').attr('href')
                 || $('meta[itemprop="image"]').attr('content')
                 || '';
 
@@ -32,7 +33,7 @@ module.exports.grabPageInfo = function *(urlString) {
         url: urlString,
         favicon: module.exports.generateFaviconAbsoPath(favicon),
         title: $('title').text() || '',
-        description: $('meta[name="description"]').attr('content') || '',
+        description: $('meta[name="description"]').attr('content') || $('meta[name="twitter:description"]') || '',
         keywords: $('meta[name="keywords"]').attr('content') || ''
     }
 }
