@@ -20,13 +20,16 @@ module.exports = function *(ctx) {
 
     /* 校验, 生成返回值文本 */
     let searchRet = yield util.leanCloud.read.searchByUrl(pageUrl);
-    let responseContent = `搞定, 抓取的是 ${pageUrl} 的数据.`;
+    let responseContent = '';
     if(!pageUrl || !/^(https:|http:)\/\//.test(pageUrl)) responseContent = '发来的似乎不是url啊, 搞毛线?';
     else if(searchRet && searchRet.length) responseContent = `${pageUrl}的数据在 ${searchRet[0].createdAt.toLocaleString()} 已经保存过了 (${searchRet[0].id})`;
 
-    /* 发来的是链接的时候, 做一些页面数据抓取和DB存储的操作 */
-    let pageInformation = yield readUtil.grabPageInfo(pageUrl);
-    yield util.leanCloud.read.store(pageInformation);
+    /* 页面数据抓取和DB存储的操作 */
+    if(!responseContent) {
+        responseContent = `搞定, 抓取的是 ${pageUrl} 的数据.`;
+        let pageInformation = yield readUtil.grabPageInfo(pageUrl);
+        yield util.leanCloud.read.store(pageInformation);
+    }
 
     return generateResponseXML({
         "responseToUserName": responseToUserName,
