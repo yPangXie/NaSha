@@ -6,6 +6,7 @@ const koa = require('koa');
 const router = require('koa-router')();
 const views = require('koa-views');
 const session = require('koa-session');
+const Static = require('koa-static');
 const xmlParser = require('koa-xml-body').default;
 
 const app = koa();
@@ -27,6 +28,8 @@ app.use(function *(next) {
 /* session模块 */
 app.keys = ['krabs-NaSha'];
 app.use(session(app));
+
+app.use(Static(path.resolve(__dirname, './assets')));
 
 /* view模块 */
 app.use(views(viewRoot, {
