@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <link href="/images/nasha.png" rel="shortcut icon">
+        <link href="/ns/images/nasha.png" rel="shortcut icon">
         {> "common/header" /}
         {+customStyle/}
         <title>{+title/}</title>
