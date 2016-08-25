@@ -11,6 +11,7 @@
     "co-fs-extra": "^1.2.1",
     "co-request": "^1.0.0",
     "cron": "^1.1.0",
+    "dustjs-helpers": "^1.7.3",
     "dustjs-linkedin": "^2.7.2",
     "koa": "^1.2.0",
     "koa-router": "^5.4.0",

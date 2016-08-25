@@ -1,5 +1,6 @@
 "use strict"
 
+const dust = require('dustjs-helpers');
 const path = require('path');
 const koa = require('koa');
 const router = require('koa-router')();
@@ -32,6 +33,9 @@ app.use(views(viewRoot, {
     cache: false,
     extension: 'dust'
 }));
+/* 不启用模板压缩 */
+dust.config.whitespace = true;
+dust.config.cache = false;
 
 /* 解析xml类型的请求 */
 app.use(xmlParser());
