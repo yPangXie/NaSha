@@ -40,3 +40,9 @@ module.exports.daily = function *(date) {
     readQuery.greaterThan('createdAt', new Date(date));
     return readQuery.find();
 }
+
+/* 总数 */
+module.exports.count = function* () {
+    let readQuery = new LeanCloud.AV.Query('Read');
+    return readQuery.count();
+}
