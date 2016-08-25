@@ -36,12 +36,12 @@
         {/old}
     </ul>
     <div class="read-list-pagination">
-    页码: 
+    页码:
     {#pages}
         {@eq key="{.}" value="{current}"}
             <span class="read-list-page">{.}</span>
         {:else}
-            <a href="/ns?page={.}" class="read-list-page">{.}</a>
+            <a href="/read?page={.}" class="read-list-page">{.}</a>
         {/eq}
     {/pages}
     </div>

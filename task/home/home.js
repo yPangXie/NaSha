@@ -7,12 +7,12 @@ module.exports = function *() {
     let query = this.query || {};
     let page = +query.page || 1;
     let count = yield util.leanCloud.read.count();
-    
+
     let readList = yield util.leanCloud.read.list({
         "limit": limit,
         "offset": (page - 1) * limit
     });
-    
+
     let todayDateString = new Date().toLocaleDateString();
     let todayList = [];
     let oldList = [];
@@ -24,7 +24,7 @@ module.exports = function *() {
         if(createdDateString == todayDateString) todayList.push(item);
         else oldList.push(item);
     });
-    
+
     return yield this.render('/home/home', {
         "today": todayList,
         "old": oldList,
