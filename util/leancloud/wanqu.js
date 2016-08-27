@@ -77,3 +77,10 @@ module.exports.spiderDaily = function *(date) {
     wanquQuery.greaterThan('createdAt', new Date(date));
     return wanquQuery.find();
 }
+
+/* 获取wanqu日报的最新版本 */
+module.exports.version = function *() {
+    let wanquQuery = new LeanCloud.AV.Query('WanquInfo');
+    wanquQuery.descending('createdAt');
+    return wanquQuery.first();
+}
