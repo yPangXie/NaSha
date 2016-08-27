@@ -32,5 +32,8 @@ module.exports = function *(body, ctx) {
         randomArticles.push(_currentIssues[_randomIssueIndex]);
     }
 
-    return wanquUtil.generateResponse(randomArticles);
+    return yield wanquUtil.generateResponse({
+        "db": randomArticles,
+        "clientVersion": body.clientVersion || ''
+    });
 }
