@@ -1,6 +1,6 @@
 "use strict";
 
-const util = require('../../util/leanCloud');
+const util = require('../../util');
 
 /* 格式化返回值 */
 module.exports.generateResponse = function *(data){
@@ -13,7 +13,8 @@ module.exports.generateResponse = function *(data){
         }
     }
     /* 获取版本信息 */
-    let latestVersion = yield util.leanCloud.wanqu.version();
+    let versionInfo = yield util.leanCloud.wanqu.version();
+    let latestVersion = versionInfo.get('version');
     /* 一个兼容逻辑
     1. 存量`workflow`, 传入的`clientVersion`字段值为`None`(Python). 这种需要在返回值中强行插入更新的相关信息
     2. 新版的`workflow`, 存在`clientVersion`字段, 因为客户端已经做了展示逻辑, 那么, 返回值只需要将`version`字段返回即可
