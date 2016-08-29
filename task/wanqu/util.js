@@ -2,6 +2,16 @@
 
 const util = require('../../util');
 
+/* 判断新用户及用户数据存储 */
+module.exports.newUser = function *(macAddress) {
+    if(!macAddress) return false;
+
+    let detectUserMac = yield util.leanCloud.wanqu.searchByMac(macAddress);
+    if(detectUserMac.length) return false;
+
+    yield util.leanCloud.wanqu.storeMac(macAddress);
+}
+
 /* 格式化返回值 */
 module.exports.generateResponse = function *(data){
     let resultData = data.db || [];
