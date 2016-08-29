@@ -7,6 +7,9 @@ module.exports = function *(body, ctx) {
     let ipObject = yield util.getIP(ctx);
     yield util.leanCloud.wanqu.log(ipObject, `随机: 最多返回5篇文章`);
 
+    /* 处理新用户数据 */
+    yield wanquUtil.newUser(body.mac || '');
+
     /* 逻辑如下:
         1. wanqu定时任务表抓最新一期的期数
         2. 随机筛选5期
