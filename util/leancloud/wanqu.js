@@ -84,3 +84,17 @@ module.exports.version = function *() {
     wanquQuery.descending('createdAt');
     return wanquQuery.first();
 }
+
+/* 基于用户的Mac地址查询 */
+module.exports.searchByMac = function *(mac) {
+    let wanquUsersQuery = new LeanCloud.AV.Query('WanquUsers');
+    wanquUsersQuery.equalTo('mac', mac);
+    return wanquUsersQuery.find();
+}
+
+/* 存储用户的Mac地址信息 */
+module.exports.storeMac = function *(mac) {
+    let wanquUsersObject = new LeanCloud.WanquUsers();
+    wanquUsersObject.set('mac', mac);
+    wanquUsersObject.save();
+}
