@@ -34,6 +34,19 @@ module.exports.searchByUrl = function *(url) {
     return readQuery.find();
 }
 
+/* 基于关键字, 查询是否已经存在数据 */
+module.exports.searchByWords = function *(options) {
+    let readQueryTitle = new LeanCloud.AV.Query('Read');
+    let readQueryDescription = new LeanCloud.AV.Query('Read');
+    readQueryTitle.contains('title', options.words);
+    readQueryDescription.contains('description', options.words);
+
+    let queryCombo = LeanCloud.AV.Query.or(readQueryTitle, readQueryDescription);
+    queryCombo.limit(options.limt);
+    queryCombo.skip(options.offset);
+    return queryCombo.find();
+}
+
 /* 指定时间点之后的数据总数 */
 module.exports.daily = function *(date) {
     let readQuery = new LeanCloud.AV.Query('Read');

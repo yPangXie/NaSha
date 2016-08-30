@@ -2,7 +2,12 @@
 {<title}NaSha Home{/title}
 {<customStyle}
 <style type="text/css">
-    .nasha-title {width: 990px; margin: 20px auto 50px;}
+    body {padding: 0; margin: 0;}
+    header {background: #333; border-bottom: 2px solid #000; margin-bottom: 20px;}
+    .nasha-title {width: 990px; margin: 0 auto 40px; color: #FFF; padding-top: 20px;}
+    .nasha-read-search {max-width: 990px; font-size: 12px; margin: 0 auto; padding-bottom: 20px; color: #FFF; text-align: right;}
+    .nasha-read-search input[type="text"] {width: 300px; margin-right: 5px; padding: 2px; border: 1px solid #000;}
+    .nasha-read-keywords {width: 990px; margin: 0 auto 30px; padding-bottom: 20px; font-size: 12px; border-bottom: 2px solid #CCC;}
     a {text-decoration: none; color: #00e;}
     a:hover {text-decoration: underline;}
     .read-list {width: 990px; margin: 0 auto; line-height: 1.5;}
@@ -12,27 +17,42 @@
     .read-list-page {margin: 0 3px;}
     .read-split {list-style: none outside none; height: 40px; line-height: 40px; color: #F00; font-weight: bold; text-align: center; margin-bottom: 20px;}
     .cnzz-wrapper {display: none;}
+    .search-highlight {background: #FF9632;}
 </style>
 {/customStyle}
+{<customScript}
+
+{/customScript}
 {<main}
-    <h1 class="nasha-title">看看读过的文章, 想一想, 是不是离梦想更远了? 嘿..</h1>
+    <header>
+        <h1 class="nasha-title">看看读过的文章, 想一想, 是不是离梦想更远了? 嘿..😎</h1>
+        <form class="nasha-read-search" action="/read" method="GET">
+            <input type="text" name="words" placeholder="文章标题名称(或标题包含的内容)">
+            <input type="submit" value="搜索" />
+        </form>
+    </header>
+    {#words}
+        <div class="nasha-read-keywords">
+            <a href="/read">&lt; 返回</a> 关键字: "<strong>{words}</strong>"搜索结果
+        </div>
+    {/words}
     <ul class="read-list">
         {#today}
-        <li>
-            <a href="{attributes.url}" target="_blank">{attributes.title}</a>
-            <small class="read-created-time"> ({createdAt})</small>
-            <p class="read-description">{attributes.description}</p>
-        </li>
+            <li>
+                <a href="{attributes.url}" target="_blank">{attributes.title|s}</a>
+                <small class="read-created-time"> ({createdAt})</small>
+                <p class="read-description">{attributes.description|s}</p>
+            </li>
         {/today}
         {#todayCount}
         <li class="read-split"> ️️️️🖕️️以上是今儿个儿看的文章</li>
         {/todayCount}
         {#old}
-        <li>
-            <a href="{attributes.url}" target="_blank">{attributes.title}</a>
-            <small class="read-created-time"> ({createdAt})</small>
-            <p class="read-description">{attributes.description}</p>
-        </li>
+            <li>
+                <a href="{attributes.url}" target="_blank">{attributes.title|s}</a>
+                <small class="read-created-time"> ({createdAt})</small>
+                <p class="read-description">{attributes.description|s}</p>
+            </li>
         {/old}
     </ul>
     <div class="read-list-pagination">
@@ -41,7 +61,7 @@
         {@eq key="{.}" value="{current}"}
             <span class="read-list-page">{.}</span>
         {:else}
-            <a href="/read?page={.}" class="read-list-page">{.}</a>
+            <a href="/read?page={.}{#words}&words={words}{/words}" class="read-list-page">{.}</a>
         {/eq}
     {/pages}
     </div>
