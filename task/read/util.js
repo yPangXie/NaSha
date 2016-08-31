@@ -24,10 +24,11 @@ module.exports.grabPageInfo = function *(urlString) {
     /* 先去获取`favicon`的相对路径(也许是绝对路径, 不重要) */
     let favicon = $('link[rel="shortcut icon"]').attr('href')
                 || $('link[rel="short icon"]').attr('href')
+                || $('link[rel="icon"]').attr('href')
                 || $('link[rel="apple-touch-icon"]').attr('href')
                 || $('link[rel="apple-touch-icon image_src"]').attr('href')
                 || $('meta[itemprop="image"]').attr('content')
-                || '';
+                || `${urlString}/favicon.ico`;
 
     return {
         url: urlString,
