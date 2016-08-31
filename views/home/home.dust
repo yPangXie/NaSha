@@ -1,5 +1,5 @@
 {> "home/layout" /}
-{<title}NaSha Home{/title}
+{<title}NaSha后宫{/title}
 {<customStyle}
 <style type="text/css">
     body {padding: 0; margin: 0;}
