@@ -1,11 +1,17 @@
 # NaSha
 
+<img width="250" alt="NaSha logo" src="https://cloud.githubusercontent.com/assets/12368943/18118662/d77cd208-6f88-11e6-8d38-87a036a0cd60.png">
+
 `NaSha`系统
 
 ## 目前拥有的功能
 
  - 手动发送新浪微博
  - 提供了一个类似`bookmark`的功能, 可以记录已读的文章. 类似`Pocket`那种, 但简单10000倍
+    - 页面展示`bookmark`内容 [Read](http://ns.bigyoo.me/read)
+    - 支持搜索`bookmark`内容
+    - 支持通过`chrome`插件存储数据 [NaSha-page-digger](https://github.com/yPangXie/NaSha-page-digger)
+    - 支持通过微信公众号存储数据
  - 爬虫
     - 定时爬取湾区日报的数据(最多10分钟延迟)
     - 定时爬取`packal`上的workflow数据(最多10分钟延迟)
