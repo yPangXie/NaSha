@@ -4,10 +4,11 @@
         <link href="images/nasha.png?t={staticTimestamp}" rel="shortcut icon">
         {> "common/header" /}
         {+customStyle/}
+        {+customScriptTop/}
         <title>{+title/}</title>
     </head>
     <body>
         {+main/}
-        {+customScript/}
+        {+customScriptBottom/}
     </body>
 </html>
