@@ -30,11 +30,16 @@ module.exports.grabPageInfo = function *(urlString) {
                 || $('meta[itemprop="image"]').attr('content')
                 || `${urlString}/favicon.ico`;
 
+    let description = $('meta[name="description"]').attr('content')
+                || $('meta[name="twitter:description"]').attr('content')
+                || $('meta[property="og:description"]').attr('content')
+                || '';
+
     return {
         url: urlString,
         favicon: module.exports.generateFaviconAbsoPath(favicon),
         title: $('title').text() || '',
-        description: $('meta[name="description"]').attr('content') || $('meta[name="twitter:description"]').attr('content') || '',
+        description: description,
         keywords: $('meta[name="keywords"]').attr('content') || ''
     }
 }
