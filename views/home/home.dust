@@ -16,6 +16,7 @@
     .read-list-pagination {text-align: center; width: 990px; margin: 30px auto; border-top: 2px solid #CCC; padding-top: 10px; font-size: 14px; font-weight: bold;}
     .read-list-page {margin: 0 3px;}
     .read-split {list-style: none outside none; height: 40px; line-height: 40px; color: #F00; font-weight: bold; text-align: center; margin-bottom: 20px;}
+    .read-icon {max-width: 12px; margin-right: 5px;}
     .cnzz-wrapper {display: none;}
     .search-highlight {background: #CFDF88; padding: 2px; border-radius: 2px;}
 </style>
@@ -39,6 +40,7 @@
     <ul class="read-list">
         {#today}
             <li>
+                <img src="{attributes.favicon}" class="read-icon" />
                 <a href="{attributes.url}" target="_blank">{attributes.title|s}</a>
                 <small class="read-created-time"> ({createdAt})</small>
                 <p class="read-description">{attributes.description|s}</p>
@@ -49,6 +51,7 @@
         {/todayCount}
         {#old}
             <li>
+                <img src="{attributes.favicon}" class="read-icon" />
                 <a href="{attributes.url}" target="_blank">{attributes.title|s}</a>
                 <small class="read-created-time"> ({createdAt})</small>
                 <p class="read-description">{attributes.description|s}</p>
