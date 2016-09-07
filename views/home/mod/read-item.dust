@@ -1,0 +1,7 @@
+{! 阅读列表中, 每一项的模板结构 !}
+<li>
+    <img src="{attributes.favicon}" class="read-icon" onerror="brokenImageHandler(this)" />
+    <a class="read-title" href="{attributes.url}" target="_blank">{attributes.title|s}</a>
+    <small class="read-created-time"> ({createdAt})</small>
+    <p class="read-description">{attributes.description|s}</p>
+</li>
