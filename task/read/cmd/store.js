@@ -16,7 +16,7 @@ module.exports = function *(body, ctx) {
     }
 
     let searchRet = yield util.leanCloud.read.searchByUrl(pageObject.url);
-    if(searchRet && searchRet.length > 0) return {"success": false, "message": `"${searchRet[0].createdAt.toLocaleString()}" 已经保存过了<br />DB objectId: ${searchRet[0].id}`}
+    if(searchRet && searchRet.length > 0) return {"success": false, "type": "duplicate", "id": searchRet[0].id, "message": `"${searchRet[0].createdAt.toLocaleString()}" 已经保存过了<br />DB objectId: ${searchRet[0].id}`}
 
     pageObject.favicon = readUtil.generateFaviconAbsoPath(pageObject.url, pageObject.favicon);
     yield util.leanCloud.read.store(pageObject);
