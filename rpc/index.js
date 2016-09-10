@@ -2,8 +2,8 @@
 
 const parse = require('co-body');
 
-const taskBase = '../task';
-const weiboCMD = require(`${taskBase}/weibo`).cmd;
+const taskBase = '../controller/task';
+// const weiboCMD = require(`${taskBase}/weibo`).cmd;
 const wanquCMD = require(`${taskBase}/wanqu`).cmd;
 const workflowCMD = require(`${taskBase}/workflow`).cmd;
 const reportCMD = require(`${taskBase}/report`).cmd;
@@ -18,10 +18,10 @@ module.exports = function(router, routerPrefix) {
         let result = {};
 
         switch(body['type'] || '') {
-            case "weibo":
-                if(action === 'sendMessage') result = yield weiboCMD.sendMessage(body, this);
-                if(action == 'detectToken') result = yield weiboCMD.detectToken(this);
-            break;
+            // case "weibo":
+            //     if(action === 'sendMessage') result = yield weiboCMD.sendMessage(body, this);
+            //     if(action == 'detectToken') result = yield weiboCMD.detectToken(this);
+            // break;
             case "wanqu":
                 if(action == 'getLatest') result = yield wanquCMD.getLatest(body, this);
                 if(action == 'getSpec') result = yield wanquCMD.getSpec(body, this);
