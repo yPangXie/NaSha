@@ -3,7 +3,7 @@
 const cheerio = require('cheerio');
 const urllib = require('urllib');
 const toMarkdown = require('to-markdown');
-const util = require('../../../util');
+const model = require('../../../model');
 const url = "http://www.packal.org";
 const listUrl = "http://www.packal.org/workflow-list?sort_by=created&sort_order=DESC&items_per_page=50";
 
@@ -46,10 +46,10 @@ module.exports = function *(body, ctx) {
             "avatar": $('.user-picture img').attr('src') || ""
         };
 
-        yield util.leanCloud.workflows.store(workflowData);
+        yield model.leanCloud.workflows.store(workflowData);
     }
 
-    yield util.leanCloud.helper.applog(`Workflow - 也许成功抓取了${(urls || '')}页面的数据...`);
+    yield model.leanCloud.helper.applog(`Workflow - 也许成功抓取了${(urls || '')}页面的数据...`);
     return `True: ${urls}`;
 }
 
@@ -64,7 +64,7 @@ module.exports.detectLatest = function *(ctx) {
     let latestTotalWorkflows = title.match(/(\d+)/g) && title.match(/(\d+)/g)[0];
 
     /* 获取当前workflow的总数 */
-    let currentTotalWorkflows = yield util.leanCloud.workflows.getCurrentLatestTotal();
+    let currentTotalWorkflows = yield model.leanCloud.workflows.getCurrentLatestTotal();
     let currentTotal = currentTotalWorkflows && currentTotalWorkflows.get('latestTotal');
 
     /* 当前最新版高于DB中存储的最新版, 或者DB中特么压根没存数据的时候. 抓最新版的数据 */
@@ -82,7 +82,7 @@ module.exports.detectLatest = function *(ctx) {
                 }
             });
         }
-        yield util.leanCloud.workflows.storeLatestTotal(latestTotalWorkflows);
+        yield model.leanCloud.workflows.storeLatestTotal(latestTotalWorkflows);
 
         return {
             "success": true,

@@ -1,12 +1,14 @@
 "use strict"
 
 const parse = require('co-body');
-const weiboCMD = require('../weibo').cmd;
-const wanquCMD = require('../wanqu').cmd;
-const workflowCMD = require('../workflow').cmd;
-const reportCMD = require('../report').cmd;
-const readCMD = require('../read').cmd;
-const mweb = require('../mweb').cmd;
+
+const taskBase = '../task';
+const weiboCMD = require(`${taskBase}/weibo`).cmd;
+const wanquCMD = require(`${taskBase}/wanqu`).cmd;
+const workflowCMD = require(`${taskBase}/workflow`).cmd;
+const reportCMD = require(`${taskBase}/report`).cmd;
+const readCMD = require(`${taskBase}/read`).cmd;
+const mweb = require(`${taskBase}/mweb`).cmd;
 
 module.exports = function(router, routerPrefix) {
     /* POST: 内部暴露的自定义接口. 调用方需要满足这些接口的调用规则 */

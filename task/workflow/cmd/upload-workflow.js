@@ -1,7 +1,7 @@
 "use strict";
 
 const urllib = require('urllib');
-const util = require('../../../util');
+const model = require('../../../model');
 
 /* workflows文件下载及上传 */
 module.exports = function *(body, ctx) {
@@ -9,7 +9,7 @@ module.exports = function *(body, ctx) {
 
     let url = body.url;
     let fileData = yield urllib.requestThunk(url, {"timeout": 1000000});
-    yield util.leanCloud.workflows.upload('xxx', fileData.data);
+    yield model.leanCloud.workflows.upload('xxx', fileData.data);
 
     return {"success": true, "message": "似乎上传成功了."};
 }

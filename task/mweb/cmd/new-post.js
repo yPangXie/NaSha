@@ -1,7 +1,7 @@
 "use strict";
 
 const mwebUtil = require('../util');
-const util = require('../../../util');
+const model = require('../../../model');
 
 /* 发布一篇文章 */
 module.exports = function *(ctx) {
@@ -28,7 +28,7 @@ module.exports = function *(ctx) {
     let id = null;
     if(Object.keys(jsonFormatPost).length) {
         /* 暂时不校验是否提交成功. 就当一切操作都如丝般顺滑. */
-        let mwebStoreResult = yield util.leanCloud.mweb.store({
+        let mwebStoreResult = yield model.leanCloud.mweb.store({
             "content": jsonFormatPost.description,
             "categories": jsonFormatPost.categories,
             "date_created": jsonFormatPost.dateCreated,

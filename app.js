@@ -12,6 +12,8 @@ const xmlParser = require('koa-xml-body').default;
 const app = koa();
 const config = require('./.config');
 const task = require('./task');
+const commander = require('./commander');
+// const web = require('./web');
 const viewRoot = path.resolve(`${__dirname}/views`);
 
 /* 中间件 */
@@ -19,7 +21,7 @@ app.use(function *(next) {
     this.state.staticTimestamp = Date.now();
     this.state.config = config;
     this.state.settings = {
-        views: viewRoot
+        "views": viewRoot
     };
 
     yield next;
@@ -49,7 +51,7 @@ app.use(router.routes());
 /* 初始化各种task */
 app.use(task.home(router, config.routerPrefix));
 app.use(task.weibo(router, config.routerPrefix));
-app.use(task.commander(router, config.routerPrefix));
+app.use(commander(router, config.routerPrefix));
 
 app.listen(config.port, function() {
     console.log(`Server start with port ${config.port}`);

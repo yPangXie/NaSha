@@ -1,11 +1,12 @@
 "use strict";
 const util = require('../../../util');
+const model = require('../../../model');
 const wanquUtil = require('../util');
 
 /* 获取随机的几篇文章 */
 module.exports = function *(body, ctx) {
     let ipObject = yield util.getIP(ctx);
-    yield util.leanCloud.wanqu.log(ipObject, `随机: 最多返回5篇文章`);
+    yield model.leanCloud.wanqu.log(ipObject, `随机: 最多返回5篇文章`);
 
     /* 处理新用户数据 */
     yield wanquUtil.newUser(body.mac || '');
@@ -18,7 +19,7 @@ module.exports = function *(body, ctx) {
         5. 构建返回值, 返回给调用方
     */
 
-    let latestIssue = yield util.leanCloud.wanqu.getCurrentLatestIssue();
+    let latestIssue = yield model.leanCloud.wanqu.getCurrentLatestIssue();
     let randomIssueNumbers = [];
     /* 随机筛选N期(默认5期, 最大5期) */
     let count = body.count || 5;
@@ -30,7 +31,7 @@ module.exports = function *(body, ctx) {
     /* 获取每期的数据 */
     let randomArticles = [];
     for(let j = 0, l = randomIssueNumbers.length; j < l; j++) {
-        let _currentIssues = yield util.leanCloud.wanqu.getSpec(randomIssueNumbers[j] + '');
+        let _currentIssues = yield model.leanCloud.wanqu.getSpec(randomIssueNumbers[j] + '');
         let _randomIssueIndex = Math.floor(Math.random() * _currentIssues.length);
         randomArticles.push(_currentIssues[_randomIssueIndex]);
     }

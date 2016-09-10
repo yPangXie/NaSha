@@ -8,11 +8,12 @@ const mailgun = require('mailgun-js')({
 const mailcomposer = require('mailcomposer');
 const co = require('co');
 const util = require('../../../util');
+const model = require('../../../model');
 
 /* 获取当天新增的数据, 邮件发送 */
 module.exports = function *(ctx) {
     let dateStart = util.getYesterday(`${new Date().toLocaleDateString()} 09:00:00`);
-    let dataList = yield util.leanCloud.read.listAfterDate(dateStart);
+    let dataList = yield model.leanCloud.read.listAfterDate(dateStart);
 
     if(dataList.length == 0) return {"success": false, "message": "今儿啥都没读.."};
     let mailContentHtml = '';

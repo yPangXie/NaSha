@@ -1,15 +1,15 @@
 "use strict";
 
-const util = require('../../util');
+const model = require('../../model');
 
 /* 判断新用户及用户数据存储 */
 module.exports.newUser = function *(macAddress) {
     if(!macAddress) return false;
 
-    let detectUserMac = yield util.leanCloud.wanqu.searchByMac(macAddress);
+    let detectUserMac = yield model.leanCloud.wanqu.searchByMac(macAddress);
     if(detectUserMac.length) return false;
 
-    yield util.leanCloud.wanqu.storeMac(macAddress);
+    yield model.leanCloud.wanqu.storeMac(macAddress);
 }
 
 /* 格式化返回值 */
@@ -23,7 +23,7 @@ module.exports.generateResponse = function *(data){
         }
     }
     /* 获取版本信息 */
-    let versionInfo = yield util.leanCloud.wanqu.version();
+    let versionInfo = yield model.leanCloud.wanqu.version();
     let latestVersion = versionInfo.get('version');
     /* 一个兼容逻辑
     1. 存量`workflow`, 传入的`clientVersion`字段值为`None`(Python). 这种需要在返回值中强行插入更新的相关信息

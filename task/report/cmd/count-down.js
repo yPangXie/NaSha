@@ -1,6 +1,6 @@
 "use strict"
 
-const util = require('../../../util');
+const model = require('../../../model');
 
 /* 获取距离指定日期还有多久 */
 module.exports = function *(ctx, targetTimeString) {
@@ -9,7 +9,7 @@ module.exports = function *(ctx, targetTimeString) {
     let now = new Date();
     let days = Math.ceil((targetTime - now.valueOf()) / 1000 / 60 / 60 / 24);
 
-    yield util.leanCloud.helper.sms({
+    yield model.leanCloud.helper.sms({
         "template": 'Count_Down',
         "now": `${now.getFullYear()}年${(now.getMonth() + 1)}月${now.getDate()}日`,
         "target_date": "2016年10月1日",

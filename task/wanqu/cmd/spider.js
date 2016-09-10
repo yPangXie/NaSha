@@ -3,6 +3,7 @@
 const cheerio = require('cheerio');
 const request = require('co-request');
 const util = require('../../../util');
+const model = require('../../../model');
 const urlConfig = {
     "topUrl": "https://wanqu.co/issues?s=top",
     "prefix": "https://wanqu.co",
@@ -53,7 +54,7 @@ module.exports = function *(body, ctx) {
         let season = title.split(' ')[1].match(/\d+/g);
         for(let i = 0, len = list.length; i < len; i++) {
             let item = list[i];
-            yield util.leanCloud.wanqu.store({
+            yield model.leanCloud.wanqu.store({
                 "create_date": createDate,
                 "season": season[0],
                 "ori_link": util.decodeData(item.oriLink),
@@ -64,7 +65,7 @@ module.exports = function *(body, ctx) {
         }
     }
 
-    yield util.leanCloud.helper.applog(`Wanqu - 也许成功的抓取了第${issueList}期的数据..`);
+    yield model.leanCloud.helper.applog(`Wanqu - 也许成功的抓取了第${issueList}期的数据..`);
     return `True: ${issueList}`
 }
 
@@ -79,12 +80,12 @@ module.exports.detectLatest = function *(ctx) {
     let latestIssue = title.match(/\d+/g)[0];
 
     /* 获取当前Wanqu日报最新版的版本号 */
-    let currentLatestIssue = yield util.leanCloud.wanqu.getCurrentLatestIssue();
+    let currentLatestIssue = yield model.leanCloud.wanqu.getCurrentLatestIssue();
     let currentIssue = currentLatestIssue && currentLatestIssue.get('latestIssue');
 
     /* 当前最新版高于DB中存储的最新版, 或者DB中特么压根没存数据的时候. 抓最新版的数据 */
     if((!currentIssue && latestIssue) || (currentIssue && latestIssue && +latestIssue > +currentIssue)) {
-        yield util.leanCloud.wanqu.storeLatestIssueVersion(latestIssue);
+        yield model.leanCloud.wanqu.storeLatestIssueVersion(latestIssue);
         return {
             "success": true,
             "issue": latestIssue

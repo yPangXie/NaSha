@@ -1,6 +1,6 @@
 "use strict"
 
-const util = require('../../util');
+const model = require('../../model');
 const limit = 20;
 
 module.exports = function *() {
@@ -17,15 +17,15 @@ module.exports = function *() {
 
     let todayDateString = new Date().toLocaleDateString();
     if(searchWords) {
-        object.readList = yield util.leanCloud.read.searchByWords({
+        object.readList = yield model.leanCloud.read.searchByWords({
             "words": searchWords,
             "limit": limit,
             "offset": (page - 1) * limit
         });
         object.count = object.readList.length;
     } else {
-        object.count = yield util.leanCloud.read.count();
-        object.readList = yield util.leanCloud.read.list({
+        object.count = yield model.leanCloud.read.count();
+        object.readList = yield model.leanCloud.read.list({
             "limit": limit,
             "offset": (page - 1) * limit
         });
