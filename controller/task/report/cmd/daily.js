@@ -6,12 +6,21 @@ const model = require(global.__nasha.APP_MODEL);
 /* 生成报表信息 */
 module.exports = function *(ctx, date) {
     let yesterday = util.getYesterday(date || '');
-    let wanquTotal = yield model.leanCloud.wanqu.total();
-    let workflowTotal = yield model.leanCloud.workflows.total();
-    let wanquLogYesterday = yield model.leanCloud.wanqu.logDailyCount(yesterday.toLocaleDateString() + ' 22:00:00');
-    let wanquSpiderYesterday = yield model.leanCloud.wanqu.spiderDaily(yesterday.toLocaleDateString() + ' 22:00:00');
-    let workflowSpiderYesterday = yield model.leanCloud.workflows.spiderDaily(yesterday.toLocaleDateString() + ' 22:00:00');
-    let readYesterday = yield model.leanCloud.read.daily(yesterday.toLocaleDateString() + ' 22:00:00');
+    let comboYieldData = yield {
+        "wanquTotal": model.leanCloud.wanqu.total(),
+        "workflowTotal": model.leanCloud.workflows.total(),
+        "wanquLogYesterday": model.leanCloud.wanqu.logDailyCount(yesterday.toLocaleDateString() + ' 22:00:00'),
+        "wanquSpiderYesterday": model.leanCloud.wanqu.spiderDaily(yesterday.toLocaleDateString() + ' 22:00:00'),
+        "workflowSpiderYesterday": model.leanCloud.workflows.spiderDaily(yesterday.toLocaleDateString() + ' 22:00:00'),
+        "readYesterday": model.leanCloud.read.daily(yesterday.toLocaleDateString() + ' 22:00:00')
+    };
+    
+    let wanquTotal = comboYieldData.wanquTotal;
+    let workflowTotal = comboYieldData.workflowTotal;
+    let wanquLogYesterday = comboYieldData.wanquLogYesterday;
+    let wanquSpiderYesterday = comboYieldData.wanquSpiderYesterday;
+    let workflowSpiderYesterday = comboYieldData.workflowSpiderYesterday;
+    let readYesterday = comboYieldData.readYesterday;
 
     let dailyReport = {
         "access_count": wanquLogYesterday.length,

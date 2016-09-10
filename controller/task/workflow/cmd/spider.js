@@ -56,7 +56,13 @@ module.exports = function *(body, ctx) {
 /* 检测Packal中workflow的总数 */
 module.exports.detectLatest = function *(ctx) {
     /* 未获取到缓存数据, 爬取页面 */
-    let specPageData = yield urllib.requestThunk(url, {"method": "GET", "timeout": 100000});
+    let comboYieldData = yield {
+        "specPageData": urllib.requestThunk(url, {"method": "GET", "timeout": 100000}),
+        "currentTotalWorkflows": model.leanCloud.workflows.getCurrentLatestTotal()
+    };
+    let specPageData = comboYieldData.specPageData;
+    let currentTotalWorkflows = comboYieldData.currentTotalWorkflows;
+
     if(!specPageData || !specPageData.data) return {'success': false, "message": "Get home page data failed"};
 
     let $ = cheerio.load(new Buffer(specPageData.data).toString(), {normalizeWhitespace: true});
@@ -64,7 +70,6 @@ module.exports.detectLatest = function *(ctx) {
     let latestTotalWorkflows = title.match(/(\d+)/g) && title.match(/(\d+)/g)[0];
 
     /* 获取当前workflow的总数 */
-    let currentTotalWorkflows = yield model.leanCloud.workflows.getCurrentLatestTotal();
     let currentTotal = currentTotalWorkflows && currentTotalWorkflows.get('latestTotal');
 
     /* 当前最新版高于DB中存储的最新版, 或者DB中特么压根没存数据的时候. 抓最新版的数据 */

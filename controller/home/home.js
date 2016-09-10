@@ -24,11 +24,15 @@ module.exports = function *() {
         });
         object.count = object.readList.length;
     } else {
-        object.count = yield model.leanCloud.read.count();
-        object.readList = yield model.leanCloud.read.list({
-            "limit": limit,
-            "offset": (page - 1) * limit
-        });
+        let comboYieldData = yield {
+            "count": model.leanCloud.read.count(),
+            "readList": model.leanCloud.read.list({
+                "limit": limit,
+                "offset": (page - 1) * limit
+            })
+        };
+        object.count = comboYieldData.count;
+        object.readList = comboYieldData.readList;
     }
 
     object.readList.forEach(item => {

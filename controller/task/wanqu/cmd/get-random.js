@@ -7,10 +7,12 @@ const model = require(global.__nasha.APP_MODEL);
 /* 获取随机的几篇文章 */
 module.exports = function *(body, ctx) {
     let ipObject = yield util.getIP(ctx);
-    yield model.leanCloud.wanqu.log(ipObject, `随机: 最多返回5篇文章`);
 
-    /* 处理新用户数据 */
-    yield wanquUtil.newUser(body.mac || '');
+    yield {
+        "logIP": model.leanCloud.wanqu.log(ipObject, `随机: 最多返回5篇文章`),
+        /* 处理新用户数据 */
+        "newUser": wanquUtil.newUser(body.mac || '')
+    };
 
     /* 逻辑如下:
         1. wanqu定时任务表抓最新一期的期数
