@@ -1,7 +1,7 @@
 "use strict"
 
-const util = require('../../../util');
-const model = require('../../../../model');
+const util = require(`${global.__nasha.APP_CONTROLLER}/util`);
+const model = require(global.__nasha.APP_MODEL);
 
 /* 生成报表信息 */
 module.exports = function *(ctx, date) {

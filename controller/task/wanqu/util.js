@@ -1,6 +1,6 @@
 "use strict";
 
-const model = require('../../../model');
+const model = require(global.__nasha.APP_MODEL);
 
 /* 判断新用户及用户数据存储 */
 module.exports.newUser = function *(macAddress) {

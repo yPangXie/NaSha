@@ -1,7 +1,7 @@
 "use strict";
 
 const mwebUtil = require('../util');
-const model = require('../../../../model');
+const model = require(global.__nasha.APP_MODEL);
 
 /* 发布一篇文章 */
 module.exports = function *(ctx) {

@@ -2,7 +2,7 @@
 
 const urllib = require('urllib');
 const fs = require('co-fs-extra');
-const util = require('../../util');
+const util = require('../util');
 
 /* 发送微薄 */
 module.exports.sendMessage = function *(body) {

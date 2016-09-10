@@ -1,14 +1,14 @@
 "use strict";
 
-const mailgunConfig = require('../../../../.config').mailgun;
+const mailgunConfig = require(`${global.__nasha.APP_ROOT}/.config`).mailgun;
 const mailgun = require('mailgun-js')({
     apiKey: mailgunConfig.apiKey,
     domain: mailgunConfig.domain
 });
 const mailcomposer = require('mailcomposer');
 const co = require('co');
-const util = require('../../../util');
-const model = require('../../../../model');
+const util = require(`${global.__nasha.APP_CONTROLLER}/util`);
+const model = require(global.__nasha.APP_MODEL);
 
 /* 获取当天新增的数据, 邮件发送 */
 module.exports = function *(ctx) {

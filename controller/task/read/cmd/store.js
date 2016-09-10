@@ -1,7 +1,7 @@
 "use strict";
 
 const readUtil = require('../util');
-const model = require('../../../../model');
+const model = require(global.__nasha.APP_MODEL);
 
 /* 新增数据 */
 module.exports = function *(body, ctx) {

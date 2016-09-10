@@ -2,7 +2,7 @@
 
 const urllib = require('urllib');
 const fs = require('fs');
-const util = require('../../util');
+const util = require('../util');
 
 module.exports = function *() {
     const getAccessToken = `https://api.weibo.com/oauth2/access_token?client_id=${this.state.config.weibo.app_key}&client_secret=${this.state.config.weibo.app_secret}&grant_type=authorization_code&redirect_uri=${this.state.config.weibo.redirect_uri}&code=${this.query.code}`;

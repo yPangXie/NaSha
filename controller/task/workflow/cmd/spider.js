@@ -3,7 +3,7 @@
 const cheerio = require('cheerio');
 const urllib = require('urllib');
 const toMarkdown = require('to-markdown');
-const model = require('../../../../model');
+const model = require(global.__nasha.APP_MODEL);
 const url = "http://www.packal.org";
 const listUrl = "http://www.packal.org/workflow-list?sort_by=created&sort_order=DESC&items_per_page=50";
 

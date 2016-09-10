@@ -1,7 +1,7 @@
 "use strict";
 
 const readUtil = require('../util');
-const model = require('../../../../model');
+const model = require(global.__nasha.APP_MODEL);
 
 /* 校验来自微信服务器 */
 module.exports = function *(ctx) {

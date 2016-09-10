@@ -1,8 +1,8 @@
 "use strict";
 
 const wanquUtil = require('../util');
-const util = require('../../../util');
-const model = require('../../../../model');
+const util = require(`${global.__nasha.APP_CONTROLLER}/util`);
+const model = require(global.__nasha.APP_MODEL);
 
 /* 获取随机的几篇文章 */
 module.exports = function *(body, ctx) {

@@ -2,8 +2,8 @@
 
 const cheerio = require('cheerio');
 const request = require('co-request');
-const util = require('../../../util');
-const model = require('../../../../model');
+const util = require(`${global.__nasha.APP_CONTROLLER}/util`);
+const model = require(global.__nasha.APP_MODEL);
 const urlConfig = {
     "topUrl": "https://wanqu.co/issues?s=top",
     "prefix": "https://wanqu.co",

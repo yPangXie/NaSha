@@ -11,9 +11,15 @@ const xmlParser = require('koa-xml-body').default;
 const app = koa();
 const config = require('./.config');
 
+/* 将部分数据挂载到全局变量 */
+global.__nasha = {
+    "APP_ROOT": __dirname,
+    "APP_CONTROLLER": `${__dirname}/controller`,
+    "APP_MODEL": `${__dirname}/model`
+};
+
 const controller = require('./controller');
 const viewRoot = path.resolve(`${__dirname}/views`);
-
 /* 中间件 */
 app.use(function *(next) {
     this.state.staticTimestamp = Date.now();

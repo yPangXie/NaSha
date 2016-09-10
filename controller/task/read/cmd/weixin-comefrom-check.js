@@ -1,7 +1,7 @@
 "use strict";
 
 const crypto = require('crypto');
-const config = require('../../../../.config').weixin;
+const config = require(`${global.__nasha.APP_ROOT}/.config`).weixin;
 
 /* 校验来自微信服务器 */
 module.exports = ctx => {

@@ -1,7 +1,7 @@
 "use strict";
 
 const crypto = require('crypto');
-const config = require('../../../.config');
+const config = require(`${global.__nasha.APP_ROOT}/.config`);
 
 /* 校验用户名, 密码 */
 module.exports.validateUser = (data) => {

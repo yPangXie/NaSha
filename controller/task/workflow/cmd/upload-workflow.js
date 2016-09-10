@@ -1,7 +1,7 @@
 "use strict";
 
 const urllib = require('urllib');
-const model = require('../../../../model');
+const model = require(global.__nasha.APP_MODEL);
 
 /* workflows文件下载及上传 */
 module.exports = function *(body, ctx) {

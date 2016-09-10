@@ -1,6 +1,6 @@
 "use strict"
 
-const model = require('../../../../model');
+const model = require(global.__nasha.APP_MODEL);
 
 /* 获取距离指定日期还有多久 */
 module.exports = function *(ctx, targetTimeString) {
