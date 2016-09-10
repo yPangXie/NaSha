@@ -12,7 +12,6 @@ const app = koa();
 const config = require('./.config');
 
 const controller = require('./controller');
-const rpc = require('./rpc');
 const viewRoot = path.resolve(`${__dirname}/views`);
 
 /* 中间件 */
@@ -50,7 +49,7 @@ app.use(router.routes());
 /* 初始化各种模块 */
 app.use(controller.home(router, config.routerPrefix));
 app.use(controller.weibo(router, config.routerPrefix));
-app.use(rpc(router, config.routerPrefix));
+app.use(controller.rpc(router, config.routerPrefix));
 
 app.listen(config.port, function() {
     console.log(`Server start with port ${config.port}`);

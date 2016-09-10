@@ -7,7 +7,7 @@ const mailgun = require('mailgun-js')({
 });
 const mailcomposer = require('mailcomposer');
 const co = require('co');
-const util = require('../../../../util');
+const util = require('../../../util');
 const model = require('../../../../model');
 
 /* 获取当天新增的数据, 邮件发送 */

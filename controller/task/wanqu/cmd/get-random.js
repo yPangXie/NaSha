@@ -1,7 +1,8 @@
 "use strict";
-const util = require('../../../../util');
-const model = require('../../../../model');
+
 const wanquUtil = require('../util');
+const util = require('../../../util');
+const model = require('../../../../model');
 
 /* 获取随机的几篇文章 */
 module.exports = function *(body, ctx) {

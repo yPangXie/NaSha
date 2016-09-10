@@ -1,8 +1,8 @@
 "use strict";
 
-const util = require('../../../../util');
-const model = require('../../../../model');
 const wanquUtil = require('../util');
+const util = require('../../../util');
+const model = require('../../../../model');
 
 /* 获取最新一期的内容 */
 module.exports = function *(body, ctx) {

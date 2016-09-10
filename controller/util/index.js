@@ -1,7 +1,7 @@
 "use strict";
 
 const urllib = require('urllib');
-const baiduApi = require('../.config').baiduip;
+const baiduApi = require('../../.config').baiduip;
 /* 目前使用一个奇葩的做法. 判断`ip`来源的请求, 交替着从`baidu`和`ipip.net`获取. 主要是受限于接口的QPS */
 let ipServiceFlag = 'baidu';
 

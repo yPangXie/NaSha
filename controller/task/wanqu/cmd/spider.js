@@ -2,7 +2,7 @@
 
 const cheerio = require('cheerio');
 const request = require('co-request');
-const util = require('../../../../util');
+const util = require('../../../util');
 const model = require('../../../../model');
 const urlConfig = {
     "topUrl": "https://wanqu.co/issues?s=top",

@@ -2,7 +2,7 @@
 
 const parse = require('co-body');
 
-const taskBase = '../controller/task';
+const taskBase = '../task';
 // const weiboCMD = require(`${taskBase}/weibo`).cmd;
 const wanquCMD = require(`${taskBase}/wanqu`).cmd;
 const workflowCMD = require(`${taskBase}/workflow`).cmd;

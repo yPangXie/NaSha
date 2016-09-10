@@ -1,6 +1,6 @@
 "use strict"
 
-const util = require('../../../../util');
+const util = require('../../../util');
 const model = require('../../../../model');
 
 /* 生成报表信息 */
