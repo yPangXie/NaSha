@@ -6,6 +6,7 @@ const limit = 20;
 module.exports = function *() {
     let query = this.query || {};
     let searchWords = query.words || '';
+    let date = query.date || '';
     let page = +query.page || 1;
 
     let object = {
@@ -16,9 +17,10 @@ module.exports = function *() {
     };
 
     let todayDateString = new Date().toLocaleDateString();
-    if(searchWords) {
-        object.readList = yield model.leanCloud.read.searchByWords({
+    if(searchWords || date) {
+        object.readList = yield model.leanCloud.read.filter({
             "words": searchWords,
+            "date": date,
             "limit": limit,
             "offset": (page - 1) * limit
         });

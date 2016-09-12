@@ -33,6 +33,7 @@ function brokenImageHandler(target) {target.style.display = 'none';}
         <h1 class="nasha-title">看看读过的文章, 想一想, 是不是离梦想更远了? 嘿..😎</h1>
         <form class="nasha-read-search" action="/read" method="GET">
             <input type="text" name="words" placeholder="文章标题名称(或标题包含的内容)">
+            <input type="date" name="date" placeholder="" />
             <input type="submit" value="搜索" />
         </form>
     </header>

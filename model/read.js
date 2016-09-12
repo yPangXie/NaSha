@@ -35,16 +35,30 @@ module.exports.searchByUrl = function *(url) {
 }
 
 /* 基于关键字, 查询是否已经存在数据 */
-module.exports.searchByWords = function *(options) {
+module.exports.filter = function *(options) {
     let readQueryTitle = new LeanCloud.AV.Query('Read');
     let readQueryDescription = new LeanCloud.AV.Query('Read');
-    readQueryTitle.contains('title', options.words);
-    readQueryDescription.contains('description', options.words);
+    let readQueryCreatedDate = new LeanCloud.AV.Query('Read');
 
-    let queryCombo = LeanCloud.AV.Query.or(readQueryTitle, readQueryDescription);
-    queryCombo.limit(options.limt);
-    queryCombo.skip(options.offset);
-    return queryCombo.find();
+    if(options.words) {
+        readQueryTitle.contains('title', options.words);
+        readQueryDescription.contains('description', options.words);
+    }
+
+    if(options.date) {
+        let startDate = new Date(options.date).valueOf();
+        let endDate = startDate + 1000 * 60 * 60 * 24;
+        readQueryCreatedDate.lessThanOrEqualTo('createdAt', new Date(endDate));
+        readQueryCreatedDate.greaterThanOrEqualTo('createdAt', new Date(startDate));
+    }
+
+    let queryOrCombo = LeanCloud.AV.Query.or(readQueryTitle, readQueryDescription);
+    let queryAndCombo = LeanCloud.AV.Query.and(queryOrCombo, readQueryCreatedDate);
+
+    queryAndCombo.descending('createdAt');
+    queryAndCombo.limit(options.limt);
+    queryAndCombo.skip(options.offset);
+    return queryAndCombo.find();
 }
 
 /* 指定时间点之后的数据总数 */
