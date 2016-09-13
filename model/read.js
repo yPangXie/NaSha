@@ -73,3 +73,9 @@ module.exports.count = function* () {
     let readQuery = new LeanCloud.AV.Query('Read');
     return readQuery.count();
 }
+
+/* 移除某条数据 */
+module.exports.remove = function *(objectId) {
+    let removeQuery = LeanCloud.AV.Object.createWithoutData('Read', objectId);
+    return removeQuery.destroy();
+}

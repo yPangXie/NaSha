@@ -8,6 +8,8 @@ module.exports.cmd = {
     "daily": require('./cmd/daily'),
     /* 获取某一天的list */
     "list": require('./cmd/list'),
+    /* 移除数据 */
+    "remove": require('./cmd/remove'),
     /* 校验来自微信 */
     "comefromWeixin": require('./cmd/weixin-comefrom-check'),
     /* 收到微信消息 */

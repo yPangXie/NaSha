@@ -40,6 +40,7 @@ module.exports = function(router, routerPrefix) {
                 if(action == "store") result = yield readCMD.store(body, this);
                 if(action == "list") result = yield readCMD.list(body, this);
                 if(action == "daily") result = yield readCMD.daily(this);
+                if(action == "remove") result = yield readCMD.remove(body, this);
             break;
         }
 
