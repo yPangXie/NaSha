@@ -12,6 +12,7 @@
     - 支持搜索`bookmark`内容
     - 支持通过`chrome`插件存储数据 [NaSha-page-digger](https://github.com/yPangXie/NaSha-page-digger)
     - 支持通过微信公众号存储数据
+    - 支持删除文章(目前只支持通过插件删除)
  - 爬虫
     - 定时爬取湾区日报的数据(最多10分钟延迟)
     - 定时爬取`packal`上的workflow数据(最多10分钟延迟)
