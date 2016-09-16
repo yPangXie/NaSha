@@ -28,7 +28,7 @@ module.exports.grabPageInfo = function *(urlString) {
                 || $('link[rel="apple-touch-icon"]').attr('href')
                 || $('link[rel="apple-touch-icon image_src"]').attr('href')
                 || $('meta[itemprop="image"]').attr('content')
-                || `${urlString}/favicon.ico`;
+                || `/favicon.ico`;
 
     let description = $('meta[name="description"]').attr('content')
                 || $('meta[name="twitter:description"]').attr('content')
