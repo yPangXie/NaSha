@@ -1,5 +1,6 @@
 "use strict"
 
+const timeago = require("timeago.js")();
 const model = require('../../model');
 const limit = 20;
 
@@ -49,8 +50,12 @@ module.exports = function *() {
             if(title) item.set('title', title.replace(searchWords, `<span class="search-highlight">${searchWords}</span>`));
             if(description) item.set('description',description.replace(searchWords, `<span class="search-highlight">${searchWords}</span>`));
         }
-        if(createdDateString == todayDateString) object.today.push(item);
-        else object.old.push(item);
+        if(createdDateString == todayDateString) {
+            item.magicCreatedAt = timeago.format(item.createdAt);
+            object.today.push(item);
+        } else {
+            object.old.push(item);
+        }
     });
 
     return yield this.render('/home/home', {
