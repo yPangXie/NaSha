@@ -33,7 +33,7 @@ module.exports = function *() {
         let readData = {};
         /* 先拿缓存数据 */
         let cacheReadList = global.__nasha.APP_CACHE.get('readList');
-        if(cacheReadList) {
+        if(cacheReadList && page == 1) {
             /* 命中缓存, 直接返回 */
             readData = JSON.parse(cacheReadList);
         } else {
@@ -49,7 +49,7 @@ module.exports = function *() {
             readData.readList = util.convertObject(readData.readList);
             global.__nasha.APP_CACHE.put('readList', JSON.stringify(readData));
         }
-        
+
         console.log(`Get count and list of read list spend ${new Date() - debugStartDate} ms.`);
         object.count = readData.count;
         object.readList = readData.readList;
