@@ -27,6 +27,7 @@ module.exports = function *() {
         });
         object.count = object.readList.length;
     } else {
+        let debugStartDate = new Date();
         let comboYieldData = yield {
             "count": model.leanCloud.read.count(),
             "readList": model.leanCloud.read.list({
@@ -34,6 +35,7 @@ module.exports = function *() {
                 "offset": (page - 1) * limit
             })
         };
+        console.log(`Get count and list of read list spend ${new Date() - debugStartDate} ms.`);
         object.count = comboYieldData.count;
         object.readList = comboYieldData.readList;
     }
