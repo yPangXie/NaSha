@@ -47,7 +47,7 @@ module.exports = function *() {
             };
 
             readData.readList = util.convertObject(readData.readList);
-            global.__nasha.APP_CACHE.put('readList', JSON.stringify(readData));
+            if(page == 1) global.__nasha.APP_CACHE.put('readList', JSON.stringify(readData));
         }
 
         console.log(`Get count and list of read list spend ${new Date() - debugStartDate} ms.`);
