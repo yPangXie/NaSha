@@ -101,3 +101,20 @@ function timestamp() {
 
     return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
+
+/* 将`LeanCloud`的数据对象转换为普通的对象 */
+module.exports.convertObject = data => {
+    let ret = [];
+    data.forEach(item => {
+        if(!item.attributes) return true;
+        let temp = item.attributes;
+        
+        temp.id = item.id;
+        temp.createdAt = item.createdAt;
+        temp.updatedAt = item.updatedAt;
+
+        ret.push(temp);
+    });
+
+    return ret;
+}

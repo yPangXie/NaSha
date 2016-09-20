@@ -4,6 +4,9 @@ const LeanCloud = require('./initialize');
 
 /* 添加湾区指定某期的数据 */
 module.exports.store = function *(options) {
+    /* 清缓存 */
+    global.__nasha.APP_CACHE.del('readList');
+
     let readObject = new LeanCloud.Read();
     for(let key in options) readObject.set(key, options[key]);
     readObject.save();
@@ -76,6 +79,9 @@ module.exports.count = function* () {
 
 /* 移除某条数据 */
 module.exports.remove = function *(objectId) {
+    /* 清缓存 */
+    global.__nasha.APP_CACHE.del('readList');
+    
     let removeQuery = LeanCloud.AV.Object.createWithoutData('Read', objectId);
     return removeQuery.destroy();
 }

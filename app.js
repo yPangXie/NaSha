@@ -15,7 +15,8 @@ const config = require('./.config');
 global.__nasha = {
     "APP_ROOT": __dirname,
     "APP_CONTROLLER": `${__dirname}/controller`,
-    "APP_MODEL": `${__dirname}/model`
+    "APP_MODEL": `${__dirname}/model`,
+    "APP_CACHE": require('memory-cache')
 };
 
 const controller = require('./controller');
