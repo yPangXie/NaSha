@@ -29,7 +29,6 @@ module.exports = function *() {
         object.readList = util.convertObject(readList);
         object.count = object.readList.length;
     } else {
-        let debugStartDate = new Date();
         let readData = {};
         /* 先拿缓存数据 */
         let cacheReadList = global.__nasha.APP_CACHE.get('readList');
@@ -50,7 +49,6 @@ module.exports = function *() {
             if(page == 1) global.__nasha.APP_CACHE.put('readList', JSON.stringify(readData));
         }
 
-        console.log(`Get count and list of read list spend ${new Date() - debugStartDate} ms.`);
         object.count = readData.count;
         object.readList = readData.readList;
     }
