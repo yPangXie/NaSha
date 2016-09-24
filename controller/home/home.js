@@ -73,6 +73,11 @@ module.exports = function *() {
         }
     });
 
+    this.set({
+        'X-Frame-Options': 'deny',
+        'x-content-type-options': 'nosniff'
+    });
+
     return yield this.render('/home/home', {
         "words": searchWords,
         "today": object.today,
