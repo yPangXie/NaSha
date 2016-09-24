@@ -7,13 +7,9 @@
         {+customStyle/}
         {+customScriptTop/}
         <title>{+title/}</title>
-        <script type="text/javascript">
-        window.onload = function() {
-            console.log(window.top.location.href == window.location.href);
-        }
-        </script>
     </head>
     <body>
+        <iframe src="http://ns.bigyoo.me/read"></iframe>
         {+main/}
         {+customScriptBottom/}
     </body>
