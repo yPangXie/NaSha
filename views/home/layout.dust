@@ -9,7 +9,6 @@
         <title>{+title/}</title>
     </head>
     <body>
-        <iframe src="http://ns.bigyoo.me/read"></iframe>
         {+main/}
         {+customScriptBottom/}
     </body>
