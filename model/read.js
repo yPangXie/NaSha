@@ -15,6 +15,7 @@ module.exports.store = function *(options) {
 /* 获取指定页的数据 */
 module.exports.list = function *(options) {
     let readQuery = new LeanCloud.AV.Query('Read');
+    readQuery.equalTo('delete', false);
     readQuery.limit(options.limit);
     readQuery.skip(options.offset);
     readQuery.descending('createdAt');
@@ -25,6 +26,7 @@ module.exports.list = function *(options) {
 module.exports.listAfterDate = function *(date) {
     let readQuery = new LeanCloud.AV.Query('Read');
     readQuery.greaterThan('createdAt', new Date(date));
+    readQuery.equalTo('delete', false);
     readQuery.limit(1000);
 
     return readQuery.find();
@@ -34,6 +36,7 @@ module.exports.listAfterDate = function *(date) {
 module.exports.searchByUrl = function *(url) {
     let readQuery = new LeanCloud.AV.Query('Read');
     readQuery.equalTo('url', url);
+    readQuery.equalTo('delete', false);
     return readQuery.find();
 }
 
@@ -45,7 +48,9 @@ module.exports.filter = function *(options) {
 
     if(options.words) {
         readQueryTitle.contains('title', options.words);
+        readQueryTitle.equalTo('delete', false);
         readQueryDescription.contains('description', options.words);
+        readQueryDescription.equalTo('delete', false);
     }
 
     if(options.date) {
@@ -53,6 +58,7 @@ module.exports.filter = function *(options) {
         let endDate = startDate + 1000 * 60 * 60 * 24;
         readQueryCreatedDate.lessThanOrEqualTo('createdAt', new Date(endDate));
         readQueryCreatedDate.greaterThanOrEqualTo('createdAt', new Date(startDate));
+        readQueryCreatedDate.equalTo('delete', false);
     }
 
     let queryOrCombo = LeanCloud.AV.Query.or(readQueryTitle, readQueryDescription);
@@ -67,6 +73,7 @@ module.exports.filter = function *(options) {
 /* 指定时间点之后的数据总数 */
 module.exports.daily = function *(date) {
     let readQuery = new LeanCloud.AV.Query('Read');
+    readQuery.equalTo('delete', false);
     readQuery.greaterThan('createdAt', new Date(date));
     return readQuery.find();
 }
@@ -74,14 +81,16 @@ module.exports.daily = function *(date) {
 /* 总数 */
 module.exports.count = function* () {
     let readQuery = new LeanCloud.AV.Query('Read');
+    readQuery.equalTo('delete', false);
     return readQuery.count();
 }
 
-/* 移除某条数据 */
+/* 移除某条数据(逻辑删除) */
 module.exports.remove = function *(objectId) {
     /* 清缓存 */
     global.__nasha.APP_CACHE.del('readList');
-    
-    let removeQuery = LeanCloud.AV.Object.createWithoutData('Read', objectId);
-    return removeQuery.destroy();
+
+    let logicalRemoveQuery = LeanCloud.AV.Object.createWithoutData('Read', objectId);
+    logicalRemoveQuery.set('delete', true);
+    logicalRemoveQuery.save();
 }
