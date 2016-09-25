@@ -42,6 +42,9 @@ module.exports = function(router, routerPrefix) {
                 if(action == "daily") result = yield readCMD.daily(this);
                 if(action == "remove") result = yield readCMD.remove(body, this);
             break;
+            case "sys":
+                if(action == "cleanReadCache") global.__nasha.APP_CACHE.del('readList');
+            break;
         }
 
         return this.body = result;
