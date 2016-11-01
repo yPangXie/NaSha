@@ -20,7 +20,8 @@ module.exports.getCurrentLatestTotal = function *() {
     let workflowTimingQuery = new LeanCloud.AV.Query("WorkflowTiming");
     workflowTimingQuery.descending('createdAt');
 
-    return workflowTimingQuery.first();
+    let ret = workflowTimingQuery.first();
+    return ret;
 }
 
 /* 存储当前最新的workflow总数 */
@@ -33,12 +34,16 @@ module.exports.storeLatestTotal = function *(latestTotal) {
 /* workflow总数据量 */
 module.exports.total = function *() {
     let workflowsQuery = new LeanCloud.AV.Query('Workflows');
-    return workflowsQuery.count();
+
+    let ret = workflowsQuery.count();
+    return ret;
 }
 
 /* 指定时间点之后的爬取的workflow数据总数 */
 module.exports.spiderDaily = function *(date) {
     let workflowQuery = new LeanCloud.AV.Query('Workflows');
     workflowQuery.greaterThan('createdAt', new Date(date));
-    return workflowQuery.find();
+
+    let ret = workflowQuery.find();
+    return ret;
 }

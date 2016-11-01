@@ -20,7 +20,8 @@ module.exports.getLatest = function *() {
     let latestWanquQuery = new LeanCloud.AV.Query('Wanqu');
     latestWanquQuery.equalTo("season", season);
 
-    return latestWanquQuery.find();
+    let ret = latestWanquQuery.find();
+    return ret;
 }
 
 /* 根据期数, 搜索指定的数据 */
@@ -28,7 +29,8 @@ module.exports.getSpec = function *(id) {
     let wanquQuery = new LeanCloud.AV.Query("Wanqu");
     wanquQuery.equalTo("season", id);
 
-    return wanquQuery.find();
+    let ret = wanquQuery.find();
+    return ret;
 }
 
 /* 获取当前最新的Wanqu日报版本 */
@@ -36,7 +38,8 @@ module.exports.getCurrentLatestIssue = function *() {
     let wanquTimingQuery = new LeanCloud.AV.Query("WanquTiming");
     wanquTimingQuery.descending('createdAt');
 
-    return wanquTimingQuery.first();
+    let ret = wanquTimingQuery.first();
+    return ret;
 }
 
 /* 存储最新版的Wanqu日报版本号 */
@@ -60,7 +63,8 @@ module.exports.log = function *(ip, message) {
 /* wanqu日报总数据量 */
 module.exports.total = function *() {
     let wanquQuery = new LeanCloud.AV.Query('Wanqu');
-    return wanquQuery.count();
+    let ret = wanquQuery.count();
+    return ret;
 }
 
 /* 指定时间点之后的wanqu日志数据总数 */
@@ -68,28 +72,35 @@ module.exports.logDailyCount = function *(date) {
     let wanquLogQuery = new LeanCloud.AV.Query('WanquLog');
     wanquLogQuery.greaterThan('createdAt', new Date(date));
     wanquLogQuery.limit(1000);
-    return wanquLogQuery.find();
+
+    let ret = wanquLogQuery.find();
+    return ret;
 }
 
 /* 指定时间点之后的爬取的wanqu日报数据总数 */
 module.exports.spiderDaily = function *(date) {
     let wanquQuery = new LeanCloud.AV.Query('Wanqu');
     wanquQuery.greaterThan('createdAt', new Date(date));
-    return wanquQuery.find();
+
+    let ret = wanquQuery.find();
+    return ret;
 }
 
 /* 获取wanqu日报的最新版本 */
 module.exports.version = function *() {
     let wanquQuery = new LeanCloud.AV.Query('WanquInfo');
     wanquQuery.descending('createdAt');
-    return wanquQuery.first();
+    let ret = wanquQuery.first();
+    return ret;
 }
 
 /* 基于用户的Mac地址查询 */
 module.exports.searchByMac = function *(mac) {
     let wanquUsersQuery = new LeanCloud.AV.Query('WanquUsers');
     wanquUsersQuery.equalTo('mac', mac);
-    return wanquUsersQuery.find();
+
+    let ret = wanquUsersQuery.find();
+    return ret;
 }
 
 /* 存储用户的Mac地址信息 */
