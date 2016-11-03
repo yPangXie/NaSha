@@ -2,14 +2,16 @@
 
 const dust = require('dustjs-helpers');
 const path = require('path');
-const koa = require('koa');
+const Koa = require('koa');
+const app = new Koa();
 const router = require('koa-router')();
 const views = require('koa-views');
 const session = require('koa-session');
 const Static = require('koa-static');
 const xmlParser = require('koa-xml-body').default;
-const app = koa();
 const config = require('./.config');
+const controller = require('./controller');
+const viewRoot = path.resolve(`${__dirname}/views`);
 
 /* 将部分数据挂载到全局变量 */
 global.__nasha = {
@@ -19,17 +21,15 @@ global.__nasha = {
     "APP_CACHE": require('memory-cache')
 };
 
-const controller = require('./controller');
-const viewRoot = path.resolve(`${__dirname}/views`);
 /* 中间件 */
-app.use(function *(next) {
-    this.state.staticTimestamp = Date.now();
-    this.state.config = config;
-    this.state.settings = {
+app.use(async (ctx, next) => {
+    ctx.state.staticTimestamp = Date.now();
+    ctx.state.config = config;
+    ctx.state.settings = {
         "views": viewRoot
     };
 
-    yield next;
+    await next();
 });
 
 /* session模块 */

@@ -5,8 +5,8 @@ const model = require('../../model');
 const util = require('../util');
 const limit = 20;
 
-module.exports = function *() {
-    let query = this.query || {};
+module.exports = async (ctx, next) => {
+    let query = ctx.query || {};
     let searchWords = query.words || '';
     let date = query.date || '';
     let page = +query.page || 1;
@@ -20,7 +20,7 @@ module.exports = function *() {
 
     let todayDateString = new Date().toLocaleDateString();
     if(searchWords || date) {
-        let readList = yield model.leanCloud.read.filter({
+        let readList = await model.leanCloud.read.filter({
             "words": searchWords,
             "date": date,
             "limit": limit,
@@ -37,9 +37,9 @@ module.exports = function *() {
             readData = JSON.parse(cacheReadList);
         } else {
             /* 未命中缓存, 则从`DB`取数据, 并且更新到缓存中 */
-            readData = yield {
-                "count": model.leanCloud.read.count(),
-                "readList": model.leanCloud.read.list({
+            readData = {
+                "count": await model.leanCloud.read.count(),
+                "readList": await model.leanCloud.read.list({
                     "limit": limit,
                     "offset": (page - 1) * limit
                 })
@@ -73,12 +73,12 @@ module.exports = function *() {
         }
     });
 
-    this.set({
+    ctx.set({
         'X-Frame-Options': 'deny',
         'x-content-type-options': 'nosniff'
     });
 
-    return yield this.render('/home/home', {
+    return await ctx.render('home/home', {
         "words": searchWords,
         "today": object.today,
         "old": object.old,
@@ -86,9 +86,9 @@ module.exports = function *() {
         "current": page,
         "pages": Array.from({"length": Math.ceil(object.count / limit)}, (v, k) => k + 1)
     });
-    // return yield this.render('/home/home', {
-    //     token: this.session.weibo.token || "",
-    //     appKey: this.state.config.weibo.app_key,
-    //     redirectURI: this.state.config.weibo.redirect_uri
+    // return await ctx.render('/home/home', {
+    //     token: ctx.session.weibo.token || "",
+    //     appKey: ctx.state.config.weibo.app_key,
+    //     redirectURI: ctx.state.config.weibo.redirect_uri
     // });
 }

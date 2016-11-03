@@ -13,7 +13,7 @@ module.exports.store = function *(options) {
 }
 
 /* 获取指定页的数据 */
-module.exports.list = function *(options) {
+module.exports.list = async (options) => {
     let readQuery = new LeanCloud.AV.Query('Read');
     // readQuery.equalTo('delete', false);
     readQuery.limit(options.limit);
@@ -88,7 +88,7 @@ module.exports.daily = function *(date) {
 }
 
 /* 总数 */
-module.exports.count = function* () {
+module.exports.count = async (ctx, next) => {
     let readQuery = new LeanCloud.AV.Query('Read');
     // readQuery.equalTo('delete', false);
     readQuery.limit(1000);
