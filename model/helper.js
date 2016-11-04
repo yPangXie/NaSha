@@ -4,7 +4,7 @@ const co = require('co');
 const LeanCloud = require('./initialize');
 
 /* 发送短信通知 */
-module.exports.sms = function *(options) {
+module.exports.sms = async options => {
     if(!LeanCloud.secret.phoneNumber || !options) return false;
 
     let optionObject = {
@@ -14,22 +14,18 @@ module.exports.sms = function *(options) {
         optionObject[key] = options[key];
     }
 
-    LeanCloud.AV.Cloud.requestSmsCode(optionObject).then(function(){
+    LeanCloud.AV.Cloud.requestSmsCode(optionObject).then(async () => {
         //发送成功
-        co(function *() {
-            yield module.exports.applog(`短信发送成功, ${JSON.stringify(optionObject)}`);
-        });
-    }, function(err){
+        await module.exports.applog(`短信发送成功, ${JSON.stringify(optionObject)}`);
+    }, async (err) => {
         //发送失败
-        co(function *() {
-            yield module.exports.applog(`短信发送失败, ${JSON.stringify(optionObject)}, `, err);
-        });
+        await module.exports.applog(`短信发送失败, ${JSON.stringify(optionObject)}, `, err);
     });
-}
+};
 
 /* 添加应用操作日志 */
-module.exports.applog = function *(message) {
+module.exports.applog = async message => {
     let AppLogObject = new LeanCloud.AppLog();
     AppLogObject.set('message', message);
     AppLogObject.save();
-}
+};

@@ -1,7 +1,7 @@
 "use strict";
 
 const url = require('url');
-const urllib = require("urllib");
+const request = require('co-request');
 const cheerio = require("cheerio");
 
 /* 生成完整路径的`favicon` */
@@ -17,9 +17,9 @@ module.exports.generateFaviconAbsoPath = function(urlString, favicon) {
 }
 
 /* 收到的指令是抓页面的时候, 执行该方法 */
-module.exports.grabPageInfo = function *(urlString) {
-    let pageData = yield urllib.requestThunk(urlString, {"timeout": 1000000, "followRedirect": true});
-    let $ = cheerio.load(new Buffer(pageData.data).toString());
+module.exports.grabPageInfo = async urlString => {
+    let pageData = await request(urlString, {"timeout": 1000000, "followRedirect": true});
+    let $ = cheerio.load(pageData.body);
 
     /* 先去获取`favicon`的相对路径(也许是绝对路径, 不重要) */
     let favicon = $('link[rel="shortcut icon"]').attr('href')

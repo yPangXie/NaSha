@@ -5,25 +5,25 @@ const fs = require('co-fs-extra');
 const util = require('../util');
 
 /* 发送微薄 */
-module.exports.sendMessage = function *(body) {
+module.exports.sendMessage = async (body, ctx) => {
     let bodyObject = body || {};
     let token = {};
     try {
-        let tokenBuf = yield fs.readFile(`${__dirname}/tmp/token`, 'utf-8');
+        let tokenBuf = await fs.readFile(`${__dirname}/tmp/token`, 'utf-8');
         token = JSON.parse(new Buffer(tokenBuf).toString());
     } catch(e) {
         util.log.default(`[${new Date()}] JSON parse token data from file failed ${e}`);
-        return this.body = {"success": false, "message": "Token is invalid"};
+        return ctx.body = {"success": false, "message": "Token is invalid"};
     };
 
     if(!token.access_token || isTokenExpired(token)) {
         util.log.default('Token is invalid or expired');
-        return this.body = {"success": "false", "message": "Token is invalid or expired"};
+        return ctx.body = {"success": "false", "message": "Token is invalid or expired"};
     }
 
-    let userids = yield getUserInfo([/*'1783727097', */'1835626681'], token.access_token);
+    let userids = await getUserInfo([/*'1783727097', */'1835626681'], token.access_token);
 
-    let sendMessage = yield urllib.request('https://api.weibo.com/2/statuses/update.json', {
+    let sendMessage = await request('https://api.weibo.com/2/statuses/update.json', {
         "method": "POST",
         "data": {
             "access_token": token.access_token,
@@ -31,7 +31,7 @@ module.exports.sendMessage = function *(body) {
         }
     });
 
-    return this.body = {"success": true};
+    return ctx.body = {"success": true};
 }
 
 /* 检测token是否过期 */
@@ -44,10 +44,10 @@ function isTokenExpired(token) {
 }
 
 /* 根据用户id获取昵称 */
-function *getUserInfo (userids, token) {
+async function getUserInfo (userids, token) {
     let userScreennames = [];
     for(let i = 0, len = userids.length; i < len; i++) {
-        let user = yield urllib.request('https://api.weibo.com/2/users/show.json', {
+        let user = await request('https://api.weibo.com/2/users/show.json', {
             "method": "GET",
             "data": {
                 "access_token": token,

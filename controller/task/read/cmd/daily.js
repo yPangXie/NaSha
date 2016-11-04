@@ -11,9 +11,9 @@ const util = require(`${global.__nasha.APP_CONTROLLER}/util`);
 const model = require(global.__nasha.APP_MODEL);
 
 /* 获取当天新增的数据, 邮件发送 */
-module.exports = function *(ctx) {
+module.exports = async ctx => {
     let dateStart = util.getYesterday(`${new Date().toLocaleDateString()} 09:00:00`);
-    let dataList = yield model.leanCloud.read.listAfterDate(dateStart);
+    let dataList = await model.leanCloud.read.listAfterDate(dateStart);
 
     if(dataList.length == 0) return {"success": false, "message": "今儿啥都没读.."};
     let mailContentHtml = '';
@@ -44,6 +44,6 @@ module.exports = function *(ctx) {
         `
     };
 
-    let mailSendResult = yield mailgun.messages().send(mailDataDefine);
+    let mailSendResult = await mailgun.messages().send(mailDataDefine);
     return {"success": true, "message": "应该是发送成功了."};
 }

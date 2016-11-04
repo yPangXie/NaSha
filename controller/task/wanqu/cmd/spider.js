@@ -11,12 +11,13 @@ const urlConfig = {
 };
 
 /* 根据id或自动判断, 爬去对应页面的数据 */
-module.exports = function *(body, ctx) {
+module.exports = async (body, ctx) => {
+    console.log('en?');
     let issueList = "";
     if(body && body.issue) {
          issueList = body.issue;
     } else {
-        let hasLatest = yield module.exports.detectLatest();
+        let hasLatest = await module.exports.detectLatest();
         if(!hasLatest.success) return "False: no need to get latest."
         issueList = hasLatest.issue;
     }
@@ -27,7 +28,7 @@ module.exports = function *(body, ctx) {
         let specificURL = urlConfig.specific;
         let issue = issues[issueIndex];
 
-        let specPageData = yield request(specificURL.replace('{issue}', issue), {"method": "GET"});
+        let specPageData = await request(specificURL.replace('{issue}', issue), {"method": "GET"});
         if(!specPageData || !specPageData.body) return {'success': false};
 
         let $ = cheerio.load(specPageData.body, {normalizeWhitespace: true});
@@ -54,7 +55,7 @@ module.exports = function *(body, ctx) {
         let season = title.split(' ')[1].match(/\d+/g);
         for(let i = 0, len = list.length; i < len; i++) {
             let item = list[i];
-            yield model.leanCloud.wanqu.store({
+            await model.leanCloud.wanqu.store({
                 "create_date": createDate,
                 "season": season[0],
                 "ori_link": util.decodeData(item.oriLink),
@@ -65,14 +66,14 @@ module.exports = function *(body, ctx) {
         }
     }
 
-    yield model.leanCloud.helper.applog(`Wanqu - 也许成功的抓取了第${issueList}期的数据..`);
+    await model.leanCloud.helper.applog(`Wanqu - 也许成功的抓取了第${issueList}期的数据..`);
     return `True: ${issueList}`
 }
 
 /* 检测是否有最新一期的wanqu日报发布 */
-module.exports.detectLatest = function *(ctx) {
+module.exports.detectLatest = async ctx => {
     /* 未获取到缓存数据, 爬取页面 */
-    let specPageData = yield request(urlConfig.topUrl, {"method": "GET"});
+    let specPageData = await request(urlConfig.topUrl, {"method": "GET"});
     if(!specPageData || !specPageData.body) return {'success': false};
 
     let $ = cheerio.load(specPageData.body, {normalizeWhitespace: true});
@@ -80,12 +81,12 @@ module.exports.detectLatest = function *(ctx) {
     let latestIssue = title.match(/\d+/g)[0];
 
     /* 获取当前Wanqu日报最新版的版本号 */
-    let currentLatestIssue = yield model.leanCloud.wanqu.getCurrentLatestIssue();
+    let currentLatestIssue = await model.leanCloud.wanqu.getCurrentLatestIssue();
     let currentIssue = currentLatestIssue && currentLatestIssue.get('latestIssue');
 
     /* 当前最新版高于DB中存储的最新版, 或者DB中特么压根没存数据的时候. 抓最新版的数据 */
     if((!currentIssue && latestIssue) || (currentIssue && latestIssue && +latestIssue > +currentIssue)) {
-        yield model.leanCloud.wanqu.storeLatestIssueVersion(latestIssue);
+        await model.leanCloud.wanqu.storeLatestIssueVersion(latestIssue);
         return {
             "success": true,
             "issue": latestIssue

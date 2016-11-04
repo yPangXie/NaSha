@@ -3,7 +3,7 @@
 const mwebUtil = require('../util');
 
 /* 返回博客基本信息 */
-module.exports = function *(ctx) {
+module.exports = () => {
     let userValidate = mwebUtil.validateUser(ctx.request.body);
     if(!userValidate.success) return this.body = '';
 

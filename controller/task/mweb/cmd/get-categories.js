@@ -1,7 +1,7 @@
 "use strict";
 
 /* 返回博客类目信息 */
-module.exports = function *() {
+module.exports = () =>{
     return `<?xml version="1.0" encoding="UTF-8"?>
         <methodResponse>
             <params>

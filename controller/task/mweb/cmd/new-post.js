@@ -4,10 +4,10 @@ const mwebUtil = require('../util');
 const model = require(global.__nasha.APP_MODEL);
 
 /* 发布一篇文章 */
-module.exports = function *(ctx) {
+module.exports = async ctx => {
     let body = ctx.request.body;
     let validateUser = mwebUtil.validateUser(body);
-    if(!validateUser.success) return this.body = validateUser;
+    if(!validateUser.success) return ctx.body = validateUser;
 
     let jsonFormatPost = {};
     try {
@@ -28,7 +28,7 @@ module.exports = function *(ctx) {
     let id = null;
     if(Object.keys(jsonFormatPost).length) {
         /* 暂时不校验是否提交成功. 就当一切操作都如丝般顺滑. */
-        let mwebStoreResult = yield model.leanCloud.mweb.store({
+        let mwebStoreResult = await model.leanCloud.mweb.store({
             "content": jsonFormatPost.description,
             "categories": jsonFormatPost.categories,
             "date_created": jsonFormatPost.dateCreated,

@@ -3,20 +3,20 @@
 const LeanCloud = require('./initialize');
 
 /* 添加workflow */
-module.exports.store = function *(options) {
+module.exports.store = async options => {
     let WorkflowsObject = new LeanCloud.Workflows();
     for(let key in options) WorkflowsObject.set(key, options[key]);
     WorkflowsObject.save();
 }
 
 /* 上传文件 */
-module.exports.upload = function *(fileName, fileData) {
+module.exports.upload = async (fileName, fileData) => {
     // let file = new LeanCloud.AV.File(fileName, fileData);
     // file.save();
 }
 
 /* 获取当前数据库中, workflow的总数 */
-module.exports.getCurrentLatestTotal = function *() {
+module.exports.getCurrentLatestTotal = async () => {
     let workflowTimingQuery = new LeanCloud.AV.Query("WorkflowTiming");
     workflowTimingQuery.descending('createdAt');
 
@@ -25,14 +25,14 @@ module.exports.getCurrentLatestTotal = function *() {
 }
 
 /* 存储当前最新的workflow总数 */
-module.exports.storeLatestTotal = function *(latestTotal) {
+module.exports.storeLatestTotal = async latestTotal => {
     let workflowTimingObject = new LeanCloud.WorkflowTiming();
     workflowTimingObject.set('latestTotal', latestTotal);
     workflowTimingObject.save();
 }
 
 /* workflow总数据量 */
-module.exports.total = function *() {
+module.exports.total = async () => {
     let workflowsQuery = new LeanCloud.AV.Query('Workflows');
 
     let ret = workflowsQuery.count();
@@ -40,7 +40,7 @@ module.exports.total = function *() {
 }
 
 /* 指定时间点之后的爬取的workflow数据总数 */
-module.exports.spiderDaily = function *(date) {
+module.exports.spiderDaily = async date => {
     let workflowQuery = new LeanCloud.AV.Query('Workflows');
     workflowQuery.greaterThan('createdAt', new Date(date));
 

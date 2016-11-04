@@ -4,10 +4,10 @@ const mwebUtil = require('../util');
 const model = require(global.__nasha.APP_MODEL);
 
 /* 发布一篇文章 */
-module.exports = function *(ctx) {
+module.exports = async ctx => {
     let body = ctx.request.body;
     let validateUser = mwebUtil.validateUser(body);
-    if(!validateUser.success) return this.body = validateUser;
+    if(!validateUser.success) return ctx.body = validateUser;
 
     let jsonFormatPost = {"id": "", "data": {}};
     try {
@@ -30,7 +30,7 @@ module.exports = function *(ctx) {
 
     if(Object.keys(jsonFormatPost.data).length) {
         /* 暂时不校验是否提交成功. 就当一切操作都如丝般顺滑. */
-        yield model.leanCloud.mweb.edit(jsonFormatPost.id, {
+        await model.leanCloud.mweb.edit(jsonFormatPost.id, {
             "content": jsonFormatPost.data.description,
             "categories": jsonFormatPost.data.categories,
             "date_created": jsonFormatPost.data.dateCreated,

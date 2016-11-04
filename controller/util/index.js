@@ -13,9 +13,9 @@ module.exports.log = {
         console.log(`[${timestampData}] ${logType} - ${message}`);
     },
     /* 记录操作执行时间(目前只支持generator) */
-    "debugExecDuration": function *(message, callback) {
+    "debugExecDuration": async (message, callback) => {
         let startTime = new Date();
-        let callbackResult = yield callback();
+        let callbackResult = await callback();
         console.log(`[${timestamp()}]${message}: ${new Date() - startTime}ms`);
 
         return callbackResult;
@@ -32,7 +32,7 @@ module.exports.decodeData = (data) => {
 }
 
 /* 获取IP地址 */
-module.exports.getIP = function *(ctx){
+module.exports.getIP = async ctx => {
     try {
         let ua = ctx.req.headers['user-agent'] || '';
         let ipRaw = ctx.req.headers['x-forwarded-for'] ||
@@ -50,10 +50,10 @@ module.exports.getIP = function *(ctx){
         if(ipServiceFlag == 'baidu') {
             ipServiceFlag = 'ipip';
             /* 获取ip的地址信息, 用了baidu的API. 大阿里的qps限制10... */
-            let ipInformationBuffer = yield urllib.requestThunk(`http://apis.baidu.com/apistore/iplookupservice/iplookup?ip=${ip}`, {
+            let ipInformationBuffer = await request(`http://apis.baidu.com/apistore/iplookupservice/iplookup?ip=${ip}`, {
                 "headers": {"apikey": baiduApi.apikey}
             });
-            let ipDataRetObjectBaidu = JSON.parse(new Buffer(ipInformationBuffer.data).toString());
+            let ipDataRetObjectBaidu = JSON.parse(new Buffer(ipInformationBuffer.body).toString());
             if(ipDataRetObjectBaidu && ipDataRetObjectBaidu.errNum == 0) {
                 let ret = ipDataRetObjectBaidu.retData || {};
                 retObject = {
@@ -68,8 +68,8 @@ module.exports.getIP = function *(ctx){
         } else {
             ipServiceFlag = 'baidu';
             /* 每天限制1000个请求. 先看效果 */
-            let ipDataBufferIPIP = yield urllib.requestThunk(`http://freeapi.ipip.net/${ip}`);
-            let ipDataRetStringIPIP = new Buffer(ipDataBufferIPIP.data).toString();
+            let ipDataBufferIPIP = await request(`http://freeapi.ipip.net/${ip}`);
+            let ipDataRetStringIPIP = new Buffer(ipDataBufferIPIP.body).toString();
             let ipDataRetObjectIPIP = JSON.parse(ipDataRetStringIPIP.replace(/(,""|,\s""|,''|,\s'')/g, ''));
             retObject = ipDataRetObjectIPIP ? {"ip": ip, "info": ipDataRetObjectIPIP.join('/'), "ua": ua} :  {"ip": ip, "ua": ua};
         }
@@ -108,7 +108,7 @@ module.exports.convertObject = data => {
     data.forEach(item => {
         if(!item.attributes) return true;
         let temp = item.attributes;
-        
+
         temp.id = item.id;
         temp.createdAt = item.createdAt;
         temp.updatedAt = item.updatedAt;
