@@ -35,21 +35,21 @@ app.use(async (ctx, next) => {
 
 /* session模块 */
 app.keys = ['krabs-NaSha'];
-// app.use(convert(session(app)));
+app.use(convert(session(app)));
 
-// app.use(convert(Static(path.resolve(__dirname, './assets'))));
+app.use(convert(Static(path.resolve(__dirname, './assets'))));
 
 /* view模块 */
-// app.use(views(viewRoot, {
-//     cache: false,
-//     extension: 'dust'
-// }));
+app.use(views(viewRoot, {
+    cache: false,
+    extension: 'dust'
+}));
 /* 不启用模板压缩 */
 dust.config.whitespace = true;
 dust.config.cache = false;
 
 /* 解析xml类型的请求 */
-// app.use(convert(xmlParser()));
+app.use(convert(xmlParser()));
 
 /* 路由 */
 app.use(router.routes());
