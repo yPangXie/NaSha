@@ -1,5 +1,9 @@
 # NaSha
 
+<img src="https://travis-ci.org/yPangXie/NaSha.svg?branch=master" alt="travis ci" />
+
+<hr />
+
 <img width="250" alt="NaSha logo" src="https://cloud.githubusercontent.com/assets/12368943/18118662/d77cd208-6f88-11e6-8d38-87a036a0cd60.png">
 
 `NaSha`系统
