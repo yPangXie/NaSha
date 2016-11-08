@@ -1,7 +1,7 @@
 "use strict";
 
 const AV = require('avoscloud-sdk');
-const leanCloudSecret = global.__nasha.APP_ENV == 'ci' ? require('../.config.travis').leanCloud : require('../.config').leanCloud;
+const leanCloudSecret = process.env.NODE_EVN == 'ci' ? require('../.config.travis').leanCloud : require('../.config').leanCloud;
 AV.initialize(leanCloudSecret.appId, leanCloudSecret.appKey);
 
 module.exports.AV = AV;
