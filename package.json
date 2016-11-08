@@ -29,7 +29,7 @@
     "urllib": "^2.9.1"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha --harmony"
   },
   "keywords": [
     "krabs",
