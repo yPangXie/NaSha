@@ -29,7 +29,7 @@
     "urllib": "^2.9.1"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --harmony"
+    "test": "./node_modules/mocha/bin/mocha --harmony --timeout 30s"
   },
   "keywords": [
     "krabs",
