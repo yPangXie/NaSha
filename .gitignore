@@ -8,4 +8,5 @@ node_modules
 !/.config.travis.js
 !/.gitignore
 !/.travis.yml
+!/.coveralls.yml
 coverage
