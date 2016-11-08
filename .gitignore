@@ -6,4 +6,5 @@ node_modules
 *.log*
 .*
 !/.gitignore
+!/.travis.yml
 coverage
