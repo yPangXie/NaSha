@@ -8,9 +8,9 @@ const url = "http://www.packal.org";
 const listUrl = "http://www.packal.org/workflow-list?sort_by=created&sort_order=DESC&items_per_page=50";
 
 /* workflow爬虫 */
-module.exports = async (body, ctx) => {
+module.exports = async (body = {}, ctx) => {
     let urls = "";
-    if(body && body.urls) {
+    if(body.urls) {
         urls = body.urls;
     } else {
         let hasLatest = await module.exports.detectLatest();

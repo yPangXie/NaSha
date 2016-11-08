@@ -4,8 +4,8 @@ const util = require(`${global.__nasha.APP_CONTROLLER}/util`);
 const model = require(global.__nasha.APP_MODEL);
 
 /* 生成报表信息 */
-module.exports = async (ctx, date) => {
-    let yesterday = util.getYesterday(date || '');
+module.exports = async (ctx, date = '') => {
+    let yesterday = util.getYesterday(date);
     let comboData = await Promise.all([
         model.leanCloud.wanqu.logDailyCount(yesterday.toLocaleDateString() + ' 22:00:00'),
         model.leanCloud.wanqu.spiderDaily(yesterday.toLocaleDateString() + ' 22:00:00'),

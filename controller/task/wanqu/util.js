@@ -3,7 +3,7 @@
 const model = require(global.__nasha.APP_MODEL);
 
 /* 判断新用户及用户数据存储 */
-module.exports.newUser = async macAddress => {
+module.exports.newUser = async (macAddress = '') => {
     if(!macAddress) return false;
 
     let detectUserMac = await model.leanCloud.wanqu.searchByMac(macAddress);
@@ -13,7 +13,7 @@ module.exports.newUser = async macAddress => {
 }
 
 /* 格式化返回值 */
-module.exports.generateResponse = async data => {
+module.exports.generateResponse = async (data = {}) => {
     let resultData = data.db || [];
     let responseData = {
         "success": false,

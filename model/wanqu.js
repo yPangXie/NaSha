@@ -3,7 +3,7 @@
 const LeanCloud = require('./initialize');
 
 /* 添加湾区指定某期的数据 */
-module.exports.store = async options => {
+module.exports.store = async (options = {}) => {
     console.log(options);
     let wanquObject = new LeanCloud.Wanqu();
     for(let key in options) wanquObject.set(key, options[key]);
@@ -26,7 +26,7 @@ module.exports.getLatest = async () => {
 }
 
 /* 根据期数, 搜索指定的数据 */
-module.exports.getSpec = async id => {
+module.exports.getSpec = async (id = '') => {
     let wanquQuery = new LeanCloud.AV.Query("Wanqu");
     wanquQuery.equalTo("season", id);
 
@@ -44,19 +44,18 @@ module.exports.getCurrentLatestIssue = async () => {
 }
 
 /* 存储最新版的Wanqu日报版本号 */
-module.exports.storeLatestIssueVersion = async latestIssue => {
+module.exports.storeLatestIssueVersion = async (latestIssue = '') => {
     let wanquTimingObject = new LeanCloud.WanquTiming();
     wanquTimingObject.set('latestIssue', latestIssue);
     wanquTimingObject.save();
 }
 
 /* 添加Wanqu日报搜索内容的日志 */
-module.exports.log = async (ip, message) => {
+module.exports.log = async (ip = {}, message) => {
     let WanquLogObject = new LeanCloud.WanquLog();
-    let ipObject = ip || {};
 
-    WanquLogObject.set('ip', `${ipObject.ip} ${ipObject.info || ''}`);
-    WanquLogObject.set('ua', ipObject.ua);
+    WanquLogObject.set('ip', `${ip.ip} ${ip.info || ''}`);
+    WanquLogObject.set('ua', ip.ua);
     WanquLogObject.set('message', message || '');
     WanquLogObject.save();
 }
@@ -69,7 +68,7 @@ module.exports.total = async () => {
 }
 
 /* 指定时间点之后的wanqu日志数据总数 */
-module.exports.logDailyCount = async date => {
+module.exports.logDailyCount = async (date = Date.now()) => {
     let wanquLogQuery = new LeanCloud.AV.Query('WanquLog');
     wanquLogQuery.greaterThan('createdAt', new Date(date));
     wanquLogQuery.limit(1000);
@@ -79,7 +78,7 @@ module.exports.logDailyCount = async date => {
 }
 
 /* 指定时间点之后的爬取的wanqu日报数据总数 */
-module.exports.spiderDaily = async date => {
+module.exports.spiderDaily = async (date = Date.now()) => {
     let wanquQuery = new LeanCloud.AV.Query('Wanqu');
     wanquQuery.greaterThan('createdAt', new Date(date));
 
@@ -96,7 +95,7 @@ module.exports.version = async () => {
 }
 
 /* 基于用户的Mac地址查询 */
-module.exports.searchByMac = async mac => {
+module.exports.searchByMac = async (mac = '') => {
     let wanquUsersQuery = new LeanCloud.AV.Query('WanquUsers');
     wanquUsersQuery.equalTo('mac', mac);
 
@@ -105,7 +104,7 @@ module.exports.searchByMac = async mac => {
 }
 
 /* 存储用户的Mac地址信息 */
-module.exports.storeMac = async mac => {
+module.exports.storeMac = async (mac = '') => {
     let wanquUsersObject = new LeanCloud.WanquUsers();
     wanquUsersObject.set('mac', mac);
     wanquUsersObject.save();

@@ -3,7 +3,7 @@
 const LeanCloud = require('./initialize');
 
 /* 添加workflow */
-module.exports.store = async options => {
+module.exports.store = async (options = {}) => {
     let WorkflowsObject = new LeanCloud.Workflows();
     for(let key in options) WorkflowsObject.set(key, options[key]);
     WorkflowsObject.save();
@@ -25,7 +25,7 @@ module.exports.getCurrentLatestTotal = async () => {
 }
 
 /* 存储当前最新的workflow总数 */
-module.exports.storeLatestTotal = async latestTotal => {
+module.exports.storeLatestTotal = async (latestTotal = '') => {
     let workflowTimingObject = new LeanCloud.WorkflowTiming();
     workflowTimingObject.set('latestTotal', latestTotal);
     workflowTimingObject.save();
@@ -40,7 +40,7 @@ module.exports.total = async () => {
 }
 
 /* 指定时间点之后的爬取的workflow数据总数 */
-module.exports.spiderDaily = async date => {
+module.exports.spiderDaily = async (date = Date.now()) => {
     let workflowQuery = new LeanCloud.AV.Query('Workflows');
     workflowQuery.greaterThan('createdAt', new Date(date));
 

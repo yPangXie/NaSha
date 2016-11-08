@@ -5,7 +5,7 @@ const request = require('co-request');
 const cheerio = require("cheerio");
 
 /* 生成完整路径的`favicon` */
-module.exports.generateFaviconAbsoPath = function(urlString, favicon) {
+module.exports.generateFaviconAbsoPath = (urlString = {}, favicon = '') => {
     if(!/^(https|http|\/\/)/g.test(favicon)) {
         /* 转换为绝对路径 */
         let prefix = /^\//.test(favicon) ? '' : '/';
@@ -17,7 +17,7 @@ module.exports.generateFaviconAbsoPath = function(urlString, favicon) {
 }
 
 /* 收到的指令是抓页面的时候, 执行该方法 */
-module.exports.grabPageInfo = async urlString => {
+module.exports.grabPageInfo = async (urlString = '') => {
     let pageData = await request(urlString, {"timeout": 1000000, "followRedirect": true});
     let $ = cheerio.load(pageData.body);
 

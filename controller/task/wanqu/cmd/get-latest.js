@@ -5,7 +5,7 @@ const util = require(`${global.__nasha.APP_CONTROLLER}/util`);
 const model = require(global.__nasha.APP_MODEL);
 
 /* 获取最新一期的内容 */
-module.exports = async (body, ctx) => {
+module.exports = async (body = {}, ctx) => {
     let ipObject = await util.getIP(ctx);
     /* 记录IP信息 */
     await model.leanCloud.wanqu.log(ipObject, `最新: 5篇文章`);

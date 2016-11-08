@@ -5,8 +5,7 @@ const fs = require('co-fs-extra');
 const util = require('../util');
 
 /* 发送微薄 */
-module.exports.sendMessage = async (body, ctx) => {
-    let bodyObject = body || {};
+module.exports.sendMessage = async (body = {}, ctx) => {
     let token = {};
     try {
         let tokenBuf = await fs.readFile(`${__dirname}/tmp/token`, 'utf-8');
@@ -27,7 +26,7 @@ module.exports.sendMessage = async (body, ctx) => {
         "method": "POST",
         "data": {
             "access_token": token.access_token,
-            "status": `${bodyObject.message || '这是一条来自NaSha的信息'} ${userids.map(item => `@${item} `)}`
+            "status": `${body.message || '这是一条来自NaSha的信息'} ${userids.map(item => `@${item} `)}`
         }
     });
 
@@ -35,7 +34,7 @@ module.exports.sendMessage = async (body, ctx) => {
 }
 
 /* 检测token是否过期 */
-function isTokenExpired(token) {
+function isTokenExpired(token = {}) {
     let expiresIn = token.expires_in;
     let authTime = token.auth_time;
     let now = Date.now();
@@ -44,7 +43,7 @@ function isTokenExpired(token) {
 }
 
 /* 根据用户id获取昵称 */
-async function getUserInfo (userids, token) {
+async function getUserInfo (userids = [], token = '') {
     let userScreennames = [];
     for(let i = 0, len = userids.length; i < len; i++) {
         let user = await request('https://api.weibo.com/2/users/show.json', {

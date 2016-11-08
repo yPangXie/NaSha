@@ -7,13 +7,12 @@ let ipServiceFlag = 'baidu';
 
 module.exports.log = {
     /* 默认日志. 最简单那种 */
-    "default": (message, type) => {
-        let logType = type || 'warn';
+    "default": (message = '', type = 'warn') => {
         let timestampData = timestamp();
-        console.log(`[${timestampData}] ${logType} - ${message}`);
+        console.log(`[${timestampData}] ${type} - ${message}`);
     },
     /* 记录操作执行时间(目前只支持generator) */
-    "debugExecDuration": async (message, callback) => {
+    "debugExecDuration": async (message = '', callback) => {
         let startTime = new Date();
         let callbackResult = await callback();
         console.log(`[${timestamp()}]${message}: ${new Date() - startTime}ms`);
@@ -23,7 +22,7 @@ module.exports.log = {
 }
 
 /* decode字符串 */
-module.exports.decodeData = (data) => {
+module.exports.decodeData = (data = '') => {
     try {
         return decodeURIComponent(data);
     } catch(e) {
@@ -82,7 +81,7 @@ module.exports.getIP = async ctx => {
 }
 
 /* 获取昨天的日期 */
-module.exports.getYesterday = (date) => {
+module.exports.getYesterday = (date = null) => {
     let today = date ? new Date(date) : new Date();
     let todayTimestamp = today.valueOf();
     let yesterdayTimestamp = todayTimestamp - 24 * 60 * 60 * 1000;
@@ -103,7 +102,7 @@ function timestamp() {
 }
 
 /* 将`LeanCloud`的数据对象转换为普通的对象 */
-module.exports.convertObject = data => {
+module.exports.convertObject = (data = []) => {
     let ret = [];
     data.forEach(item => {
         if(!item.attributes) return true;

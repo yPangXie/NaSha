@@ -5,7 +5,7 @@ const util = require(`${global.__nasha.APP_CONTROLLER}/util`);
 const model = require(global.__nasha.APP_MODEL);
 
 /* 获取随机的几篇文章 */
-module.exports = async (body, ctx) => {
+module.exports = async (body = {}, ctx) => {
     let ipObject = await util.getIP(ctx);
 
     /* 来源ip, 日志打点 */

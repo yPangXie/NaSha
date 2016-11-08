@@ -3,8 +3,15 @@
 const crypto = require('crypto');
 const config = require(`${global.__nasha.APP_ROOT}/.config`);
 
+/* 加密算法 */
+let encode = (data = '') => {
+    let md5 = crypto.createHash('md5');
+    md5.update(`${data}${config.mweb.salt}`);
+    return md5.digest('hex');
+}
+
 /* 校验用户名, 密码 */
-module.exports.validateUser = (data) => {
+module.exports.validateUser = (data = {}) => {
     let userName = '';
     let password = '';
 
@@ -23,11 +30,4 @@ module.exports.validateUser = (data) => {
     } else {
         return this.body = {"success": false, "message": "Not authorized user."};
     }
-}
-
-/* 加密算法 */
-function encode(data) {
-    let md5 = crypto.createHash('md5');
-    md5.update(`${data}${config.mweb.salt}`);
-    return md5.digest('hex');
 }

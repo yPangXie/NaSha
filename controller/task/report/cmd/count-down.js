@@ -3,7 +3,7 @@
 const model = require(global.__nasha.APP_MODEL);
 
 /* 获取距离指定日期还有多久 */
-module.exports = async (ctx, targetTimeString) => {
+module.exports = async (ctx, targetTimeString = '') => {
     let target = targetTimeString || "2016-10-01 00:00:00"
     let targetTime = new Date(target).valueOf();
     let now = new Date();

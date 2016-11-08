@@ -3,7 +3,7 @@
 const LeanCloud = require('./initialize');
 
 /* 添加湾区指定某期的数据 */
-module.exports.store = async options => {
+module.exports.store = async (options = {}) => {
     /* 清缓存 */
     global.__nasha.APP_CACHE.del('readList');
 
@@ -13,7 +13,7 @@ module.exports.store = async options => {
 };
 
 /* 获取指定页的数据 */
-module.exports.list = async (options) => {
+module.exports.list = async (options = {}) => {
     let readQuery = new LeanCloud.AV.Query('Read');
     // readQuery.equalTo('delete', false);
     readQuery.limit(options.limit);
@@ -25,7 +25,7 @@ module.exports.list = async (options) => {
 };
 
 /* 获取指定日期之后的所有数据 */
-module.exports.listAfterDate = async date => {
+module.exports.listAfterDate = async (date = Date.now()) => {
     let readQuery = new LeanCloud.AV.Query('Read');
     readQuery.greaterThan('createdAt', new Date(date));
     // readQuery.equalTo('delete', false);
@@ -36,7 +36,7 @@ module.exports.listAfterDate = async date => {
 };
 
 /* 基于url地址查询是否已经存在数据 */
-module.exports.searchByUrl = async url => {
+module.exports.searchByUrl = async (url = '') => {
     let readQuery = new LeanCloud.AV.Query('Read');
     readQuery.equalTo('url', url);
     // readQuery.equalTo('delete', false);
@@ -46,7 +46,7 @@ module.exports.searchByUrl = async url => {
 };
 
 /* 基于关键字, 查询是否已经存在数据 */
-module.exports.filter = async options => {
+module.exports.filter = async (options = {}) => {
     let readQueryTitle = new LeanCloud.AV.Query('Read');
     let readQueryDescription = new LeanCloud.AV.Query('Read');
     let readQueryCreatedDate = new LeanCloud.AV.Query('Read');
@@ -78,7 +78,7 @@ module.exports.filter = async options => {
 };
 
 /* 指定时间点之后的数据总数 */
-module.exports.daily = async date => {
+module.exports.daily = async (date = Date.now()) => {
     let readQuery = new LeanCloud.AV.Query('Read');
     // readQuery.equalTo('delete', false);
     readQuery.greaterThan('createdAt', new Date(date));
@@ -98,7 +98,7 @@ module.exports.count = async () => {
 };
 
 /* 移除某条数据(逻辑删除) */
-module.exports.remove = async objectId => {
+module.exports.remove = async (objectId = '') => {
     /* 清缓存 */
     global.__nasha.APP_CACHE.del('readList');
 

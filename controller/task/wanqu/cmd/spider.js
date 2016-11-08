@@ -11,10 +11,10 @@ const urlConfig = {
 };
 
 /* 根据id或自动判断, 爬去对应页面的数据 */
-module.exports = async (body, ctx) => {
+module.exports = async (body = {}, ctx) => {
     console.log('en?');
     let issueList = "";
-    if(body && body.issue) {
+    if(body.issue) {
          issueList = body.issue;
     } else {
         let hasLatest = await module.exports.detectLatest();

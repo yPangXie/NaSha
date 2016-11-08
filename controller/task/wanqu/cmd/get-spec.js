@@ -5,8 +5,8 @@ const util = require(`${global.__nasha.APP_CONTROLLER}/util`);
 const model = require(global.__nasha.APP_MODEL);
 
 /* 获取指定某一期 */
-module.exports = async (body, ctx) => {
-    if(!body || !body.issue) return {"success": false};
+module.exports = async (body = {}, ctx) => {
+    if(!body.issue) return {"success": false};
 
     let ipObject = await util.getIP(ctx);
     /* 来路ip, 日志打点 */

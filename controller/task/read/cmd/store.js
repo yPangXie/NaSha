@@ -4,8 +4,8 @@ const readUtil = require('../util');
 const model = require(global.__nasha.APP_MODEL);
 
 /* 新增数据 */
-module.exports = async (body, ctx) => {
-    if(!body || !body.page) return {"success": false, "message": "抓的数据乱七八糟.."};
+module.exports = async (body = {}, ctx) => {
+    if(!body.page) return {"success": false, "message": "抓的数据乱七八糟.."};
 
     let pageObject = {};
     try {

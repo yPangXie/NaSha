@@ -3,6 +3,17 @@
 const readUtil = require('../util');
 const model = require(global.__nasha.APP_MODEL);
 
+/* 生成返回值的`xml`结构 */
+let generateResponseXML = (options = {}) => {
+    return `<xml>
+        <ToUserName><![CDATA[${options.responseToUserName}]]></ToUserName>
+        <FromUserName><![CDATA[${options.responseFromUserName}]]></FromUserName>
+        <CreateTime>${new Date().valueOf()}</CreateTime>
+        <MsgType><![CDATA[text]]></MsgType>
+        <Content><![CDATA[${options.content}]]></Content>
+    </xml>`;
+}
+
 /* 校验来自微信服务器 */
 module.exports = async ctx => {
     let pageUrl = '';
@@ -36,15 +47,4 @@ module.exports = async ctx => {
         "responseFromUserName": responseFromUserName,
         "content": responseContent
     });
-}
-
-/* 生成返回值的`xml`结构 */
-function generateResponseXML(options) {
-    return `<xml>
-        <ToUserName><![CDATA[${options.responseToUserName}]]></ToUserName>
-        <FromUserName><![CDATA[${options.responseFromUserName}]]></FromUserName>
-        <CreateTime>${new Date().valueOf()}</CreateTime>
-        <MsgType><![CDATA[text]]></MsgType>
-        <Content><![CDATA[${options.content}]]></Content>
-    </xml>`;
 }
