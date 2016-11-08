@@ -16,7 +16,8 @@ global.__nasha = {
     "APP_ROOT": __dirname,
     "APP_CONTROLLER": `${__dirname}/controller`,
     "APP_MODEL": `${__dirname}/model`,
-    "APP_CACHE": require('memory-cache')
+    "APP_CACHE": require('memory-cache'),
+    "APP_ENV": process.env.NODE_EVN || ''
 };
 
 const controller = require('./controller');
