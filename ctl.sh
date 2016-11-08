@@ -31,7 +31,7 @@ pull() {
 # Start application
 start() {
     cd $BASE
-    nohup $NODE_PATH/node --harmony $ROOT/app.js 2&>${LOG} & echo $! > pid
+    nohup $NODE_PATH/node --harmony-async-await $ROOT/app.js 2&>${LOG} & echo $! > pid
 
     sleep 2s
     PID=`get_pid`
