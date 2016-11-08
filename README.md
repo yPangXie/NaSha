@@ -1,8 +1,6 @@
 # NaSha
 
-![Travis ci status](https://travis-ci.org/yPangXie/NaSha.svg?branch=master)
-
-![Coverage Status](https://coveralls.io/repos/github/yPangXie/NaSha/badge.svg?branch=master)
+![Travis ci status](https://travis-ci.org/yPangXie/NaSha.svg?branch=master) ![Coverage Status](https://coveralls.io/repos/github/yPangXie/NaSha/badge.svg?branch=master)
 
 <img width="200" alt="NaSha logo" src="https://cloud.githubusercontent.com/assets/12368943/18118662/d77cd208-6f88-11e6-8d38-87a036a0cd60.png">
 
