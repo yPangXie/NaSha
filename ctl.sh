@@ -2,6 +2,7 @@
 BASE="/root"
 ROOT="$BASE/NaSha"
 LOG="$BASE/logs/NaSha.log"
+NODE_ARGS="--harmony-async-await"
 AGENTX_LOG="$BASE/agentx_log"
 NODE_PATH=`cat $BASE/.nodepath`
 
@@ -31,7 +32,7 @@ pull() {
 # Start application
 start() {
     cd $BASE
-    nohup $NODE_PATH/node --harmony-async-await $ROOT/app.js 2&>${LOG} & echo $! > pid
+    nohup $NODE_PATH/node $NODE_ARGS $ROOT/app.js 2&>${LOG} & echo $! > pid
 
     sleep 2s
     PID=`get_pid`
