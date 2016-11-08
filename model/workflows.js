@@ -34,7 +34,6 @@ module.exports.storeLatestTotal = async (latestTotal = '') => {
 /* workflow总数据量 */
 module.exports.total = async () => {
     let workflowsQuery = new LeanCloud.AV.Query('Workflows');
-
     let ret = workflowsQuery.count();
     return ret;
 }
