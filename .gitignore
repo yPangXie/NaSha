@@ -5,5 +5,8 @@ node_modules
 .log*
 *.log*
 .*
+!/.config.travis.js
 !/.gitignore
+!/.travis.yml
+!/.coveralls.yml
 coverage
