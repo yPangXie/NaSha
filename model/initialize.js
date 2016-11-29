@@ -1,8 +1,11 @@
 "use strict";
 
-const AV = require('avoscloud-sdk');
+const AV = require('leancloud-storage');
 const leanCloudSecret = process.env.NODE_ENV == 'ci' ? require('../.config.travis').leanCloud : require('../.config').leanCloud;
-AV.initialize(leanCloudSecret.appId, leanCloudSecret.appKey);
+AV.init({
+    "appId": leanCloudSecret.appId,
+    "appKey": leanCloudSecret.appKey
+});
 
 module.exports.AV = AV;
 module.exports.Wanqu = AV.Object.extend('Wanqu');

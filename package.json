@@ -4,7 +4,7 @@
   "description": "私人管家Krabs-NaSha, weibo操作",
   "main": "app.js",
   "dependencies": {
-    "avoscloud-sdk": "^0.6.10",
+    "leancloud-storage": "^1.5.2",
     "cheerio": "^0.20.0",
     "co": "^4.6.0",
     "co-body": "^4.2.0",
