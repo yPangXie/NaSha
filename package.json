@@ -15,6 +15,7 @@
     "dustjs-helpers": "^1.7.3",
     "dustjs-linkedin": "^2.7.2",
     "koa": "^2.0.0",
+    "koa-convert": "^1.2.0",
     "koa-router": "^7.0.1",
     "koa-session": "^3.3.1",
     "koa-static": "^2.0.0",
