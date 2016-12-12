@@ -8,4 +8,7 @@
         <small class="read-created-time"> ({createdAt})</small>
     {/magicCreatedAt}
     <p class="read-description">{description|s}</p>
+    {#lead_image}
+        <img src="{lead_image}" class="read-lead-image" alt="{title|s}" />
+    {/lead_image}
 </li>
