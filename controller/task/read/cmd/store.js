@@ -36,7 +36,7 @@ module.exports = async (body = {}, ctx) => {
     let smartPageInfoObject = JSON.parse(smartPageInfo.body);
     pageObject.title = smartPageInfoObject.title || '';
     pageObject.description = smartPageInfoObject.excerpt || '';
-    pageObject.lead_image = smartPageInfo.lead_image_url || '';
+    pageObject.lead_image = smartPageInfoObject.lead_image_url || '';
 
     let searchRet = await model.leanCloud.read.searchByUrl(pageObject.url);
     if(searchRet && searchRet.length > 0) return {"success": false, "type": "duplicate", "id": searchRet[0].id, "message": `"${searchRet[0].createdAt.toLocaleString()}" 已经保存过了<br />DB objectId: ${searchRet[0].id}`}
