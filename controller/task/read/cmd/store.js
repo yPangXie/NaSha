@@ -34,8 +34,8 @@ module.exports = async (body = {}, ctx) => {
         }
     });
     let smartPageInfoObject = JSON.parse(smartPageInfo.body);
-    pageObject.title = smartPageInfoObject.title || '';
-    pageObject.description = smartPageInfoObject.excerpt || '';
+    pageObject.title = pageObject.title || smartPageInfoObject.title || '';
+    pageObject.description = pageObject.description || smartPageInfoObject.excerpt || '';
     pageObject.lead_image = smartPageInfoObject.lead_image_url || '';
 
     let searchRet = await model.leanCloud.read.searchByUrl(pageObject.url);
