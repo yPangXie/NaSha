@@ -26,16 +26,19 @@ module.exports = async (body = {}, ctx) => {
     }
 
     /* 若页面的title或者description为空, 则尝试通过mercury的服务分析页面数据, 只能抓取出来 */
-    let smartPageInfo = await request({
-        "url": `${mercuryConfig.url}${pageObject.url}`,
-        "headers": {
-            "Content-Type": "application/json",
-            "x-api-key": mercuryConfig.token
-        }
-    });
-    let smartPageInfoObject = JSON.parse(smartPageInfo.body);
-    pageObject.title = pageObject.title || smartPageInfoObject.title || '';
-    pageObject.description = pageObject.description || smartPageInfoObject.excerpt || '';
+    let smartPageInfoObject = {};
+    if(!pageObject.title || !pageObject.description) {
+        let smartPageInfo = await request({
+            "url": `${mercuryConfig.url}${pageObject.url}`,
+            "headers": {
+                "Content-Type": "application/json",
+                "x-api-key": mercuryConfig.token
+            }
+        });
+        smartPageInfoObject = JSON.parse(smartPageInfo.body);
+    }
+    pageObject.title = smartPageInfoObject.title || pageObject.title || '';
+    pageObject.description = smartPageInfoObject.excerpt || pageObject.description || '';
     pageObject.lead_image = smartPageInfoObject.lead_image_url || '';
 
     let searchRet = await model.leanCloud.read.searchByUrl(pageObject.url);
