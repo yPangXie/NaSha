@@ -1,6 +1,5 @@
 "use strict"
 
-const urllib = require('urllib');
 const fs = require('co-fs-extra');
 const util = require('../util');
 
