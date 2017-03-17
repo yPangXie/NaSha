@@ -1,5 +1,8 @@
 "use strict"
 
+const urllib = require('urllib');
+
+const aoConfig = require(`${global.__nasha.APP_ROOT}/.config`).alertover;
 const util = require(`${global.__nasha.APP_CONTROLLER}/util`);
 const model = require(global.__nasha.APP_MODEL);
 
@@ -32,6 +35,20 @@ module.exports = async (ctx, date = '') => {
         smsObject[key] = dailyReport[key];
     }
 
-    await model.leanCloud.helper.sms(smsObject);
+    const aoReport = `在刚过去的大概一天的时间里\n发生了${dailyReport.access_count}次请求\nwanqu日报爬虫爬了${dailyReport.wanqu_spider_count}篇文章(目前共${dailyReport.wanqu_total})篇\nworkflow爬虫搞下来${dailyReport.workflow_spider_count}个新发布的工作流(目前共${dailyReport.workflow_total}个)\n最后, 昨个儿读了${dailyReport.read_count}篇文章\n完事儿.`;
+    urllib.request(aoConfig.api, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: {
+            source: aoConfig.source,
+            receiver: aoConfig.receiver,
+            content: aoReport,
+            title: 'NaSha Daily Report'
+        }
+    });
+
+    // await model.leanCloud.helper.sms(smsObject);
     return {"success": true, "message": "应该是顺利的发出去了.."};
 }

@@ -29,7 +29,7 @@
     "timeago.js": "^1.1.0",
     "to-markdown": "^3.0.0",
     "url-parse": "^1.1.7",
-    "urllib": "^2.9.1"
+    "urllib": "^2.21.1"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --harmony --timeout 30s",
