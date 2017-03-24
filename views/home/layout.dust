@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
     <head>
-        <link href="images/nasha.png?t={staticTimestamp}" rel="shortcut icon">
+        <link href="https://ns.bigyoo.me/images/nasha.png?t={staticTimestamp}" rel="shortcut icon">
         {> "common/header" /}
         {+customStyle/}
         {+customScriptTop/}
