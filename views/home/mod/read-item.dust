@@ -1,6 +1,6 @@
 {! 阅读列表中, 每一项的模板结构 !}
 <li>
-    <img src="{favicon}" class="read-icon" onerror="brokenImageHandler(this)" />
+    {!<img src="{favicon}" class="read-icon" onerror="brokenImageHandler(this)" />!}
     <a class="read-title" href="{url}" target="_blank">{title|s}</a>
     {#magicCreatedAt}
         <small class="read-created-time" title="{createdAt}"> ({magicCreatedAt})</small>
@@ -8,4 +8,7 @@
         <small class="read-created-time"> ({createdAt})</small>
     {/magicCreatedAt}
     <p class="read-description">{description|s}</p>
+    {#lead_image}
+        {!<img src="{lead_image}" class="read-lead-image" alt="{title|s}" />!}
+    {/lead_image}
 </li>
