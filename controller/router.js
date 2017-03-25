@@ -59,7 +59,7 @@ module.exports = (router, prefix) => {
         /* 如果是Slack的Slash Command, 先处理请求, 匹配对应的action */
         slack.bullshit(body, ctx);
         result = {
-            "response_type": "in_channel",
+            "response_type": "ephemeral",
             "text": "正在动用我的势力分析你他娘的要干啥.. 不要慌.."
         };
         return ctx.body = result;
