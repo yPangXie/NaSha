@@ -18,9 +18,27 @@ module.exports = (router, prefix) => {
     /* POST: 内部暴露的自定义接口. 调用方需要满足这些接口的调用规则 */
     router.post(`${prefix}/cmd`, async (ctx, next) => {
         let body = await parse(ctx);
-        let action = body['action'] || '';
+        let type = body.type || '';
+        let action = body.action || '';
         let result = {};
-        console.log('detect body:', body);
+
+        /* 如果是Slack的Slash Command, 先处理请求, 匹配对应的action */
+        if(body.command && body.command == '/nasha') {
+            const commands = body.text.split(' ');
+            // type = commands[0];
+            // action = commands[1];
+
+            result = {
+                "response_type": "in_channel",
+                "text": "我了个艹, 好使了?",
+                "attachments": [
+                    {
+                        "text": "这大概会是史上最屌的一个slash command吧(放屁.."
+                    }
+                ]
+            };
+        }
+
         switch(body['type'] || '') {
             case "wanqu":
                 if(action == 'getLatest') result = await wanquCMD.getLatest(body, ctx);
