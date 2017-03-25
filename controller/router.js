@@ -53,7 +53,7 @@ module.exports = (router, prefix) => {
     });
 
     /*Weixin公众号接入校验 */
-    router.get(`${prefix}/slack`, async ctx => {
+    router.post(`${prefix}/slack`, async ctx => {
         let body = await parse(ctx);
         let result = {};
         /* 如果是Slack的Slash Command, 先处理请求, 匹配对应的action */
