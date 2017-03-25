@@ -13,11 +13,11 @@ module.exports = (body, ctx) => {
             'Content-Type': 'application/json'
         },
         content: JSON.stringify({
-            "response_type": "ephemeral",
+            "response_type": "in-channel",
             "text": "艾玛, 好使了. 不用担心超时了..",
             "attachments": [
                 {
-                    "text":"是的, 你被骗了, 我根本没有屌你, 就是测试接口好使不. 嘿嘿嘿."
+                    "text":"是的, 你被骗了, 我根本没有屌你, 就是测试接口好使不."
                 }
             ]
         })
