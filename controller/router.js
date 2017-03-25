@@ -7,6 +7,7 @@ const workflowCMD = require(`${taskBase}/workflow`).cmd;
 const reportCMD = require(`${taskBase}/report`).cmd;
 const readCMD = require(`${taskBase}/read`).cmd;
 const mweb = require(`${taskBase}/mweb`).cmd;
+const slack = require(`${taskBase}/slack`).cmd;
 const home = require('./home');
 
 module.exports = (router, prefix) => {
@@ -22,24 +23,7 @@ module.exports = (router, prefix) => {
         let action = body.action || '';
         let result = {};
 
-        /* 如果是Slack的Slash Command, 先处理请求, 匹配对应的action */
-        if(body.command && body.command == '/nasha') {
-            const commands = body.text.split(' ');
-            // type = commands[0];
-            // action = commands[1];
-
-            result = {
-                "response_type": "in_channel",
-                "text": "我了个艹, 好使了?",
-                "attachments": [
-                    {
-                        "text": "这大概会是史上最屌的一个slash command吧(放屁.."
-                    }
-                ]
-            };
-        }
-
-        switch(body['type'] || '') {
+        switch(type || '') {
             case "wanqu":
                 if(action == 'getLatest') result = await wanquCMD.getLatest(body, ctx);
                 if(action == 'getSpec') result = await wanquCMD.getSpec(body, ctx);
@@ -65,6 +49,19 @@ module.exports = (router, prefix) => {
             break;
         }
 
+        return ctx.body = result;
+    });
+
+    /*Weixin公众号接入校验 */
+    router.get(`${prefix}/slack`, async ctx => {
+        let body = await parse(ctx);
+        let result = {};
+        /* 如果是Slack的Slash Command, 先处理请求, 匹配对应的action */
+        slack.bullshit(body, ctx);
+        result = {
+            "response_type": "in_channel",
+            "text": "正在动用我的势力分析你他娘的要干啥.. 不要慌.."
+        };
         return ctx.body = result;
     });
 
