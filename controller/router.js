@@ -20,7 +20,7 @@ module.exports = (router, prefix) => {
         let body = await parse(ctx);
         let action = body['action'] || '';
         let result = {};
-
+        console.log('detect body:', body);
         switch(body['type'] || '') {
             case "wanqu":
                 if(action == 'getLatest') result = await wanquCMD.getLatest(body, ctx);
