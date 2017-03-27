@@ -26,7 +26,7 @@ module.exports = (body, content, ctx) => {
         if(!expressData.length) return false;
         expressData.forEach(item => {
             if(item.time && item.context) res2Slack.push({
-                "text": `${item.context} - ${item.time}`
+                "text": `${item.time}:**${item.context}**/`
             });
         });
 
@@ -39,7 +39,7 @@ module.exports = (body, content, ctx) => {
             },
             content: JSON.stringify({
                 "response_type": "in-channel",
-                "text": "物流信息如下..",
+                "text": `单号**${content}**的物流信息如下`,
                 "attachments": data2Slack
             })
         });
