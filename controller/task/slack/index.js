@@ -2,5 +2,6 @@
 
 /* 暴露的Slack方法 */
 module.exports.cmd = {
-    "bullshit": require("./cmd/bullshit")
+    "bullshit": require("./cmd/bullshit"),
+    "express": require("./cmd/express");
 }

@@ -3,7 +3,7 @@
 const urllib = require("urllib");
 
 /* 扯淡. 普通函数即可, 目的是为了避免阻塞临时返回的数据. */
-module.exports = (body, ctx) => {
+module.exports = (body, content, ctx) => {
     const responseUrl = body.response_url || '';
     if (!responseUrl) return false;
 
@@ -14,10 +14,10 @@ module.exports = (body, ctx) => {
         },
         content: JSON.stringify({
             "response_type": "in-channel",
-            "text": "艾玛, 好使了. 不用担心超时了..",
+            "text": "你输入的那是个啥玩意儿..",
             "attachments": [
                 {
-                    "text":"是的, 你被骗了, 我根本没有屌你, 就是测试接口好使不."
+                    "text": `默认的命令是bullshit, 目前还支持"express 快递号"`
                 }
             ]
         })

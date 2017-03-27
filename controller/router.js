@@ -52,12 +52,18 @@ module.exports = (router, prefix) => {
         return ctx.body = result;
     });
 
-    /*Weixin公众号接入校验 */
+    /* Slack相关的路由(所有的方法均不适用generator. 目的是为了避免阻塞, 超时) */
     router.post(`${prefix}/slack`, async ctx => {
-        let body = await parse(ctx);
         let result = {};
+        let command = 'bullshit';
+
+        const body = await parse(ctx);
+        const cmds = (body.text || '').split(' ');
+        const content = cmds[1];
+        if (cmds[0] && slack[cmds[0]]) command = cmds[0];
+
         /* 如果是Slack的Slash Command, 先处理请求, 匹配对应的action */
-        slack.bullshit(body, ctx);
+        slack[command](body, content, ctx);
         result = {
             "response_type": "in-channel",
             "text": "Na TM is ge Sha Ya..."
