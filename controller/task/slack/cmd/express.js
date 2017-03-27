@@ -16,6 +16,7 @@ module.exports = (body, content, ctx) => {
         return company;
     }).then(com => {
         if (!com) return false;
+        console.log('company:', com);
         return urllib.request(`https://www.kuaidi100.com/query?type=${com}&postid=${content}&id=1&valicode=&temp=${Math.random()}`)
     }).then(express => {
         let expressData = {};
@@ -23,14 +24,14 @@ module.exports = (body, content, ctx) => {
         try {
             expressData = JSON.parse(new Buffer(express.data).toString()).data;
         } catch(e) {}
-
+        console.log('expressData:', expressData);
         if(!expressData.length) return false;
         expressData.forEach(item => {
             if(item.time && item.context) res2Slack.push({
                 "text": `${item.content - item.time}`
             });
         });
-
+        console.log('res2Slack:', res2Slack);
         return res2Slack;
     }).then(data2Slack => {
         urllib.request(responseUrl, {
