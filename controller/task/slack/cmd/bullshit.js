@@ -13,7 +13,7 @@ module.exports = (body, content, ctx) => {
             'Content-Type': 'application/json'
         },
         content: JSON.stringify({
-            "response_type": "in-channel",
+            "response_type": "in_channel",
             "text": "你输入的那是个啥玩意儿..",
             "attachments": [
                 {
