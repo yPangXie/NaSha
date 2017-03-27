@@ -26,19 +26,23 @@ module.exports = (body, content, ctx) => {
         if(!expressData.length) return false;
         expressData.forEach(item => {
             if(item.time && item.context) res2Slack.push({
-                "text": `${item.time}: *${item.context}*`
+                "text": `${item.time}: ${item.context}`
             });
         });
 
         return res2Slack;
     }).then(data2Slack => {
+        data2Slack.push({
+            "footer": "NaSha API",
+            "footer_icon": "http://wx4.sinaimg.cn/large/6d6970b9gy1fe19chivbfj20dw0dw3z0.jpg",
+            "ts": Date.now()
+        })
         urllib.request(responseUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             content: JSON.stringify({
-                "response_type": "in-channel",
                 "text": `单号 *${content}* 的物流信息如下`,
                 "attachments": data2Slack
             })

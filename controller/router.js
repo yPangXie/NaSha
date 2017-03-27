@@ -65,7 +65,6 @@ module.exports = (router, prefix) => {
         /* 如果是Slack的Slash Command, 先处理请求, 匹配对应的action */
         slack[command](body, content, ctx);
         result = {
-            "response_type": "in-channel",
             "text": "Na TM is ge Sha Ya..."
         };
         return ctx.body = result;
